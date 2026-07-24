@@ -1,0 +1,1096 @@
+openapi: 3.0.0
+info:
+  title: Overflow Open Campaigns Tap API
+  description: '
+
+    The documentation for the Overflow Open APIs.
+
+
+    To access the OpenAPI spec in JSON/YAML format, navigate to:
+
+
+    * `/api/docs/openapi.json`
+
+    * `/api/docs/openapi.yaml`
+
+    '
+  version: '3.0'
+  contact: {}
+servers:
+- url: https://server.stage.overflow.co
+  description: API server
+tags:
+- name: Tap
+paths:
+  /api/v3/tap/destinations:
+    get:
+      description: Returns tap destinations for a nonprofit based on the provided filters.
+      operationId: OpenApiTapDestinationsController_getDestinations
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: The number of tap destinations to return.
+        schema:
+          minimum: 1
+          maximum: 100
+          default: 25
+          type: number
+      - name: page
+        required: false
+        in: query
+        description: The page number of the tap destinations to return.
+        schema:
+          minimum: 1
+          default: 1
+          type: number
+      - name: search
+        required: false
+        in: query
+        description: Search tap destinations by name.
+        schema:
+          example: Main Giving
+          type: string
+      - name: destinationType
+        required: false
+        in: query
+        description: Filter tap destinations by type.
+        schema:
+          example: web
+          enum:
+          - web
+          - sms
+          type: string
+      - name: includeArchived
+        required: false
+        in: query
+        description: Whether to include tap destinations that have been archived.
+        schema:
+          type: boolean
+      - name: sortBy
+        required: false
+        in: query
+        description: The field to sort the tap destinations by.
+        schema:
+          default: createdAt
+          example: createdAt
+          enum:
+          - name
+          - createdAt
+          type: string
+      - name: sortDirection
+        required: false
+        in: query
+        description: The direction to sort the tap destinations by.
+        schema:
+          default: DESC
+          example: DESC
+          enum:
+          - ASC
+          - DESC
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTapDestinationsResponse'
+      security:
+      - ClientId: []
+        ApiKey: []
+      summary: Get Tap Destinations
+      tags:
+      - Tap
+  /api/v3/tap/destinations/{destinationId}:
+    get:
+      description: Returns a single tap destination by ID.
+      operationId: OpenApiTapDestinationsController_getDestinationById
+      parameters:
+      - name: destinationId
+        required: true
+        in: path
+        description: The ID of the tap destination.
+        schema:
+          example: 6816f7ce7d2a1b4c12ab3499
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTapDestinationByIdResponse'
+        '404':
+          description: Destination not found.
+      security:
+      - ClientId: []
+        ApiKey: []
+      summary: Get Tap Destination
+      tags:
+      - Tap
+  /api/v3/tap/devices:
+    get:
+      description: Returns tap devices for a nonprofit based on the provided filters. The search parameter matches by exact serial number, not fuzzy text search.
+      operationId: OpenApiTapDevicesController_getDevices
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: The number of tap devices to return.
+        schema:
+          minimum: 1
+          maximum: 100
+          default: 25
+          type: number
+      - name: page
+        required: false
+        in: query
+        description: The page number of the tap devices to return.
+        schema:
+          minimum: 1
+          default: 1
+          type: number
+      - name: search
+        required: false
+        in: query
+        description: Search by exact serial number. Must be a numeric value.
+        schema:
+          pattern: ^\d+$
+          example: '12345'
+          type: string
+      - name: groupId
+        required: false
+        in: query
+        description: Filter tap devices by group Id. Use "unassigned" to get devices not assigned to any group.
+        schema:
+          example: 6710f34fd5061afeec3eab58
+          oneOf:
+          - type: string
+            enum:
+            - unassigned
+          - type: string
+            pattern: ^[0-9a-fA-F]{24}$
+      - name: deviceType
+        required: false
+        in: query
+        description: Filter tap devices by device type.
+        schema:
+          example: Stand
+          enum:
+          - Lanyard
+          - Stand
+          - Bracelet
+          - Wristband
+          - Plates/Disc/Magnet/Label
+          - Flex
+          - Plate Square
+          - Arm Rest Rectangle
+          - Plates
+          - Disc
+          - Magnet
+          - Label
+          type: string
+      - name: includeArchived
+        required: false
+        in: query
+        description: Whether to include tap devices that have been archived.
+        schema:
+          type: boolean
+      - name: sortBy
+        required: false
+        in: query
+        description: The field to sort the tap devices by.
+        schema:
+          default: createdAt
+          example: createdAt
+          enum:
+          - serialNumber
+          - createdAt
+          type: string
+      - name: sortDirection
+        required: false
+        in: query
+        description: The direction to sort the tap devices by.
+        schema:
+          default: DESC
+          example: DESC
+          enum:
+          - ASC
+          - DESC
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTapDevicesResponse'
+      security:
+      - ClientId: []
+        ApiKey: []
+      summary: Get Tap Devices
+      tags:
+      - Tap
+  /api/v3/tap/devices/{deviceId}:
+    get:
+      description: Returns a single tap device by ID.
+      operationId: OpenApiTapDevicesController_getDeviceById
+      parameters:
+      - name: deviceId
+        required: true
+        in: path
+        description: The ID of the tap device.
+        schema:
+          example: 6816f7ce7d2a1b4c12ab3501
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTapDeviceByIdResponse'
+        '404':
+          description: Device not found.
+      security:
+      - ClientId: []
+        ApiKey: []
+      summary: Get Tap Device
+      tags:
+      - Tap
+  /api/v3/tap/events:
+    get:
+      description: Returns tap events for a nonprofit based on the provided filters. Events represent individual tap interactions and are sorted by time of occurrence.
+      operationId: OpenApiTapEventsController_getEvents
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: The number of tap events to return.
+        schema:
+          minimum: 1
+          maximum: 100
+          default: 25
+          type: number
+      - name: page
+        required: false
+        in: query
+        description: The page number of the tap events to return.
+        schema:
+          minimum: 1
+          default: 1
+          type: number
+      - name: groupIds
+        required: false
+        in: query
+        description: Filter tap events by group IDs.
+        schema:
+          minItems: 1
+          example:
+          - 6710f34fd5061afeec3eab58
+          type: array
+          items:
+            type: string
+      - name: destinationIds
+        required: false
+        in: query
+        description: Filter tap events by destination IDs.
+        schema:
+          minItems: 1
+          example:
+          - 6710f34fd5061afeec3eab57
+          type: array
+          items:
+            type: string
+      - name: deviceIds
+        required: false
+        in: query
+        description: Filter tap events by device IDs.
+        schema:
+          minItems: 1
+          example:
+          - 6710f34fd5061afeec3eab59
+          type: array
+          items:
+            type: string
+      - name: startDate
+        required: false
+        in: query
+        description: Filter tap events on or after this date (ISO 8601).
+        schema:
+          format: date-time
+          example: '2026-05-01T00:00:00.000Z'
+          type: string
+      - name: endDate
+        required: false
+        in: query
+        description: Filter tap events on or before this date (ISO 8601).
+        schema:
+          format: date-time
+          example: '2026-05-08T23:59:59.999Z'
+          type: string
+      - name: sortDirection
+        required: false
+        in: query
+        description: The direction to sort the tap events by. Events are always sorted by time of occurrence.
+        schema:
+          default: DESC
+          example: DESC
+          enum:
+          - ASC
+          - DESC
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTapEventsResponse'
+      security:
+      - ClientId: []
+        ApiKey: []
+      summary: Get Tap Events
+      tags:
+      - Tap
+  /api/v3/tap/groups:
+    get:
+      description: Returns tap groups for a nonprofit based on the provided filters.
+      operationId: OpenApiTapGroupsController_getGroups
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: The number of tap groups to return.
+        schema:
+          minimum: 1
+          maximum: 100
+          default: 25
+          type: number
+      - name: page
+        required: false
+        in: query
+        description: The page number of the tap groups to return.
+        schema:
+          minimum: 1
+          default: 1
+          type: number
+      - name: search
+        required: false
+        in: query
+        description: Search tap groups by name.
+        schema:
+          example: Sunday Service
+          type: string
+      - name: includeArchived
+        required: false
+        in: query
+        description: Whether to include tap groups that have been archived.
+        schema:
+          type: boolean
+      - name: sortBy
+        required: false
+        in: query
+        description: The field to sort the tap groups by.
+        schema:
+          default: createdAt
+          example: createdAt
+          enum:
+          - name
+          - createdAt
+          type: string
+      - name: sortDirection
+        required: false
+        in: query
+        description: The direction to sort the tap groups by.
+        schema:
+          default: DESC
+          example: DESC
+          enum:
+          - ASC
+          - DESC
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTapGroupsResponse'
+      security:
+      - ClientId: []
+        ApiKey: []
+      summary: Get Tap Groups
+      tags:
+      - Tap
+  /api/v3/tap/groups/{groupId}:
+    get:
+      description: Returns a single tap group by ID.
+      operationId: OpenApiTapGroupsController_getGroupById
+      parameters:
+      - name: groupId
+        required: true
+        in: path
+        description: The ID of the tap group.
+        schema:
+          example: 6710f34fd5061afeec3eab58
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTapGroupByIdResponse'
+        '404':
+          description: Group not found.
+      security:
+      - ClientId: []
+        ApiKey: []
+      summary: Get Tap Group
+      tags:
+      - Tap
+components:
+  schemas:
+    GetTapDevicesResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Device ID
+                example: 6816f7ce7d2a1b4c12ab3501
+              serialNumber:
+                type: number
+                description: Device serial number
+                example: 104233
+              deviceType:
+                type: string
+                enum:
+                - Lanyard
+                - Stand
+                - Bracelet
+                - Wristband
+                - Plates/Disc/Magnet/Label
+                - Flex
+                - Plate Square
+                - Arm Rest Rectangle
+                - Plates
+                - Disc
+                - Magnet
+                - Label
+                description: Device form factor (e.g., Lanyard, Stand, Bracelet)
+                example: Lanyard
+              groupId:
+                type: string
+                nullable: true
+                description: Group ID (null if unassigned)
+              group:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Group ID
+                  name:
+                    type: string
+                    description: Group name
+                required:
+                - id
+                - name
+                nullable: true
+                description: Embedded group (null if unassigned)
+              currentDestination:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Destination ID
+                  name:
+                    type: string
+                    description: Destination name
+                  type:
+                    type: string
+                    enum:
+                    - web
+                    - sms
+                    nullable: true
+                    description: Destination type
+                required:
+                - id
+                - name
+                - type
+                nullable: true
+                description: Current destination via group (null if unassigned)
+              createdAt:
+                type: string
+                format: date-time
+                description: Record creation timestamp
+                example: '2026-05-01T17:22:11.421Z'
+              updatedAt:
+                type: string
+                format: date-time
+                description: Record last updated timestamp
+                example: '2026-05-04T14:09:32.145Z'
+              archivedAt:
+                type: string
+                format: date-time
+                nullable: true
+                description: Archive timestamp, null if active
+            required:
+            - id
+            - serialNumber
+            - deviceType
+            - groupId
+            - group
+            - currentDestination
+            - createdAt
+            - updatedAt
+            - archivedAt
+          description: List of tap devices.
+        totalCount:
+          type: number
+          description: Total number of tap devices matching the filters.
+          example: 100
+      required:
+      - data
+      - totalCount
+    GetTapGroupByIdResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Group ID
+              example: 6710f34fd5061afeec3eab58
+            name:
+              type: string
+              description: Group name
+              example: Sunday Service Group
+            destinationId:
+              type: string
+              description: ID of the assigned destination
+              example: 6710f34fd5061afeec3eab57
+            destination:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: Destination ID
+                  example: 6710f34fd5061afeec3eab57
+                name:
+                  type: string
+                  description: Destination name
+                  example: Main Giving Page
+                type:
+                  type: string
+                  enum:
+                  - web
+                  - sms
+                  nullable: true
+                  description: Destination type
+                  example: web
+                url:
+                  type: string
+                  nullable: true
+                  description: Redirect URL for web destinations
+                  example: https://example.com/give
+                textNumber:
+                  type: string
+                  nullable: true
+                  description: Phone number for SMS destinations
+                  example: null
+                textContent:
+                  type: string
+                  nullable: true
+                  description: SMS message body
+                  example: null
+              required:
+              - id
+              - name
+              - type
+              - url
+              - textNumber
+              - textContent
+              nullable: true
+              description: Embedded destination info
+            deviceIds:
+              type: array
+              items:
+                type: string
+              nullable: true
+              description: IDs of devices assigned to this group
+              example:
+              - 6710f34fd5061afeec3eab59
+            createdAt:
+              type: string
+              format: date-time
+              description: Record creation timestamp
+              example: '2026-05-01T17:22:11.421Z'
+            updatedAt:
+              type: string
+              format: date-time
+              description: Record last updated timestamp
+              example: '2026-05-04T14:09:32.145Z'
+            archivedAt:
+              type: string
+              format: date-time
+              nullable: true
+              description: Archive timestamp, null if active
+          required:
+          - id
+          - name
+          - destinationId
+          - destination
+          - deviceIds
+          - createdAt
+          - updatedAt
+          - archivedAt
+          description: Tap group for the given id.
+      required:
+      - data
+    GetTapGroupsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Group ID
+                example: 6710f34fd5061afeec3eab58
+              name:
+                type: string
+                description: Group name
+                example: Sunday Service Group
+              destinationId:
+                type: string
+                description: ID of the assigned destination
+                example: 6710f34fd5061afeec3eab57
+              destination:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Destination ID
+                    example: 6710f34fd5061afeec3eab57
+                  name:
+                    type: string
+                    description: Destination name
+                    example: Main Giving Page
+                  type:
+                    type: string
+                    enum:
+                    - web
+                    - sms
+                    nullable: true
+                    description: Destination type
+                    example: web
+                  url:
+                    type: string
+                    nullable: true
+                    description: Redirect URL for web destinations
+                    example: https://example.com/give
+                  textNumber:
+                    type: string
+                    nullable: true
+                    description: Phone number for SMS destinations
+                    example: null
+                  textContent:
+                    type: string
+                    nullable: true
+                    description: SMS message body
+                    example: null
+                required:
+                - id
+                - name
+                - type
+                - url
+                - textNumber
+                - textContent
+                nullable: true
+                description: Embedded destination info
+              deviceIds:
+                type: array
+                items:
+                  type: string
+                nullable: true
+                description: IDs of devices assigned to this group
+                example:
+                - 6710f34fd5061afeec3eab59
+              createdAt:
+                type: string
+                format: date-time
+                description: Record creation timestamp
+                example: '2026-05-01T17:22:11.421Z'
+              updatedAt:
+                type: string
+                format: date-time
+                description: Record last updated timestamp
+                example: '2026-05-04T14:09:32.145Z'
+              archivedAt:
+                type: string
+                format: date-time
+                nullable: true
+                description: Archive timestamp, null if active
+            required:
+            - id
+            - name
+            - destinationId
+            - destination
+            - deviceIds
+            - createdAt
+            - updatedAt
+            - archivedAt
+          description: List of tap groups.
+        totalCount:
+          type: number
+          description: Total number of tap groups matching the filters.
+          example: 100
+      required:
+      - data
+      - totalCount
+    GetTapDeviceByIdResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Device ID
+              example: 6816f7ce7d2a1b4c12ab3501
+            serialNumber:
+              type: number
+              description: Device serial number
+              example: 104233
+            deviceType:
+              type: string
+              enum:
+              - Lanyard
+              - Stand
+              - Bracelet
+              - Wristband
+              - Plates/Disc/Magnet/Label
+              - Flex
+              - Plate Square
+              - Arm Rest Rectangle
+              - Plates
+              - Disc
+              - Magnet
+              - Label
+              description: Device form factor (e.g., Lanyard, Stand, Bracelet)
+              example: Lanyard
+            groupId:
+              type: string
+              nullable: true
+              description: Group ID (null if unassigned)
+            group:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: Group ID
+                name:
+                  type: string
+                  description: Group name
+              required:
+              - id
+              - name
+              nullable: true
+              description: Embedded group (null if unassigned)
+            currentDestination:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: Destination ID
+                name:
+                  type: string
+                  description: Destination name
+                type:
+                  type: string
+                  enum:
+                  - web
+                  - sms
+                  nullable: true
+                  description: Destination type
+              required:
+              - id
+              - name
+              - type
+              nullable: true
+              description: Current destination via group (null if unassigned)
+            createdAt:
+              type: string
+              format: date-time
+              description: Record creation timestamp
+              example: '2026-05-01T17:22:11.421Z'
+            updatedAt:
+              type: string
+              format: date-time
+              description: Record last updated timestamp
+              example: '2026-05-04T14:09:32.145Z'
+            archivedAt:
+              type: string
+              format: date-time
+              nullable: true
+              description: Archive timestamp, null if active
+          required:
+          - id
+          - serialNumber
+          - deviceType
+          - groupId
+          - group
+          - currentDestination
+          - createdAt
+          - updatedAt
+          - archivedAt
+          description: Tap device for the given id.
+      required:
+      - data
+    GetTapDestinationByIdResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Destination ID
+              example: 6816f7ce7d2a1b4c12ab3499
+            name:
+              type: string
+              description: Destination name
+              example: Spring Campaign
+            type:
+              type: string
+              enum:
+              - web
+              - sms
+              nullable: true
+              description: Destination type
+              example: web
+            url:
+              type: string
+              nullable: true
+              description: Redirect URL for web destinations
+              example: https://give.example.org/spring
+            textNumber:
+              type: string
+              nullable: true
+              description: Phone number for SMS destinations
+            textContent:
+              type: string
+              nullable: true
+              description: SMS message body
+            createdAt:
+              type: string
+              format: date-time
+              description: Record creation timestamp
+              example: '2026-05-01T17:22:11.421Z'
+            updatedAt:
+              type: string
+              format: date-time
+              description: Record last updated timestamp
+              example: '2026-05-04T14:09:32.145Z'
+            archivedAt:
+              type: string
+              format: date-time
+              nullable: true
+              description: Archive timestamp, null if active
+          required:
+          - id
+          - name
+          - type
+          - url
+          - textNumber
+          - textContent
+          - createdAt
+          - updatedAt
+          - archivedAt
+          description: Tap destination for the given id.
+      required:
+      - data
+    GetTapDestinationsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Destination ID
+                example: 6816f7ce7d2a1b4c12ab3499
+              name:
+                type: string
+                description: Destination name
+                example: Spring Campaign
+              type:
+                type: string
+                enum:
+                - web
+                - sms
+                nullable: true
+                description: Destination type
+                example: web
+              url:
+                type: string
+                nullable: true
+                description: Redirect URL for web destinations
+                example: https://give.example.org/spring
+              textNumber:
+                type: string
+                nullable: true
+                description: Phone number for SMS destinations
+              textContent:
+                type: string
+                nullable: true
+                description: SMS message body
+              createdAt:
+                type: string
+                format: date-time
+                description: Record creation timestamp
+                example: '2026-05-01T17:22:11.421Z'
+              updatedAt:
+                type: string
+                format: date-time
+                description: Record last updated timestamp
+                example: '2026-05-04T14:09:32.145Z'
+              archivedAt:
+                type: string
+                format: date-time
+                nullable: true
+                description: Archive timestamp, null if active
+            required:
+            - id
+            - name
+            - type
+            - url
+            - textNumber
+            - textContent
+            - createdAt
+            - updatedAt
+            - archivedAt
+          description: List of tap destinations.
+        totalCount:
+          type: number
+          description: Total number of tap destinations matching the filters.
+          example: 100
+      required:
+      - data
+      - totalCount
+    GetTapEventsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Event ID
+                example: 6816f8dc7d2a1b4c12ab3522
+              createdAt:
+                type: string
+                format: date-time
+                description: When the tap event was created
+                example: '2026-05-04T14:12:44.002Z'
+              deviceId:
+                type: string
+                description: Device that was tapped
+              groupId:
+                type: string
+                description: Group the device belonged to at time of tap
+              destinationId:
+                type: string
+                description: Destination the tap resolved to
+              device:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Device ID
+                  serialNumber:
+                    type: number
+                    description: Device serial number
+                required:
+                - id
+                - serialNumber
+                nullable: true
+                description: Embedded device summary
+              group:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Group ID
+                  name:
+                    type: string
+                    description: Group name
+                required:
+                - id
+                - name
+                nullable: true
+                description: Embedded group summary
+              destination:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Destination ID
+                  name:
+                    type: string
+                    description: Destination name
+                  type:
+                    type: string
+                    enum:
+                    - web
+                    - sms
+                    nullable: true
+                    description: Destination type
+                required:
+                - id
+                - name
+                - type
+                nullable: true
+                description: Embedded destination summary
+            required:
+            - id
+            - createdAt
+            - deviceId
+            - groupId
+            - destinationId
+            - device
+            - group
+            - destination
+          description: List of tap events.
+        totalCount:
+          type: number
+          description: Total number of tap events matching the filters.
+          example: 100
+      required:
+      - data
+      - totalCount
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: API Key for API authentication
+    ClientId:
+      type: apiKey
+      in: header
+      name: x-client-id
+      description: Client ID for API authentication

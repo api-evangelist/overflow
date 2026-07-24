@@ -1,0 +1,393 @@
+openapi: 3.0.0
+info:
+  title: Overflow Open Campaigns Payments API
+  description: '
+
+    The documentation for the Overflow Open APIs.
+
+
+    To access the OpenAPI spec in JSON/YAML format, navigate to:
+
+
+    * `/api/docs/openapi.json`
+
+    * `/api/docs/openapi.yaml`
+
+    '
+  version: '3.0'
+  contact: {}
+servers:
+- url: https://server.stage.overflow.co
+  description: API server
+tags:
+- name: Payments
+paths:
+  /api/v3/payments/authorize:
+    post:
+      description: Authorizes a payment for the given payment method and donor.
+      operationId: OpenApiPaymentsController_authorizePayment
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthorizePaymentRequest'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorizePaymentResponse'
+      security:
+      - ClientId: []
+        ApiKey: []
+      summary: Authorize Payment
+      tags:
+      - Payments
+components:
+  schemas:
+    AuthorizePaymentRequest:
+      type: object
+      properties:
+        amountInCents:
+          type: integer
+          minimum: 0
+          description: Charge amount in cents. Use `0` for tokenize-only flows (e.g. saving a payment method without an immediate charge).
+          example: 5000
+        anonymous:
+          type: boolean
+          description: Whether the donation should be anonymous.
+          example: false
+        billingAddress:
+          type: object
+          properties:
+            city:
+              type: string
+              nullable: true
+            country:
+              type: string
+              nullable: true
+            line1:
+              type: string
+              nullable: true
+            line2:
+              type: string
+              nullable: true
+            state:
+              type: string
+              nullable: true
+            zip:
+              type: string
+              nullable: true
+          description: Billing address for the payment.
+        browserInfo:
+          type: object
+          properties:
+            acceptHeader:
+              type: string
+            colorDepth:
+              type: number
+            javaEnabled:
+              type: boolean
+            language:
+              type: string
+            screenHeight:
+              type: number
+            screenWidth:
+              type: number
+            timeZoneOffset:
+              type: number
+            userAgent:
+              type: string
+          description: Browser information collected by the Adyen SDK.
+        coveredFees:
+          type: object
+          properties:
+            coveredFeeValue:
+              type: number
+            coveredFlatFeeValue:
+              type: number
+            coveredPercentageFeeString:
+              type: string
+          required:
+          - coveredFeeValue
+          description: Fee coverage details when the donor opts to cover fees.
+        dedication:
+          type: object
+          properties:
+            recipientEmail:
+              type: string
+            recipientName:
+              type: string
+            type:
+              type: string
+              enum:
+              - In honor of
+              - In memory of
+          description: Dedication details for the donation.
+        deductible:
+          type: boolean
+          description: Whether the donation is tax-deductible. Defaults to the campaign setting when not provided, or `true` for nonprofit donations without a campaign. Ignored for tokenize-only ($0) flows since no contribution is created.
+          example: true
+        email:
+          type: string
+          format: email
+          description: Donor email address.
+          example: jane@example.com
+        firstName:
+          type: string
+          description: Donor's first name.
+          example: Jane
+        fundId:
+          type: string
+          description: Fund to allocate the donation to.
+          example: fund_abc123
+        lastName:
+          type: string
+          description: Donor's last name.
+          example: Donor
+        locationId:
+          type: string
+          description: Location associated with the donation.
+        metadata:
+          type: object
+          additionalProperties: {}
+          description: Arbitrary key-value metadata.
+        notes:
+          type: string
+          description: Donor notes for the donation.
+        paymentMethod:
+          discriminator:
+            propertyName: paymentMethodType
+            mapping:
+              Card: '#/components/schemas/CardPaymentMethod'
+              Bank: '#/components/schemas/BankPaymentMethod'
+              PlaidBank: '#/components/schemas/PlaidBankPaymentMethod'
+              Wallet: '#/components/schemas/WalletPaymentMethod'
+              StoredPaymentMethod: '#/components/schemas/StoredPaymentMethod'
+          oneOf:
+          - $ref: '#/components/schemas/CardPaymentMethod'
+          - $ref: '#/components/schemas/BankPaymentMethod'
+          - $ref: '#/components/schemas/PlaidBankPaymentMethod'
+          - $ref: '#/components/schemas/WalletPaymentMethod'
+          - $ref: '#/components/schemas/StoredPaymentMethod'
+          description: Payment method details.
+        phone:
+          type: string
+          description: Donor phone number.
+          example: '+15555550100'
+        processingChannel:
+          type: string
+          enum:
+          - Ecommerce
+          - MailOrderTelephoneOrder
+          - ContinuedAuthorization
+          description: Determines shopper interaction type. Maps 1-to-1 to Adyen shopperInteraction.
+          example: Ecommerce
+        recurring:
+          type: object
+          properties:
+            cycles:
+              type: number
+            frequency:
+              type: string
+              enum:
+              - biweekly
+              - 1st-15th
+              - monthly
+              - weekly
+            startDate:
+              type: string
+              format: date-time
+          required:
+          - frequency
+          - startDate
+          description: Recurring schedule options. Omit for one-time charges.
+        riskData:
+          type: object
+          properties:
+            clientData:
+              type: string
+          description: Risk data collected by the Adyen SDK.
+        subFundId:
+          type: string
+          description: Sub-fund to allocate the donation to.
+      required:
+      - amountInCents
+      - email
+      - paymentMethod
+      - processingChannel
+    PlaidBankPaymentMethod:
+      type: object
+      properties:
+        paymentMethodType:
+          type: string
+          enum:
+          - PlaidBank
+        publicToken:
+          type: string
+        accountId:
+          type: string
+        defaultForDonor:
+          type: boolean
+      required:
+      - paymentMethodType
+      - publicToken
+      - accountId
+      - defaultForDonor
+      title: PlaidBankPaymentMethod
+    StoredPaymentMethod:
+      type: object
+      properties:
+        paymentMethodType:
+          type: string
+          enum:
+          - StoredPaymentMethod
+        paymentMethodId:
+          type: string
+      required:
+      - paymentMethodType
+      - paymentMethodId
+      title: StoredPaymentMethod
+    WalletPaymentMethod:
+      type: object
+      properties:
+        paymentMethodType:
+          type: string
+          enum:
+          - Wallet
+        walletAccountType:
+          type: string
+          enum:
+          - applepay
+          - googlepay
+          description: Wallet type for the payment. Only `applepay` and `googlepay` are accepted.
+        walletToken:
+          type: string
+      required:
+      - paymentMethodType
+      - walletAccountType
+      - walletToken
+      title: WalletPaymentMethod
+    CardPaymentMethod:
+      type: object
+      properties:
+        paymentMethodType:
+          type: string
+          enum:
+          - Card
+        defaultForDonor:
+          type: boolean
+        encryptedCardNumber:
+          type: string
+        encryptedExpiryMonth:
+          type: string
+        encryptedExpiryYear:
+          type: string
+        encryptedSecurityCode:
+          type: string
+      required:
+      - paymentMethodType
+      - defaultForDonor
+      - encryptedCardNumber
+      - encryptedExpiryMonth
+      - encryptedExpiryYear
+      title: CardPaymentMethod
+    BankPaymentMethod:
+      type: object
+      properties:
+        paymentMethodType:
+          type: string
+          enum:
+          - Bank
+        bankAccountType:
+          type: string
+          enum:
+          - checking
+          - savings
+        bankName:
+          type: string
+        defaultForDonor:
+          type: boolean
+        encryptedBankAccountNumber:
+          type: string
+          minLength: 1
+          pattern: ^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$
+        encryptedBankRoutingNumber:
+          type: string
+          minLength: 1
+          pattern: ^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$
+      required:
+      - paymentMethodType
+      - bankAccountType
+      - defaultForDonor
+      - encryptedBankAccountNumber
+      - encryptedBankRoutingNumber
+      title: BankPaymentMethod
+    AuthorizePaymentResponse:
+      type: object
+      properties:
+        donorId:
+          type: string
+          description: Donor ID. Either the existing donor matched by email/phone, or a newly created one.
+          example: 6710f34fd5061afeec3eab57
+        contributionId:
+          type: string
+          description: Contribution ID. Present when a payment was charged (new-method charge or stored-method charge). Use this to correlate with webhook notifications and reference the payment in subsequent API calls.
+          example: 7710f34fd5061afeec3eab59
+        paymentMethodId:
+          type: string
+          description: Payment method ID. Present when a new payment method was tokenized (either as the main output of a $0 tokenize-only flow, or as a side-effect of an authorize-and-store flow). Use this ID for future charges against the stored payment method.
+          example: 5710f34fd5061afeec3eab58
+        paymentMethod:
+          type: object
+          properties:
+            brand:
+              type: string
+              description: Payment method brand (e.g. visa, mc, amex, ach).
+              example: visa
+            last4:
+              type: string
+              description: Last four digits of the card or bank account.
+              example: '1111'
+            expiration:
+              type: object
+              properties:
+                month:
+                  type: string
+                year:
+                  type: string
+              required:
+              - month
+              - year
+              description: Card / wallet expiration (omitted for ACH).
+            fundingSource:
+              type: string
+              enum:
+              - credit
+              - debit
+              - prepaid
+              description: Card funding source. Omitted when unknown or not applicable (e.g. ACH).
+          required:
+          - brand
+          - last4
+          description: Display details for the tokenized payment method. Present together with `paymentMethodId`.
+        subscriptionId:
+          type: string
+          description: Subscription ID. Present when a recurring schedule was created. Use this to manage the recurring donation in subsequent API calls.
+          example: 8810f34fd5061afeec3eab60
+      required:
+      - donorId
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: API Key for API authentication
+    ClientId:
+      type: apiKey
+      in: header
+      name: x-client-id
+      description: Client ID for API authentication

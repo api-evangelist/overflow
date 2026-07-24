@@ -1,0 +1,138 @@
+openapi: 3.0.0
+info:
+  title: Overflow Open Campaigns Payment Methods API
+  description: '
+
+    The documentation for the Overflow Open APIs.
+
+
+    To access the OpenAPI spec in JSON/YAML format, navigate to:
+
+
+    * `/api/docs/openapi.json`
+
+    * `/api/docs/openapi.yaml`
+
+    '
+  version: '3.0'
+  contact: {}
+servers:
+- url: https://server.stage.overflow.co
+  description: API server
+tags:
+- name: Payment Methods
+paths:
+  /api/v3/payment-methods/{donorId}:
+    get:
+      description: Returns the payment methods a donor has added.
+      operationId: OpenApiPaymentMethodsController_getPaymentMethods
+      parameters:
+      - name: donorId
+        required: true
+        in: path
+        description: The ID of the donor to get payment methods for.
+        schema:
+          example: 2ea1ae03ca521e437db76d76
+          type: string
+      - name: maximumUpdatedDate
+        required: false
+        in: query
+        description: The maximum updated date of the payment methods to return. YYYY-MM-DD
+        schema:
+          format: date-time
+          example: '2025-02-01'
+          type: string
+      - name: minimumUpdatedDate
+        required: false
+        in: query
+        description: The minimum updated date of the payment methods to return. YYYY-MM-DD
+        schema:
+          format: date-time
+          example: '2025-01-01'
+          type: string
+      - name: showExpired
+        required: false
+        in: query
+        description: Whether to return expired payment methods or not.
+        schema:
+          default: 'false'
+          type: boolean
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPaymentMethodsResponse'
+        '400':
+          description: Donor does not belong to the nonprofit
+        '404':
+          description: Donor profile does not exist
+      security:
+      - ClientId: []
+        ApiKey: []
+      summary: Get Payment Methods
+      tags:
+      - Payment Methods
+components:
+  schemas:
+    GetPaymentMethodsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: The Payment method id
+                example: 6710f34fd5061afeec3eab57
+              holderName:
+                type: string
+                description: The name of the cardholder or account holder
+                example: John Doe
+              last4:
+                type: string
+                description: The last four digits of the card number or account number
+                example: '4242'
+              type:
+                type: string
+                enum:
+                - bank
+                - card
+                - wallet
+                description: The type of payment method
+                example: card
+              expirationDate:
+                type: string
+                description: The expiration date of the card
+                example: 12/26
+              isExpired:
+                type: boolean
+                description: Whether the payment method is expired
+                example: 'false'
+              updatedAt:
+                type: string
+                format: date-time
+                description: Payment Method updated at
+                example: '2025-01-01T00:00:00.000Z'
+            required:
+            - id
+            - last4
+            - type
+            - updatedAt
+          description: List of payment methods for donor
+      required:
+      - data
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: API Key for API authentication
+    ClientId:
+      type: apiKey
+      in: header
+      name: x-client-id
+      description: Client ID for API authentication

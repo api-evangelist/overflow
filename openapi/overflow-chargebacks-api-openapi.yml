@@ -1,0 +1,348 @@
+openapi: 3.0.0
+info:
+  title: Overflow Open Campaigns Chargebacks API
+  description: '
+
+    The documentation for the Overflow Open APIs.
+
+
+    To access the OpenAPI spec in JSON/YAML format, navigate to:
+
+
+    * `/api/docs/openapi.json`
+
+    * `/api/docs/openapi.yaml`
+
+    '
+  version: '3.0'
+  contact: {}
+servers:
+- url: https://server.stage.overflow.co
+  description: API server
+tags:
+- name: Chargebacks
+paths:
+  /api/v3/chargebacks:
+    get:
+      description: '
+
+        Returns chargebacks for the authenticated nonprofit based on the provided filters.
+
+
+        ---
+
+
+        ### Chargeback Status
+
+
+        * `pending`: The chargeback is still in progress.
+
+        * `lost`: The chargeback was finalized against the nonprofit.
+
+        * `won`: The chargeback was finalized in the nonprofit''s favor.
+
+
+        ---
+
+
+        ### Chargeback Types
+
+
+        * `ach_return`: The chargeback originated from an ACH return.
+
+        * `dispute`: The chargeback originated from a card dispute.
+
+
+        ---
+
+
+        ### Filtering
+
+
+        * Use `contributionId` to return chargebacks for a specific contribution.
+
+        * Use `minimumUpdatedDate` and `maximumUpdatedDate` to poll for chargebacks that changed within a specific window.
+
+        * Results are sorted by `createdAt` (ascending or descending via `sortDirection`) and paginated with `limit` and `page`.
+
+
+        All monetary amounts in the response are expressed in cents.
+
+        '
+      operationId: OpenApiChargebacksController_getChargebacks
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: The number of chargebacks to return.
+        schema:
+          minimum: 1
+          maximum: 100
+          default: 25
+          type: number
+      - name: page
+        required: false
+        in: query
+        description: The page number of the chargebacks to return.
+        schema:
+          minimum: 1
+          default: 1
+          type: number
+      - name: sortDirection
+        required: false
+        in: query
+        description: Sort direction by chargeback created date. Defaults to descending.
+        schema:
+          example: DESC
+          enum:
+          - ASC
+          - DESC
+          type: string
+      - name: contributionId
+        required: false
+        in: query
+        description: Filter by contribution id.
+        schema:
+          pattern: ^[0-9a-fA-F]{24}$
+          example: 8810f34fd5061afeec3eab68
+          type: string
+      - name: minimumUpdatedDate
+        required: false
+        in: query
+        description: The minimum updated date of the chargebacks to return.
+        schema:
+          format: date-time
+          example: '2025-01-01'
+          type: string
+      - name: maximumUpdatedDate
+        required: false
+        in: query
+        description: The maximum updated date of the chargebacks to return.
+        schema:
+          format: date-time
+          example: '2025-02-01'
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetChargebacksResponse'
+      security:
+      - ClientId: []
+        ApiKey: []
+      summary: Get Chargebacks
+      tags:
+      - Chargebacks
+  /api/v3/chargebacks/{chargebackId}:
+    get:
+      description: Returns a single chargeback by its id for the authenticated nonprofit. All monetary amounts are expressed in cents.
+      operationId: OpenApiChargebacksController_getChargebackById
+      parameters:
+      - name: chargebackId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetChargebackResponse'
+        '404':
+          description: Chargeback not found
+      security:
+      - ClientId: []
+        ApiKey: []
+      summary: Get Chargeback
+      tags:
+      - Chargebacks
+components:
+  schemas:
+    GetChargebacksResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Chargeback id.
+                example: 8810f34fd5061afeec3eab67
+              contributionId:
+                type: string
+                description: Contribution id associated with the chargeback.
+                example: 8810f34fd5061afeec3eab68
+              status:
+                type: string
+                enum:
+                - lost
+                - pending
+                - won
+                description: Chargeback status.
+                example: pending
+              type:
+                type: string
+                enum:
+                - ach_return
+                - dispute
+                description: Chargeback type.
+                example: dispute
+              amountInCents:
+                type: number
+                description: Gross chargeback amount in cents.
+                example: 12500
+              netValueInCents:
+                type: number
+                nullable: true
+                description: Net chargeback amount in cents.
+                example: 12900
+              feeValueInCents:
+                type: number
+                nullable: true
+                description: Chargeback fee amount in cents.
+                example: 400
+              processorChargebackId:
+                type: string
+                description: Processor chargeback identifier.
+                example: du_123456789
+              reason:
+                type: string
+                nullable: true
+                description: Chargeback reason when provided by the processor.
+                example: Unauthorized transaction
+              depositId:
+                type: string
+                nullable: true
+                description: Deposit id associated with the chargeback, when available.
+                example: 8810f34fd5061afeec3eab69
+              createdAt:
+                type: string
+                format: date-time
+                description: Date the chargeback was created.
+                example: '2026-05-19T00:00:00.000Z'
+              updatedAt:
+                type: string
+                format: date-time
+                description: Date the chargeback was last updated.
+                example: '2026-05-20T00:00:00.000Z'
+            required:
+            - id
+            - contributionId
+            - status
+            - type
+            - amountInCents
+            - netValueInCents
+            - feeValueInCents
+            - processorChargebackId
+            - reason
+            - depositId
+            - createdAt
+            - updatedAt
+          description: List of chargebacks.
+        totalCount:
+          type: number
+          description: Total number of chargebacks matching the filters.
+          example: 100
+      required:
+      - data
+      - totalCount
+    GetChargebackResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Chargeback id.
+              example: 8810f34fd5061afeec3eab67
+            contributionId:
+              type: string
+              description: Contribution id associated with the chargeback.
+              example: 8810f34fd5061afeec3eab68
+            status:
+              type: string
+              enum:
+              - lost
+              - pending
+              - won
+              description: Chargeback status.
+              example: pending
+            type:
+              type: string
+              enum:
+              - ach_return
+              - dispute
+              description: Chargeback type.
+              example: dispute
+            amountInCents:
+              type: number
+              description: Gross chargeback amount in cents.
+              example: 12500
+            netValueInCents:
+              type: number
+              nullable: true
+              description: Net chargeback amount in cents.
+              example: 12900
+            feeValueInCents:
+              type: number
+              nullable: true
+              description: Chargeback fee amount in cents.
+              example: 400
+            processorChargebackId:
+              type: string
+              description: Processor chargeback identifier.
+              example: du_123456789
+            reason:
+              type: string
+              nullable: true
+              description: Chargeback reason when provided by the processor.
+              example: Unauthorized transaction
+            depositId:
+              type: string
+              nullable: true
+              description: Deposit id associated with the chargeback, when available.
+              example: 8810f34fd5061afeec3eab69
+            createdAt:
+              type: string
+              format: date-time
+              description: Date the chargeback was created.
+              example: '2026-05-19T00:00:00.000Z'
+            updatedAt:
+              type: string
+              format: date-time
+              description: Date the chargeback was last updated.
+              example: '2026-05-20T00:00:00.000Z'
+          required:
+          - id
+          - contributionId
+          - status
+          - type
+          - amountInCents
+          - netValueInCents
+          - feeValueInCents
+          - processorChargebackId
+          - reason
+          - depositId
+          - createdAt
+          - updatedAt
+          description: Chargeback.
+      required:
+      - data
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: API Key for API authentication
+    ClientId:
+      type: apiKey
+      in: header
+      name: x-client-id
+      description: Client ID for API authentication

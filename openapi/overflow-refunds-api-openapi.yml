@@ -1,0 +1,352 @@
+openapi: 3.0.0
+info:
+  title: Overflow Open Campaigns Refunds API
+  description: '
+
+    The documentation for the Overflow Open APIs.
+
+
+    To access the OpenAPI spec in JSON/YAML format, navigate to:
+
+
+    * `/api/docs/openapi.json`
+
+    * `/api/docs/openapi.yaml`
+
+    '
+  version: '3.0'
+  contact: {}
+servers:
+- url: https://server.stage.overflow.co
+  description: API server
+tags:
+- name: Refunds
+paths:
+  /api/v3/refunds:
+    get:
+      description: '
+
+        Returns refunds for the authenticated nonprofit based on the provided filters.
+
+
+        ---
+
+
+        ### Refund Status
+
+
+        * `PENDING`: The refund request has been created and is awaiting processor completion.
+
+        * `SUCCEEDED`: The refund has completed successfully.
+
+        * `FAILED`: The refund failed at the processor or settlement layer.
+
+        * `CANCELED`: The refund was canceled before completion.
+
+        * `REQUIRES_ACTION`: Additional action is required before the refund can complete.
+
+
+        ---
+
+
+        ### Refund Reasons
+
+
+        * `REQUESTED_BY_CUSTOMER`: The donor requested the refund.
+
+        * `FRAUDULENT`: The refund was issued due to suspected fraud.
+
+        * `DUPLICATE`: The refund was issued for a duplicate charge.
+
+        * `EXPIRED_OR_UNCAPTURED_CHARGE`: The original charge expired or was not captured.
+
+
+        ---
+
+
+        ### Filtering
+
+
+        * Use `contributionId` to return refunds for a specific contribution.
+
+        * Use `minimumUpdatedDate` and `maximumUpdatedDate` to poll for refunds that changed within a specific window.
+
+        * Results are sorted by `createdAt` (ascending or descending via `sortDirection`) and paginated with `limit` and `page`.
+
+
+        All monetary amounts in the response are expressed in cents.
+
+        '
+      operationId: OpenApiRefundsController_getRefunds
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: The number of refunds to return.
+        schema:
+          minimum: 1
+          maximum: 100
+          default: 25
+          type: number
+      - name: page
+        required: false
+        in: query
+        description: The page number of the refunds to return.
+        schema:
+          minimum: 1
+          default: 1
+          type: number
+      - name: sortDirection
+        required: false
+        in: query
+        description: Sort direction by refund created date. Defaults to descending.
+        schema:
+          example: DESC
+          enum:
+          - ASC
+          - DESC
+          type: string
+      - name: contributionId
+        required: false
+        in: query
+        description: Filter by contribution id.
+        schema:
+          pattern: ^[0-9a-fA-F]{24}$
+          example: 8810f34fd5061afeec3eab68
+          type: string
+      - name: minimumUpdatedDate
+        required: false
+        in: query
+        description: The minimum updated date of the refunds to return.
+        schema:
+          format: date-time
+          example: '2025-01-01'
+          type: string
+      - name: maximumUpdatedDate
+        required: false
+        in: query
+        description: The maximum updated date of the refunds to return.
+        schema:
+          format: date-time
+          example: '2025-02-01'
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetRefundsResponse'
+      security:
+      - ClientId: []
+        ApiKey: []
+      summary: Get Refunds
+      tags:
+      - Refunds
+  /api/v3/refunds/{refundId}:
+    get:
+      description: Returns a single refund by its id for the authenticated nonprofit. All monetary amounts are expressed in cents.
+      operationId: OpenApiRefundsController_getRefundById
+      parameters:
+      - name: refundId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetRefundResponse'
+        '404':
+          description: Refund not found
+      security:
+      - ClientId: []
+        ApiKey: []
+      summary: Get Refund
+      tags:
+      - Refunds
+components:
+  schemas:
+    GetRefundsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Refund id.
+                example: 8810f34fd5061afeec3eab67
+              contributionId:
+                type: string
+                description: Contribution id associated with the refund.
+                example: 8810f34fd5061afeec3eab68
+              status:
+                type: string
+                enum:
+                - CANCELED
+                - FAILED
+                - PENDING
+                - REQUIRES_ACTION
+                - SUCCEEDED
+                description: Refund status.
+                example: SUCCEEDED
+              reason:
+                type: string
+                enum:
+                - DUPLICATE
+                - EXPIRED_OR_UNCAPTURED_CHARGE
+                - FRAUDULENT
+                - REQUESTED_BY_CUSTOMER
+                nullable: true
+                description: Refund reason when provided by the processor.
+                example: REQUESTED_BY_CUSTOMER
+              amountInCents:
+                type: number
+                description: Gross refund amount in cents.
+                example: 12500
+              netValueInCents:
+                type: number
+                description: Net refund amount in cents.
+                example: 12100
+              feeValueInCents:
+                type: number
+                nullable: true
+                description: Total refund fees in cents.
+                example: 400
+              processorRefundId:
+                type: string
+                description: Processor refund identifier.
+                example: re_123456789
+              depositId:
+                type: string
+                nullable: true
+                description: Deposit id associated with the refund, when available.
+                example: 8810f34fd5061afeec3eab69
+              createdAt:
+                type: string
+                format: date-time
+                description: Date the refund was created.
+                example: '2026-05-19T00:00:00.000Z'
+              updatedAt:
+                type: string
+                format: date-time
+                description: Date the refund was last updated.
+                example: '2026-05-20T00:00:00.000Z'
+            required:
+            - id
+            - contributionId
+            - status
+            - reason
+            - amountInCents
+            - netValueInCents
+            - feeValueInCents
+            - processorRefundId
+            - depositId
+            - createdAt
+            - updatedAt
+          description: List of refunds.
+        totalCount:
+          type: number
+          description: Total number of refunds matching the filters.
+          example: 100
+      required:
+      - data
+      - totalCount
+    GetRefundResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Refund id.
+              example: 8810f34fd5061afeec3eab67
+            contributionId:
+              type: string
+              description: Contribution id associated with the refund.
+              example: 8810f34fd5061afeec3eab68
+            status:
+              type: string
+              enum:
+              - CANCELED
+              - FAILED
+              - PENDING
+              - REQUIRES_ACTION
+              - SUCCEEDED
+              description: Refund status.
+              example: SUCCEEDED
+            reason:
+              type: string
+              enum:
+              - DUPLICATE
+              - EXPIRED_OR_UNCAPTURED_CHARGE
+              - FRAUDULENT
+              - REQUESTED_BY_CUSTOMER
+              nullable: true
+              description: Refund reason when provided by the processor.
+              example: REQUESTED_BY_CUSTOMER
+            amountInCents:
+              type: number
+              description: Gross refund amount in cents.
+              example: 12500
+            netValueInCents:
+              type: number
+              description: Net refund amount in cents.
+              example: 12100
+            feeValueInCents:
+              type: number
+              nullable: true
+              description: Total refund fees in cents.
+              example: 400
+            processorRefundId:
+              type: string
+              description: Processor refund identifier.
+              example: re_123456789
+            depositId:
+              type: string
+              nullable: true
+              description: Deposit id associated with the refund, when available.
+              example: 8810f34fd5061afeec3eab69
+            createdAt:
+              type: string
+              format: date-time
+              description: Date the refund was created.
+              example: '2026-05-19T00:00:00.000Z'
+            updatedAt:
+              type: string
+              format: date-time
+              description: Date the refund was last updated.
+              example: '2026-05-20T00:00:00.000Z'
+          required:
+          - id
+          - contributionId
+          - status
+          - reason
+          - amountInCents
+          - netValueInCents
+          - feeValueInCents
+          - processorRefundId
+          - depositId
+          - createdAt
+          - updatedAt
+          description: Refund.
+      required:
+      - data
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: API Key for API authentication
+    ClientId:
+      type: apiKey
+      in: header
+      name: x-client-id
+      description: Client ID for API authentication

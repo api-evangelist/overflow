@@ -1,0 +1,49 @@
+openapi: 3.0.0
+info:
+  title: Overflow Open Campaigns Status API
+  description: '
+
+    The documentation for the Overflow Open APIs.
+
+
+    To access the OpenAPI spec in JSON/YAML format, navigate to:
+
+
+    * `/api/docs/openapi.json`
+
+    * `/api/docs/openapi.yaml`
+
+    '
+  version: '3.0'
+  contact: {}
+servers:
+- url: https://server.stage.overflow.co
+  description: API server
+tags:
+- name: Status
+paths:
+  /api/v3/health:
+    get:
+      description: Returns the health of the server.
+      operationId: OpenApiController_health
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - {}
+      summary: Health
+      tags:
+      - Status
+components:
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: API Key for API authentication
+    ClientId:
+      type: apiKey
+      in: header
+      name: x-client-id
+      description: Client ID for API authentication

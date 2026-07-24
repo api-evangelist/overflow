@@ -1,0 +1,427 @@
+openapi: 3.0.0
+info:
+  title: Overflow Open Campaigns API
+  description: '
+
+    The documentation for the Overflow Open APIs.
+
+
+    To access the OpenAPI spec in JSON/YAML format, navigate to:
+
+
+    * `/api/docs/openapi.json`
+
+    * `/api/docs/openapi.yaml`
+
+    '
+  version: '3.0'
+  contact: {}
+servers:
+- url: https://server.stage.overflow.co
+  description: API server
+tags:
+- name: Campaigns
+paths:
+  /api/v3/campaigns:
+    get:
+      description: Returns campaigns for a nonprofit based on the provided filters.
+      operationId: OpenApiCampaignsController_getCampaigns
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: The number of campaigns to return.
+        schema:
+          minimum: 1
+          maximum: 100
+          default: 25
+          type: number
+      - name: page
+        required: false
+        in: query
+        description: The page number of the campaigns to return.
+        schema:
+          minimum: 1
+          default: 1
+          type: number
+      - name: includeArchived
+        required: false
+        in: query
+        description: Whether to include campaigns that have been archived.
+        schema:
+          type: boolean
+      - name: sortBy
+        required: false
+        in: query
+        description: The field to sort the campaigns by.
+        schema:
+          default: startDate
+          example: startDate
+          enum:
+          - endDate
+          - name
+          - startDate
+          - displayOrder
+          - totalContributionCount
+          - totalContributionValue
+          - uniqueDonorCount
+          type: string
+      - name: sortDirection
+        required: false
+        in: query
+        description: The direction to sort the campaigns by.
+        schema:
+          default: DESC
+          example: DESC
+          enum:
+          - ASC
+          - DESC
+          type: string
+      - name: isSubcampaign
+        required: false
+        in: query
+        description: Whether to return subcampaigns or campaigns. If true, returns subcampaigns, otherwise returns campaigns
+        schema:
+          default: 'false'
+          example: false
+          enum:
+          - 'true'
+          - 'false'
+          type: string
+      - name: parentCampaignId
+        required: false
+        in: query
+        description: The id of the parent campaign to return subcampaigns for.
+        schema:
+          type: string
+      - name: excludeInactive
+        required: false
+        in: query
+        description: Whether to exclude campaigns that have ended.
+        schema:
+          type: boolean
+      - name: search
+        required: false
+        in: query
+        description: Search by campaign name.
+        schema:
+          example: Summer Camp
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCampaignsResponse'
+      security:
+      - ClientId: []
+        ApiKey: []
+      summary: Get Campaigns
+      tags:
+      - Campaigns
+  /api/v3/campaigns/{campaignId}:
+    get:
+      description: Returns campaign/subcampaign for given ID.
+      operationId: OpenApiCampaignsController_getCampaignById
+      parameters:
+      - name: campaignId
+        required: true
+        in: path
+        description: The Id of the campaign/subcampaign to get.
+        schema:
+          example: 2ea1ae03ca521e437db76d76
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCampaignByIdResponse'
+        '404':
+          description: Campaign not found.
+      security:
+      - ClientId: []
+        ApiKey: []
+      summary: Get Campaign/Subcampaign
+      tags:
+      - Campaigns
+components:
+  schemas:
+    GetCampaignByIdResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Campaign Id
+              example: 7710f34fd5061afeec3eab59
+            archivedAt:
+              type: string
+              format: date-time
+              nullable: true
+              description: Campaign archived at
+              example: '2025-01-01T00:00:00.000Z'
+            createdAt:
+              type: string
+              format: date-time
+              description: Campaign created at
+              example: '2025-01-01T00:00:00.000Z'
+            updatedAt:
+              type: string
+              format: date-time
+              description: Campaign updated at
+              example: '2025-01-01T00:00:00.000Z'
+            name:
+              type: string
+              description: Campaign name
+              example: Builders Fundraiser
+            isSubcampaign:
+              default: false
+              type: boolean
+              description: Whether the campaign is a subcampaign
+            startDate:
+              type: string
+              format: date-time
+              description: Campaign start date
+              example: '2025-01-01T00:00:00.000Z'
+            endDate:
+              type: string
+              format: date-time
+              nullable: true
+              description: Campaign end date
+              example: '2025-12-01T00:00:00.000Z'
+            status:
+              type: string
+              enum:
+              - ACTIVE
+              - ARCHIVED
+              - EXPIRED
+              - UPCOMING
+              description: Campaign status
+              example: ACTIVE
+            displayOrder:
+              type: number
+              nullable: true
+              description: Campaign display order
+              example: 1
+            hideFromDonors:
+              default: false
+              type: boolean
+              description: Whether the campaign is hidden from donors.
+            isActive:
+              default: false
+              type: boolean
+              description: Whether the campaign is actively receiving donations.
+            locationIds:
+              type: array
+              items:
+                type: string
+              description: The list of locationIds this campaign is attached to. Empty array means all locations.
+            parentCampaigns:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                required:
+                - id
+                - name
+              description: List of parent campaigns if the campaign is a subcampaign
+            subcampaigns:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                required:
+                - id
+                - name
+              description: List of subcampaigns if the campaign is a parent campaign
+            applyToAllCampaigns:
+              type: boolean
+              description: Whether the subcampaign is applied to all campaigns
+            totalContributionCount:
+              default: 0
+              type: number
+              description: Total number of contributions towards this campaign
+              example: 100
+            totalContributionValue:
+              default: 0
+              type: number
+              description: Total value of contributions towards this campaign
+              example: 1000
+            uniqueDonorCount:
+              default: 0
+              type: number
+              description: Total number of unique donors who have donated to this campaign
+              example: 100
+          required:
+          - id
+          - archivedAt
+          - createdAt
+          - updatedAt
+          - name
+          - startDate
+          - endDate
+          - status
+          - displayOrder
+          description: Campaign for the given id.
+      required:
+      - data
+    GetCampaignsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Campaign Id
+                example: 7710f34fd5061afeec3eab59
+              archivedAt:
+                type: string
+                format: date-time
+                nullable: true
+                description: Campaign archived at
+                example: '2025-01-01T00:00:00.000Z'
+              createdAt:
+                type: string
+                format: date-time
+                description: Campaign created at
+                example: '2025-01-01T00:00:00.000Z'
+              updatedAt:
+                type: string
+                format: date-time
+                description: Campaign updated at
+                example: '2025-01-01T00:00:00.000Z'
+              name:
+                type: string
+                description: Campaign name
+                example: Builders Fundraiser
+              isSubcampaign:
+                default: false
+                type: boolean
+                description: Whether the campaign is a subcampaign
+              startDate:
+                type: string
+                format: date-time
+                description: Campaign start date
+                example: '2025-01-01T00:00:00.000Z'
+              endDate:
+                type: string
+                format: date-time
+                nullable: true
+                description: Campaign end date
+                example: '2025-12-01T00:00:00.000Z'
+              status:
+                type: string
+                enum:
+                - ACTIVE
+                - ARCHIVED
+                - EXPIRED
+                - UPCOMING
+                description: Campaign status
+                example: ACTIVE
+              displayOrder:
+                type: number
+                nullable: true
+                description: Campaign display order
+                example: 1
+              hideFromDonors:
+                default: false
+                type: boolean
+                description: Whether the campaign is hidden from donors.
+              isActive:
+                default: false
+                type: boolean
+                description: Whether the campaign is actively receiving donations.
+              locationIds:
+                type: array
+                items:
+                  type: string
+                description: The list of locationIds this campaign is attached to. Empty array means all locations.
+              parentCampaigns:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                  required:
+                  - id
+                  - name
+                description: List of parent campaigns if the campaign is a subcampaign
+              subcampaigns:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                  required:
+                  - id
+                  - name
+                description: List of subcampaigns if the campaign is a parent campaign
+              applyToAllCampaigns:
+                type: boolean
+                description: Whether the subcampaign is applied to all campaigns
+              totalContributionCount:
+                default: 0
+                type: number
+                description: Total number of contributions towards this campaign
+                example: 100
+              totalContributionValue:
+                default: 0
+                type: number
+                description: Total value of contributions towards this campaign
+                example: 1000
+              uniqueDonorCount:
+                default: 0
+                type: number
+                description: Total number of unique donors who have donated to this campaign
+                example: 100
+            required:
+            - id
+            - archivedAt
+            - createdAt
+            - updatedAt
+            - name
+            - startDate
+            - endDate
+            - status
+            - displayOrder
+          description: List of campaigns.
+        totalCount:
+          type: number
+          description: Total number of campaigns matching the filters.
+          example: 100
+      required:
+      - data
+      - totalCount
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: API Key for API authentication
+    ClientId:
+      type: apiKey
+      in: header
+      name: x-client-id
+      description: Client ID for API authentication

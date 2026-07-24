@@ -1,0 +1,657 @@
+openapi: 3.0.0
+info:
+  title: Overflow Open Campaigns Deposits API
+  description: '
+
+    The documentation for the Overflow Open APIs.
+
+
+    To access the OpenAPI spec in JSON/YAML format, navigate to:
+
+
+    * `/api/docs/openapi.json`
+
+    * `/api/docs/openapi.yaml`
+
+    '
+  version: '3.0'
+  contact: {}
+servers:
+- url: https://server.stage.overflow.co
+  description: API server
+tags:
+- name: Deposits
+paths:
+  /api/v3/deposits:
+    get:
+      description: '
+
+        Returns deposits for the nonprofit based on the provided filters. A deposit is a settlement from Overflow to the nonprofit''s bank account.
+
+
+        ---
+
+
+        ### Deposit Status
+
+
+        * `PENDING`: The deposit is awaiting processing.
+
+        * `IN_TRANSIT`: The deposit has been initiated and is in transit to the bank.
+
+        * `PAID`: The deposit has arrived in the bank account.
+
+        * `FAILED`: The deposit failed to be processed.
+
+        * `CANCELED`: The deposit was canceled before processing.
+
+
+        ---
+
+
+        ### Deposit Types
+
+
+        * `AUTOMATED`: A scheduled payout initiated by Overflow.
+
+        * `MANUAL`: A payout initiated manually.
+
+        * `IMPORT`: An imported historical payout.
+
+
+        ---
+
+
+        ### Filtering
+
+
+        * Use `startDate` and `endDate` to filter by the deposit''s arrival date.
+
+        * Use `minimumEstimatedValueInCents` and `maximumEstimatedValueInCents` to filter by net amount (values are in cents).
+
+        * Use `reconciled` to filter by reconciliation status.
+
+
+        All monetary amounts in the response are expressed in cents.
+
+        '
+      operationId: OpenApiDepositsController_getDeposits
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: The number of deposits to return.
+        schema:
+          minimum: 1
+          maximum: 100
+          default: 25
+          type: number
+      - name: page
+        required: false
+        in: query
+        description: The page number of the deposits to return.
+        schema:
+          minimum: 1
+          default: 1
+          type: number
+      - name: createdAt
+        required: false
+        in: query
+        description: Filter deposits created on this date.
+        schema:
+          format: date-time
+          example: '2026-01-15'
+          type: string
+      - name: startDate
+        required: false
+        in: query
+        description: Filter deposits whose arrival date is on or after this date.
+        schema:
+          format: date-time
+          example: '2026-01-01'
+          type: string
+      - name: endDate
+        required: false
+        in: query
+        description: Filter deposits whose arrival date is on or before this date.
+        schema:
+          format: date-time
+          example: '2026-02-01'
+          type: string
+      - name: ids
+        required: false
+        in: query
+        description: Filter by deposit ids.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: sortBy
+        required: false
+        in: query
+        description: Field to sort deposits by. Defaults to arrival date.
+        schema:
+          type: string
+      - name: sortDirection
+        required: false
+        in: query
+        description: Sort direction. Defaults to descending.
+        schema:
+          enum:
+          - ASC
+          - DESC
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: Free-text search across deposit fields.
+        schema:
+          type: string
+      - name: reconciled
+        required: false
+        in: query
+        description: Filter by reconciliation status.
+        schema:
+          type: boolean
+      - name: minimumEstimatedValueInCents
+        required: false
+        in: query
+        description: Filter deposits with net amount greater than or equal to this value, in cents.
+        schema:
+          oneOf:
+          - type: string
+          - type: number
+      - name: maximumEstimatedValueInCents
+        required: false
+        in: query
+        description: Filter deposits with net amount less than or equal to this value, in cents.
+        schema:
+          oneOf:
+          - type: string
+          - type: number
+      - name: paymentMethod
+        required: false
+        in: query
+        description: Filter by payment method types.
+        schema:
+          example:
+          - card
+          - ach
+          type: array
+          items:
+            type: string
+      - name: types
+        required: false
+        in: query
+        description: Filter by deposit types.
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetDepositsResponse'
+      security:
+      - ClientId: []
+        ApiKey: []
+      summary: Get Deposits
+      tags:
+      - Deposits
+  /api/v3/deposits/{depositId}:
+    get:
+      description: Returns a single deposit by its id for the authenticated nonprofit, including its line-item breakdown. All monetary amounts are expressed in cents.
+      operationId: OpenApiDepositsController_getDepositById
+      parameters:
+      - name: depositId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetDepositResponse'
+        '404':
+          description: Deposit not found
+      security:
+      - ClientId: []
+        ApiKey: []
+      summary: Get Deposit
+      tags:
+      - Deposits
+  /api/v3/deposits/{depositId}/summary:
+    get:
+      description: Returns aggregated totals (contributions, refunds, chargebacks, adjustments) for the deposit. All monetary amounts are expressed in cents.
+      operationId: OpenApiDepositsController_getDepositSummary
+      parameters:
+      - name: depositId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetDepositSummaryResponse'
+        '404':
+          description: Deposit not found
+      security:
+      - ClientId: []
+        ApiKey: []
+      summary: Get Deposit Summary
+      tags:
+      - Deposits
+components:
+  schemas:
+    GetDepositResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Deposit id.
+              example: 8810f34fd5061afeec3eab67
+            status:
+              type: string
+              enum:
+              - CANCELED
+              - FAILED
+              - IN_TRANSIT
+              - PAID
+              - PENDING
+              description: Deposit status.
+              example: PAID
+            type:
+              type: string
+              enum:
+              - AUTOMATED
+              - IMPORT
+              - MANUAL
+              description: Deposit type.
+              example: AUTOMATED
+            amountInCents:
+              type: number
+              description: Net amount of the deposit, in cents.
+              example: 125000
+            arrivalAt:
+              type: string
+              format: date-time
+              description: Date the deposit is expected to or did arrive in the bank.
+              example: '2026-05-20T00:00:00.000Z'
+            startingBalanceInCents:
+              type: number
+              nullable: true
+              description: Starting balance of the account at the time of payout, in cents.
+              example: 0
+            endingBalanceInCents:
+              type: number
+              nullable: true
+              description: Ending balance of the account after the payout, in cents.
+              example: 125000
+            bankName:
+              type: string
+              nullable: true
+              description: Name of the bank where the funds were deposited.
+              example: Chase
+            bankLast4:
+              type: string
+              nullable: true
+              description: Last 4 digits of the bank or account number where the funds were deposited.
+              example: '1234'
+            statementDescriptor:
+              type: string
+              nullable: true
+              description: Information about the payout that displays on the recipient bank statement.
+              example: OVERFLOW PAYOUT
+            paymentMethodType:
+              type: array
+              items:
+                type: string
+              description: Payment method types included in this deposit.
+              example:
+              - card
+              - ach
+            name:
+              type: string
+              nullable: true
+              description: Display name used to visually group contributions in this payout.
+              example: May payout
+            reconciledAt:
+              type: string
+              format: date-time
+              nullable: true
+              description: Date the deposit was marked as reconciled. Null if not yet reconciled.
+              example: null
+            createdAt:
+              type: string
+              format: date-time
+              description: Date the deposit was created.
+              example: '2026-05-19T00:00:00.000Z'
+            updatedAt:
+              type: string
+              format: date-time
+              description: Date the deposit was last updated.
+              example: '2026-05-20T00:00:00.000Z'
+            lineItems:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum:
+                    - adjustment
+                    - chargeback
+                    - payment
+                    - transfer
+                    - refund
+                    description: Type of line item.
+                    example: payment
+                  grossValueInCents:
+                    type: number
+                    description: Gross value of the line item, in cents.
+                    example: 5000
+                  grossFeeValueInCents:
+                    type: number
+                    description: Gross fee value associated with this line item, in cents.
+                    example: 145
+                  referenceId:
+                    type: string
+                    description: Reference identifier for the line item (e.g. the contribution id).
+                    example: 6710f34fd5061afeec3eab57
+                  description:
+                    type: string
+                    description: Human-readable description of the line item.
+                    example: Contribution from John D.
+                required:
+                - type
+                - grossValueInCents
+              description: Detailed breakdown of the deposit. Returned only on the get-by-id endpoint.
+          required:
+          - id
+          - status
+          - type
+          - amountInCents
+          - arrivalAt
+          - startingBalanceInCents
+          - endingBalanceInCents
+          - bankName
+          - bankLast4
+          - statementDescriptor
+          - paymentMethodType
+          - name
+          - reconciledAt
+          - createdAt
+          - updatedAt
+          description: Deposit.
+      required:
+      - data
+    GetDepositsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Deposit id.
+                example: 8810f34fd5061afeec3eab67
+              status:
+                type: string
+                enum:
+                - CANCELED
+                - FAILED
+                - IN_TRANSIT
+                - PAID
+                - PENDING
+                description: Deposit status.
+                example: PAID
+              type:
+                type: string
+                enum:
+                - AUTOMATED
+                - IMPORT
+                - MANUAL
+                description: Deposit type.
+                example: AUTOMATED
+              amountInCents:
+                type: number
+                description: Net amount of the deposit, in cents.
+                example: 125000
+              arrivalAt:
+                type: string
+                format: date-time
+                description: Date the deposit is expected to or did arrive in the bank.
+                example: '2026-05-20T00:00:00.000Z'
+              startingBalanceInCents:
+                type: number
+                nullable: true
+                description: Starting balance of the account at the time of payout, in cents.
+                example: 0
+              endingBalanceInCents:
+                type: number
+                nullable: true
+                description: Ending balance of the account after the payout, in cents.
+                example: 125000
+              bankName:
+                type: string
+                nullable: true
+                description: Name of the bank where the funds were deposited.
+                example: Chase
+              bankLast4:
+                type: string
+                nullable: true
+                description: Last 4 digits of the bank or account number where the funds were deposited.
+                example: '1234'
+              statementDescriptor:
+                type: string
+                nullable: true
+                description: Information about the payout that displays on the recipient bank statement.
+                example: OVERFLOW PAYOUT
+              paymentMethodType:
+                type: array
+                items:
+                  type: string
+                description: Payment method types included in this deposit.
+                example:
+                - card
+                - ach
+              name:
+                type: string
+                nullable: true
+                description: Display name used to visually group contributions in this payout.
+                example: May payout
+              reconciledAt:
+                type: string
+                format: date-time
+                nullable: true
+                description: Date the deposit was marked as reconciled. Null if not yet reconciled.
+                example: null
+              createdAt:
+                type: string
+                format: date-time
+                description: Date the deposit was created.
+                example: '2026-05-19T00:00:00.000Z'
+              updatedAt:
+                type: string
+                format: date-time
+                description: Date the deposit was last updated.
+                example: '2026-05-20T00:00:00.000Z'
+              lineItems:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - adjustment
+                      - chargeback
+                      - payment
+                      - transfer
+                      - refund
+                      description: Type of line item.
+                      example: payment
+                    grossValueInCents:
+                      type: number
+                      description: Gross value of the line item, in cents.
+                      example: 5000
+                    grossFeeValueInCents:
+                      type: number
+                      description: Gross fee value associated with this line item, in cents.
+                      example: 145
+                    referenceId:
+                      type: string
+                      description: Reference identifier for the line item (e.g. the contribution id).
+                      example: 6710f34fd5061afeec3eab57
+                    description:
+                      type: string
+                      description: Human-readable description of the line item.
+                      example: Contribution from John D.
+                  required:
+                  - type
+                  - grossValueInCents
+                description: Detailed breakdown of the deposit. Returned only on the get-by-id endpoint.
+            required:
+            - id
+            - status
+            - type
+            - amountInCents
+            - arrivalAt
+            - startingBalanceInCents
+            - endingBalanceInCents
+            - bankName
+            - bankLast4
+            - statementDescriptor
+            - paymentMethodType
+            - name
+            - reconciledAt
+            - createdAt
+            - updatedAt
+          description: List of deposits.
+        totalCount:
+          type: number
+          description: Total number of deposits matching the filters.
+          example: 100
+      required:
+      - data
+      - totalCount
+    GetDepositSummaryResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            contributions:
+              type: object
+              properties:
+                count:
+                  type: number
+                  description: Number of items in this bucket.
+                  example: 42
+                feesInCents:
+                  type: number
+                  description: Total fees for this bucket, in cents.
+                  example: 1450
+                grossInCents:
+                  type: number
+                  description: Total gross value for this bucket, in cents.
+                  example: 50000
+                totalInCents:
+                  type: number
+                  description: Total net value for this bucket (gross minus fees), in cents.
+                  example: 48550
+              description: Totals for contributions included in this deposit.
+            refunds:
+              type: object
+              properties:
+                count:
+                  type: number
+                  description: Number of items in this bucket.
+                  example: 42
+                feesInCents:
+                  type: number
+                  description: Total fees for this bucket, in cents.
+                  example: 1450
+                grossInCents:
+                  type: number
+                  description: Total gross value for this bucket, in cents.
+                  example: 50000
+                totalInCents:
+                  type: number
+                  description: Total net value for this bucket (gross minus fees), in cents.
+                  example: 48550
+              description: Totals for refunds included in this deposit.
+            chargebacks:
+              type: object
+              properties:
+                count:
+                  type: number
+                  description: Number of items in this bucket.
+                  example: 42
+                feesInCents:
+                  type: number
+                  description: Total fees for this bucket, in cents.
+                  example: 1450
+                grossInCents:
+                  type: number
+                  description: Total gross value for this bucket, in cents.
+                  example: 50000
+                totalInCents:
+                  type: number
+                  description: Total net value for this bucket (gross minus fees), in cents.
+                  example: 48550
+              description: Totals for chargebacks included in this deposit.
+            adjustments:
+              type: object
+              properties:
+                count:
+                  type: number
+                  description: Number of items in this bucket.
+                  example: 42
+                feesInCents:
+                  type: number
+                  description: Total fees for this bucket, in cents.
+                  example: 1450
+                grossInCents:
+                  type: number
+                  description: Total gross value for this bucket, in cents.
+                  example: 50000
+                totalInCents:
+                  type: number
+                  description: Total net value for this bucket (gross minus fees), in cents.
+                  example: 48550
+              description: Totals for adjustments included in this deposit.
+          required:
+          - contributions
+          - refunds
+          - chargebacks
+          - adjustments
+          description: Aggregated contribution, refund, chargeback, and adjustment totals for the deposit.
+      required:
+      - data
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: API Key for API authentication
+    ClientId:
+      type: apiKey
+      in: header
+      name: x-client-id
+      description: Client ID for API authentication

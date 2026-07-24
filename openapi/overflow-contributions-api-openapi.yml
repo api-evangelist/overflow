@@ -1,0 +1,1780 @@
+openapi: 3.0.0
+info:
+  title: Overflow Open Campaigns Contributions API
+  description: '
+
+    The documentation for the Overflow Open APIs.
+
+
+    To access the OpenAPI spec in JSON/YAML format, navigate to:
+
+
+    * `/api/docs/openapi.json`
+
+    * `/api/docs/openapi.yaml`
+
+    '
+  version: '3.0'
+  contact: {}
+servers:
+- url: https://server.stage.overflow.co
+  description: API server
+tags:
+- name: Contributions
+paths:
+  /api/v3/contributions:
+    get:
+      description: "\nReturns contributions for the nonprofit based on the provided filters. \n\n### Contribution Types\nThere are 5 types of contributions representing the different asset types Overflow supports: **Cash**, **Crypto**, **DAF**, **Stock**, and **Manual** contributions. They can be differentiated by the discriminator key `type` in the response.\n\n---\n\n### Final Confirmation States\nA contribution is considered successful or confirmed when it reaches the following status:\n* **CASH**: `PAID_OUT`\n* **MANUAL_CASH**: `CONFIRMED`\n* **CRYPTO**: `CONFIRMED`\n* **STOCK**: `CONTRIBUTION_RECEIVED` or `BILLED`\n* **DAF**: `CONTRIBUTION_RECEIVED`\n\n---\n\n### Status Definitions by Asset Type\n\n**Cash**\n* `PENDING`: Awaiting authorization by the payment gateway.\n* `PROCESSING`: Contribution is being processed. This status only applies to ACH/Bank payments.\n* `CONFIRMED`: Contribution has been authorized by the payment gateway.\n* `PAID_OUT`: Contribution has been settled and paid out to the NPO.\n* `FAILED`: Something went wrong and the contribution was never received.\n* `VOIDED`: Contribution was voided such that it never confirmed.\n* `REFUNDED`: Contribution was refunded, typically at the request of the donor.\n* `CHARGEBACK`: Disputed by the donor or rejected by the bank.\n\n**Manual Cash**\n* `PENDING`: Awaiting confirmation from the NPO (currently in an open gift entry batch).\n* `CONFIRMED`: Confirmed by the NPO (gift entry batch has been closed).\n* `VOIDED`: Contribution was voided from a gift entry batch.\n\n**Crypto**\n* `PENDING`: Initiated by a donor but not yet sent via their wallet.\n* `CONFIRMED`: The crypto gift has been received by the NPO.\n* `PAYOUT_SENT`: The crypto gift net-funds were processed by our team.\n* `PAID_OUT`: The crypto gift has been settled and paid out to the NPO.\n\n**DAF (Donor Advised Funds)**\n* `INITIATED`: The DAF gift has been initiated but not yet captured.\n* `IN_PROCESS`: The DAF gift has been captured and is being sent to the NPO.\n* `CONTRIBUTION_RECEIVED`: The DAF gift has been received by the NPO.\n* `PAYOUT_SENT`: The DAF gift net-funds were processed by our team.\n* `PAID_OUT`: The DAF gift has been settled and paid out to the NPO.\n* `FAILED`: The DAF gift has failed to be captured or initiated.\n* `CANCELED` / `ABANDONED`: The DAF gift has been canceled or abandoned.\n\n**Stock**\n* `VERIFYING_INFORMATION`: Gathering transaction information from the donor.\n* `INITIATED`: Donor intent to give received through the platform.\n* `IN_PROCESS`: Forms sent to the sending brokerage and being processed.\n* `DONOR_BROKERAGE_SENT_SHARES`: Donor has seen shares leave their account.\n* `RECEIVED_FOR_LIQUIDATION`: Shares received by Overflow’s brokerage.\n* `LIQUIDATION_INITIATED` / `LIQUIDATION_COMPLETE`: Selling shares to lock in value.\n* `CONTRIBUTION_RECEIVED`: NPO has received the shares or liquidation cash.\n* `BILLED`: Successfully billed the client for this contribution.\n* `COMPLETED`: Client has paid the bill; gift lifecycle complete.\n* `PAYOUT_SENT` / `PAID_OUT`: Proceeds transferred and settled to the NPO.\n* `TROUBLESHOOTING` / `DONOR_UNRESPONSIVE`: Delays or loss of contact with donor.\n* `CANCELED`: Transaction never fully processed or was canceled.\n"
+      operationId: OpenApiContributionsController_getContributions
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: The number of contributions to return.
+        schema:
+          minimum: 1
+          maximum: 100
+          default: 25
+          type: number
+      - name: page
+        required: false
+        in: query
+        description: The page number of the contributions to return.
+        schema:
+          minimum: 1
+          default: 1
+          type: number
+      - name: minimumUpdatedDate
+        required: false
+        in: query
+        description: The minimum updated date of the contributions to return.
+        schema:
+          format: date-time
+          example: '2025-01-01'
+          type: string
+      - name: maximumUpdatedDate
+        required: false
+        in: query
+        description: The maximum updated date of the contributions to return.
+        schema:
+          format: date-time
+          example: '2025-02-01'
+          type: string
+      - name: minimumInitiatedDate
+        required: false
+        in: query
+        description: The minimum date the contributions were initiated to return.
+        schema:
+          format: date-time
+          example: '2025-01-01'
+          type: string
+      - name: maximumInitiatedDate
+        required: false
+        in: query
+        description: The maximum date the contributions were initiated to return.
+        schema:
+          format: date-time
+          example: '2025-02-01'
+          type: string
+      - name: statusBucket
+        required: false
+        in: query
+        description: Filter contributions by status buckets.
+        schema:
+          example:
+          - PENDING
+          - CONFIRMED
+          type: array
+          items:
+            type: string
+            enum:
+            - CANCELED
+            - CONFIRMED
+            - PENDING
+            - FAILED
+      - name: campaignId
+        required: false
+        in: query
+        description: Filter by campaign id.
+        schema:
+          type: string
+      - name: subcampaignId
+        required: false
+        in: query
+        description: Filter by subcampaign id.
+        schema:
+          type: string
+      - name: locationIds
+        required: false
+        in: query
+        description: Filter by location ids.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: givingLinkId
+        required: false
+        in: query
+        description: Filter by giving link id.
+        schema:
+          type: string
+      - name: pledgeId
+        required: false
+        in: query
+        description: Filter by pledge id.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetContributionsResponse'
+              examples:
+                Cash:
+                  value:
+                    data:
+                    - id: 6710f34fd5061afeec3eab57
+                      createdAt: '2025-01-01T00:00:00.000Z'
+                      updatedAt: '2025-01-01T00:00:00.000Z'
+                      amount: 5000
+                      donorCoveredFees: false
+                      contributionDate: '2025-01-01T00:00:00.000Z'
+                      contributionReceivedAt: '2025-01-01T00:00:00.000Z'
+                      depositId: 8810f34fd5061afeec3eab67
+                      campaign:
+                        id: 7710f34fd5061afeec3eab78
+                        name: Mission 2025
+                      subcampaign: null
+                      dedication: null
+                      donorNotes: null
+                      anonymous: false
+                      locationId: 6710f34fd5061afeec3eab58
+                      donor:
+                        id: 6710f34fd5061afeec3eab50
+                        firstName: Jane
+                        lastName: Doe
+                        email: jane.doe@example.com
+                      givingLinkId: null
+                      pledgeId: null
+                      metadata: null
+                      type: CASH
+                      status: PAID_OUT
+                      frequency: ONE_TIME
+                      liquidationInitiatedAt: null
+                      receivedTokensAt: null
+                      stocks: null
+                      crypto: null
+                      paymentMethod:
+                        type: card
+                        last4: '4242'
+                        logoUrl: null
+                    totalCount: 1
+                Stock:
+                  value:
+                    data:
+                    - id: 6710f34fd5061afeec3eab57
+                      createdAt: '2025-01-01T00:00:00.000Z'
+                      updatedAt: '2025-01-01T00:00:00.000Z'
+                      amount: 5000
+                      donorCoveredFees: false
+                      contributionDate: '2025-01-01T00:00:00.000Z'
+                      contributionReceivedAt: '2025-01-01T00:00:00.000Z'
+                      depositId: 8810f34fd5061afeec3eab67
+                      campaign:
+                        id: 7710f34fd5061afeec3eab78
+                        name: Mission 2025
+                      subcampaign: null
+                      dedication: null
+                      donorNotes: null
+                      anonymous: false
+                      locationId: 6710f34fd5061afeec3eab58
+                      donor:
+                        id: 6710f34fd5061afeec3eab50
+                        firstName: Jane
+                        lastName: Doe
+                        email: jane.doe@example.com
+                      givingLinkId: null
+                      pledgeId: null
+                      metadata: null
+                      type: STOCK
+                      status: BILLED
+                      frequency: ONE_TIME
+                      liquidationInitiatedAt: '2025-01-01T00:00:00.000Z'
+                      receivedTokensAt: null
+                      stocks:
+                        quantity: 2
+                        tickers:
+                        - AAPL
+                        - MSFT
+                      crypto: null
+                      paymentMethod: null
+                    totalCount: 1
+                Crypto:
+                  value:
+                    data:
+                    - id: 6710f34fd5061afeec3eab57
+                      createdAt: '2025-01-01T00:00:00.000Z'
+                      updatedAt: '2025-01-01T00:00:00.000Z'
+                      amount: 5000
+                      donorCoveredFees: false
+                      contributionDate: '2025-01-01T00:00:00.000Z'
+                      contributionReceivedAt: '2025-01-01T00:00:00.000Z'
+                      depositId: 8810f34fd5061afeec3eab67
+                      campaign:
+                        id: 7710f34fd5061afeec3eab78
+                        name: Mission 2025
+                      subcampaign: null
+                      dedication: null
+                      donorNotes: null
+                      anonymous: false
+                      locationId: 6710f34fd5061afeec3eab58
+                      donor:
+                        id: 6710f34fd5061afeec3eab50
+                        firstName: Jane
+                        lastName: Doe
+                        email: jane.doe@example.com
+                      givingLinkId: null
+                      pledgeId: null
+                      metadata: null
+                      type: CRYPTO
+                      status: PAID_OUT
+                      frequency: ONE_TIME
+                      liquidationInitiatedAt: null
+                      receivedTokensAt: '2025-01-01T00:00:00.000Z'
+                      stocks: null
+                      crypto:
+                        quantity: 0.05
+                        token: BTC
+                      paymentMethod: null
+                    totalCount: 1
+                DAF:
+                  value:
+                    data:
+                    - id: 6710f34fd5061afeec3eab57
+                      createdAt: '2025-01-01T00:00:00.000Z'
+                      updatedAt: '2025-01-01T00:00:00.000Z'
+                      amount: 5000
+                      donorCoveredFees: false
+                      contributionDate: '2025-01-01T00:00:00.000Z'
+                      contributionReceivedAt: '2025-01-01T00:00:00.000Z'
+                      depositId: 8810f34fd5061afeec3eab67
+                      campaign:
+                        id: 7710f34fd5061afeec3eab78
+                        name: Mission 2025
+                      subcampaign: null
+                      dedication: null
+                      donorNotes: null
+                      anonymous: false
+                      locationId: 6710f34fd5061afeec3eab58
+                      donor:
+                        id: 6710f34fd5061afeec3eab50
+                        firstName: Jane
+                        lastName: Doe
+                        email: jane.doe@example.com
+                      givingLinkId: null
+                      pledgeId: null
+                      metadata: null
+                      type: DAF
+                      status: CONTRIBUTION_RECEIVED
+                      frequency: ONE_TIME
+                      liquidationInitiatedAt: null
+                      receivedTokensAt: null
+                      stocks: null
+                      crypto: null
+                      paymentMethod: null
+                    totalCount: 1
+                Manual Cash:
+                  value:
+                    data:
+                    - id: 6710f34fd5061afeec3eab57
+                      createdAt: '2025-01-01T00:00:00.000Z'
+                      updatedAt: '2025-01-01T00:00:00.000Z'
+                      amount: 5000
+                      donorCoveredFees: false
+                      contributionDate: '2025-01-01T00:00:00.000Z'
+                      contributionReceivedAt: '2025-01-01T00:00:00.000Z'
+                      depositId: 8810f34fd5061afeec3eab67
+                      campaign:
+                        id: 7710f34fd5061afeec3eab78
+                        name: Mission 2025
+                      subcampaign: null
+                      dedication: null
+                      donorNotes: null
+                      anonymous: false
+                      locationId: 6710f34fd5061afeec3eab58
+                      donor:
+                        id: 6710f34fd5061afeec3eab50
+                        firstName: Jane
+                        lastName: Doe
+                        email: jane.doe@example.com
+                      givingLinkId: null
+                      pledgeId: null
+                      metadata: null
+                      type: MANUAL_CASH
+                      status: CONFIRMED
+                      frequency: ONE_TIME
+                      liquidationInitiatedAt: null
+                      receivedTokensAt: null
+                      stocks: null
+                      crypto: null
+                      paymentMethod: null
+                    totalCount: 1
+          description: ''
+      security:
+      - ClientId: []
+        ApiKey: []
+      summary: Get Contributions
+      tags:
+      - Contributions
+    post:
+      description: Creates a charge for the given payment method and donor
+      operationId: OpenApiContributionsController_chargeCashPaymentMethod
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChargeCashPaymentMethodParams'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChargeCashPaymentMethodResponse'
+        '400':
+          description: Payment method is expired.
+        '404':
+          description: Nonprofit not found.
+        '500':
+          description: Failed to validate campaign.
+      security:
+      - ClientId: []
+        ApiKey: []
+      summary: Create Contribution
+      tags:
+      - Contributions
+  /api/v3/contributions/{contributionId}:
+    get:
+      description: Returns a single contribution by its id for the authenticated nonprofit. Supports all contribution types.
+      operationId: OpenApiContributionsController_getContributionById
+      parameters:
+      - name: contributionId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetContributionResponse'
+              examples:
+                Cash:
+                  value:
+                    data:
+                      id: 6710f34fd5061afeec3eab57
+                      createdAt: '2025-01-01T00:00:00.000Z'
+                      updatedAt: '2025-01-01T00:00:00.000Z'
+                      amount: 5000
+                      donorCoveredFees: false
+                      contributionDate: '2025-01-01T00:00:00.000Z'
+                      contributionReceivedAt: '2025-01-01T00:00:00.000Z'
+                      depositId: 8810f34fd5061afeec3eab67
+                      campaign:
+                        id: 7710f34fd5061afeec3eab78
+                        name: Mission 2025
+                      subcampaign: null
+                      dedication: null
+                      donorNotes: null
+                      anonymous: false
+                      locationId: 6710f34fd5061afeec3eab58
+                      donor:
+                        id: 6710f34fd5061afeec3eab50
+                        firstName: Jane
+                        lastName: Doe
+                        email: jane.doe@example.com
+                      givingLinkId: null
+                      pledgeId: null
+                      metadata: null
+                      type: CASH
+                      status: PAID_OUT
+                      frequency: ONE_TIME
+                      liquidationInitiatedAt: null
+                      receivedTokensAt: null
+                      stocks: null
+                      crypto: null
+                      paymentMethod:
+                        type: card
+                        last4: '4242'
+                        logoUrl: null
+                Stock:
+                  value:
+                    data:
+                      id: 6710f34fd5061afeec3eab57
+                      createdAt: '2025-01-01T00:00:00.000Z'
+                      updatedAt: '2025-01-01T00:00:00.000Z'
+                      amount: 5000
+                      donorCoveredFees: false
+                      contributionDate: '2025-01-01T00:00:00.000Z'
+                      contributionReceivedAt: '2025-01-01T00:00:00.000Z'
+                      depositId: 8810f34fd5061afeec3eab67
+                      campaign:
+                        id: 7710f34fd5061afeec3eab78
+                        name: Mission 2025
+                      subcampaign: null
+                      dedication: null
+                      donorNotes: null
+                      anonymous: false
+                      locationId: 6710f34fd5061afeec3eab58
+                      donor:
+                        id: 6710f34fd5061afeec3eab50
+                        firstName: Jane
+                        lastName: Doe
+                        email: jane.doe@example.com
+                      givingLinkId: null
+                      pledgeId: null
+                      metadata: null
+                      type: STOCK
+                      status: BILLED
+                      frequency: ONE_TIME
+                      liquidationInitiatedAt: '2025-01-01T00:00:00.000Z'
+                      receivedTokensAt: null
+                      stocks:
+                        quantity: 2
+                        tickers:
+                        - AAPL
+                        - MSFT
+                      crypto: null
+                      paymentMethod: null
+                Crypto:
+                  value:
+                    data:
+                      id: 6710f34fd5061afeec3eab57
+                      createdAt: '2025-01-01T00:00:00.000Z'
+                      updatedAt: '2025-01-01T00:00:00.000Z'
+                      amount: 5000
+                      donorCoveredFees: false
+                      contributionDate: '2025-01-01T00:00:00.000Z'
+                      contributionReceivedAt: '2025-01-01T00:00:00.000Z'
+                      depositId: 8810f34fd5061afeec3eab67
+                      campaign:
+                        id: 7710f34fd5061afeec3eab78
+                        name: Mission 2025
+                      subcampaign: null
+                      dedication: null
+                      donorNotes: null
+                      anonymous: false
+                      locationId: 6710f34fd5061afeec3eab58
+                      donor:
+                        id: 6710f34fd5061afeec3eab50
+                        firstName: Jane
+                        lastName: Doe
+                        email: jane.doe@example.com
+                      givingLinkId: null
+                      pledgeId: null
+                      metadata: null
+                      type: CRYPTO
+                      status: PAID_OUT
+                      frequency: ONE_TIME
+                      liquidationInitiatedAt: null
+                      receivedTokensAt: '2025-01-01T00:00:00.000Z'
+                      stocks: null
+                      crypto:
+                        quantity: 0.05
+                        token: BTC
+                      paymentMethod: null
+                DAF:
+                  value:
+                    data:
+                      id: 6710f34fd5061afeec3eab57
+                      createdAt: '2025-01-01T00:00:00.000Z'
+                      updatedAt: '2025-01-01T00:00:00.000Z'
+                      amount: 5000
+                      donorCoveredFees: false
+                      contributionDate: '2025-01-01T00:00:00.000Z'
+                      contributionReceivedAt: '2025-01-01T00:00:00.000Z'
+                      depositId: 8810f34fd5061afeec3eab67
+                      campaign:
+                        id: 7710f34fd5061afeec3eab78
+                        name: Mission 2025
+                      subcampaign: null
+                      dedication: null
+                      donorNotes: null
+                      anonymous: false
+                      locationId: 6710f34fd5061afeec3eab58
+                      donor:
+                        id: 6710f34fd5061afeec3eab50
+                        firstName: Jane
+                        lastName: Doe
+                        email: jane.doe@example.com
+                      givingLinkId: null
+                      pledgeId: null
+                      metadata: null
+                      type: DAF
+                      status: CONTRIBUTION_RECEIVED
+                      frequency: ONE_TIME
+                      liquidationInitiatedAt: null
+                      receivedTokensAt: null
+                      stocks: null
+                      crypto: null
+                      paymentMethod: null
+                Manual Cash:
+                  value:
+                    data:
+                      id: 6710f34fd5061afeec3eab57
+                      createdAt: '2025-01-01T00:00:00.000Z'
+                      updatedAt: '2025-01-01T00:00:00.000Z'
+                      amount: 5000
+                      donorCoveredFees: false
+                      contributionDate: '2025-01-01T00:00:00.000Z'
+                      contributionReceivedAt: '2025-01-01T00:00:00.000Z'
+                      depositId: 8810f34fd5061afeec3eab67
+                      campaign:
+                        id: 7710f34fd5061afeec3eab78
+                        name: Mission 2025
+                      subcampaign: null
+                      dedication: null
+                      donorNotes: null
+                      anonymous: false
+                      locationId: 6710f34fd5061afeec3eab58
+                      donor:
+                        id: 6710f34fd5061afeec3eab50
+                        firstName: Jane
+                        lastName: Doe
+                        email: jane.doe@example.com
+                      givingLinkId: null
+                      pledgeId: null
+                      metadata: null
+                      type: MANUAL_CASH
+                      status: CONFIRMED
+                      frequency: ONE_TIME
+                      liquidationInitiatedAt: null
+                      receivedTokensAt: null
+                      stocks: null
+                      crypto: null
+                      paymentMethod: null
+          description: ''
+        '404':
+          description: Contribution not found
+      security:
+      - ClientId: []
+        ApiKey: []
+      summary: Get Contribution
+      tags:
+      - Contributions
+  /api/v3/contributions/{contributionId}/initiate-refund:
+    post:
+      description: Initiates a refund for the given contribution. Currently, we only support refunds for contributions less than $1000 over our API. Please contact support otherwise.
+      operationId: OpenApiContributionsController_initiateRefund
+      parameters:
+      - name: contributionId
+        required: true
+        in: path
+        description: The Id of the contribution to refund.
+        schema:
+          example: 2ea1ae03ca521e437db76d76
+          type: string
+      responses:
+        '202':
+          description: The cash contribution was successfully refunded.
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Refunds are not supported for contributions greater than $1000. Please contact support.
+        '401':
+          description: You do not have permission to access this resource.
+        '404':
+          description: The contributtion was not found.
+        '409':
+          description: Refunds not supported for this processing gateway. Please contact support.
+        '422':
+          description: The cash contribution could not be refunded.
+      security:
+      - ClientId: []
+        ApiKey: []
+      summary: Initiate Refund
+      tags:
+      - Contributions
+components:
+  schemas:
+    GetContributionResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Contribution Id
+              example: 6710f34fd5061afeec3eab57
+            createdAt:
+              type: string
+              format: date-time
+              description: Contribution created at
+              example: '2025-01-01T00:00:00.000Z'
+            updatedAt:
+              type: string
+              format: date-time
+              description: Contribution updated at
+              example: '2025-01-01T00:00:00.000Z'
+            type:
+              type: string
+              enum:
+              - CASH
+              - CRYPTO
+              - DAF
+              - MANUAL_CASH
+              - STOCK
+              description: Asset type
+              example: CASH
+            amount:
+              type: number
+              description: Contribution amount
+              example: 1000
+            donorCoveredFees:
+              default: false
+              type: boolean
+              description: Whether the donor covered fees.
+              example: false
+            contributionDate:
+              type: string
+              format: date-time
+              description: Contribution date
+              example: '2025-01-01T00:00:00.000Z'
+            contributionReceivedAt:
+              type: string
+              format: date-time
+              nullable: true
+              description: Contribution received at
+            liquidationInitiatedAt:
+              type: string
+              format: date-time
+              nullable: true
+              description: Liquidation initiated at date for stock contributions
+              example: null
+            receivedTokensAt:
+              type: string
+              format: date-time
+              nullable: true
+              description: Received tokens at date for crypto contributions
+              example: null
+            status:
+              type: string
+              enum:
+              - CHARGEBACK
+              - CONFIRMED
+              - FAILED
+              - PAID_OUT
+              - PENDING
+              - PROCESSING
+              - REFUNDED
+              - VOIDED
+              - PAYOUT_SENT
+              - CONFIRMED
+              - PENDING
+              - PAID_OUT
+              - ABANDONED
+              - CANCELED
+              - CONTRIBUTION_RECEIVED
+              - FAILED
+              - INITIATED
+              - IN_PROCESS
+              - PAYOUT_SENT
+              - PAID_OUT
+              - BILLED
+              - CANCELED
+              - COMPLETED
+              - CONFIRMED
+              - CONTRIBUTION_RECEIVED
+              - DONOR_BROKERAGE_SENT_SHARES
+              - DONOR_UNRESPONSIVE
+              - INITIATED
+              - IN_PROCESS
+              - LIQUIDATION_COMPLETE
+              - LIQUIDATION_INITIATED
+              - PAYOUT_SENT
+              - PAID_OUT
+              - RECEIVED_FOR_LIQUIDATION
+              - TROUBLESHOOTING
+              - VERIFYING_INFORMATION
+              description: Contribution status
+              example: PAID_OUT
+            stocks:
+              type: object
+              properties:
+                quantity:
+                  type: number
+                tickers:
+                  type: array
+                  items:
+                    type: string
+              required:
+              - quantity
+              - tickers
+              nullable: true
+              description: Stock details
+              example:
+                quantity: 2
+                tickers:
+                - AAPL
+                - MSFT
+            crypto:
+              type: object
+              properties:
+                quantity:
+                  type: number
+                token:
+                  type: string
+              required:
+              - quantity
+              - token
+              nullable: true
+              description: Crypto details
+              example:
+                quantity: 1
+                token: BTC
+            subscriptionId:
+              type: string
+              description: Subscription id for contributions related to recurring gifts
+              example: 6710f34fd5061afeec3eab57
+            frequency:
+              type: string
+              enum:
+              - one-time
+              - recurring
+              nullable: true
+              description: Gift frequency
+              example: one-time
+            paymentMethod:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - ACH
+                  - Card
+                  - Check
+                  - Crypto
+                  - Physical Cash
+                  - Stock
+                  - Other
+                  - Apple Pay
+                  - Google Pay
+                  - Cash App
+                  - Paypal
+                  - DAF
+                last4:
+                  type: string
+                logoUrl:
+                  type: string
+              nullable: true
+              description: Contribution payment method information.
+              example:
+                type: Card
+                logoUrl: https://example.com/logo.png
+                last4: '4242'
+            depositId:
+              type: string
+              nullable: true
+              description: Deposit id for the contribution
+              example: 8810f34fd5061afeec3eab67
+            campaign:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+              required:
+              - id
+              - name
+              nullable: true
+              description: Campaign details for the contribution
+              example:
+                id: 7710f34fd5061afeec3eab78
+                name: Mission 2025
+            subcampaign:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+              required:
+              - id
+              - name
+              nullable: true
+              description: Subcampaign details for the contribution
+              example:
+                id: 7710f34fd5061afeec3eab79
+                name: Toy Drive
+            dedication:
+              type: string
+              nullable: true
+              description: Dedication for the contribution
+              example: In memory of Lois Lane
+            donorNotes:
+              type: string
+              nullable: true
+              description: Notes from the donor
+              example: Happy to support this cause!
+            anonymous:
+              default: false
+              type: boolean
+              description: Whether the donor wants the contribution to be anonymous
+              example: false
+            locationId:
+              type: string
+              description: Location id for the contribution
+              example: 6710f34fd5061afeec3eab58
+            donor:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: Donor Id
+                  example: 6710f34fd5061afeec3eab57
+                createdAt:
+                  type: string
+                  format: date-time
+                  description: Donor created at
+                  example: '2025-01-01T00:00:00.000Z'
+                updatedAt:
+                  type: string
+                  format: date-time
+                  description: Donor updated at
+                  example: '2025-01-01T00:00:00.000Z'
+                firstName:
+                  type: string
+                  description: Donor first name
+                  example: John
+                lastName:
+                  type: string
+                  description: Donor last name
+                  example: Doe
+                email:
+                  type: string
+                  format: email
+                  description: Donor email
+                  example: john.doe@example.com
+                phone:
+                  type: string
+                  description: Donor phone number in E.164 format
+                  example: '+1234567890'
+                address:
+                  type: object
+                  properties:
+                    city:
+                      type: string
+                      minLength: 1
+                    country:
+                      type: string
+                    line1:
+                      type: string
+                      minLength: 1
+                    line2:
+                      type: string
+                    state:
+                      type: string
+                      minLength: 1
+                    timezone:
+                      type: string
+                    zip:
+                      type: string
+                      pattern: ^\d{5}(-\d{4})?$
+                  required:
+                  - city
+                  - line1
+                  - state
+                  - zip
+                  nullable: true
+                  description: Donor address
+                  example:
+                    line1: 123 Main St
+                    line2: Apt 1
+                    city: Anytown
+                    state: CA
+                    zip: '12345'
+                activeRecurringCount:
+                  type: number
+                  description: The number of active recurring donations
+                  example: 1
+                latestContributionDate:
+                  type: string
+                  format: date-time
+                  description: The date of the latest contribution
+                  example: '2025-01-01T00:00:00.000'
+                locationIds:
+                  type: array
+                  items:
+                    type: string
+                  description: The location IDs associated with the donor
+                  example:
+                  - 6710f34fd5061afeec3eab57
+                totalContributionsCount:
+                  type: number
+                  description: Total number of contributions made by the donor
+                  example: 10
+              required:
+              - id
+              - createdAt
+              - updatedAt
+              - firstName
+              - lastName
+              - email
+              - phone
+              - address
+              description: Donor details for the contribution
+            givingLinkId:
+              type: string
+              nullable: true
+              description: Giving link id associated with the contribution
+              example: 6710f34fd5061afeec3eab60
+            pledgeId:
+              type: string
+              nullable: true
+              description: Pledge id associated with the contribution
+              example: 6710f34fd5061afeec3eab61
+            metadata:
+              type: object
+              additionalProperties:
+                type: string
+              nullable: true
+              description: Merchant-defined key-value metadata attached to the contribution.
+              example:
+                orderId: '12345'
+                campaign: spring-2026
+          required:
+          - id
+          - createdAt
+          - updatedAt
+          - type
+          - amount
+          - contributionDate
+          - contributionReceivedAt
+          - liquidationInitiatedAt
+          - receivedTokensAt
+          - status
+          - stocks
+          - crypto
+          - frequency
+          - paymentMethod
+          - depositId
+          - campaign
+          - subcampaign
+          - dedication
+          - donorNotes
+          - donor
+          - givingLinkId
+          - pledgeId
+          description: Contribution.
+      required:
+      - data
+    ChargeCashPaymentMethodResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Contribution Id
+              example: 6710f34fd5061afeec3eab57
+            createdAt:
+              type: string
+              format: date-time
+              description: Contribution created at
+              example: '2025-01-01T00:00:00.000Z'
+            updatedAt:
+              type: string
+              format: date-time
+              description: Contribution updated at
+              example: '2025-01-01T00:00:00.000Z'
+            type:
+              type: string
+              enum:
+              - CASH
+              - CRYPTO
+              - DAF
+              - MANUAL_CASH
+              - STOCK
+              description: Asset type
+              example: CASH
+            amount:
+              type: number
+              description: Contribution amount
+              example: 1000
+            donorCoveredFees:
+              default: false
+              type: boolean
+              description: Whether the donor covered fees.
+              example: false
+            contributionDate:
+              type: string
+              format: date-time
+              description: Contribution date
+              example: '2025-01-01T00:00:00.000Z'
+            contributionReceivedAt:
+              type: string
+              format: date-time
+              nullable: true
+              description: Contribution received at
+            liquidationInitiatedAt:
+              type: string
+              format: date-time
+              nullable: true
+              description: Liquidation initiated at date for stock contributions
+              example: null
+            receivedTokensAt:
+              type: string
+              format: date-time
+              nullable: true
+              description: Received tokens at date for crypto contributions
+              example: null
+            status:
+              type: string
+              enum:
+              - CHARGEBACK
+              - CONFIRMED
+              - FAILED
+              - PAID_OUT
+              - PENDING
+              - PROCESSING
+              - REFUNDED
+              - VOIDED
+              - PAYOUT_SENT
+              - CONFIRMED
+              - PENDING
+              - PAID_OUT
+              - ABANDONED
+              - CANCELED
+              - CONTRIBUTION_RECEIVED
+              - FAILED
+              - INITIATED
+              - IN_PROCESS
+              - PAYOUT_SENT
+              - PAID_OUT
+              - BILLED
+              - CANCELED
+              - COMPLETED
+              - CONFIRMED
+              - CONTRIBUTION_RECEIVED
+              - DONOR_BROKERAGE_SENT_SHARES
+              - DONOR_UNRESPONSIVE
+              - INITIATED
+              - IN_PROCESS
+              - LIQUIDATION_COMPLETE
+              - LIQUIDATION_INITIATED
+              - PAYOUT_SENT
+              - PAID_OUT
+              - RECEIVED_FOR_LIQUIDATION
+              - TROUBLESHOOTING
+              - VERIFYING_INFORMATION
+              description: Contribution status
+              example: PAID_OUT
+            stocks:
+              type: object
+              properties:
+                quantity:
+                  type: number
+                tickers:
+                  type: array
+                  items:
+                    type: string
+              required:
+              - quantity
+              - tickers
+              nullable: true
+              description: Stock details
+              example:
+                quantity: 2
+                tickers:
+                - AAPL
+                - MSFT
+            crypto:
+              type: object
+              properties:
+                quantity:
+                  type: number
+                token:
+                  type: string
+              required:
+              - quantity
+              - token
+              nullable: true
+              description: Crypto details
+              example:
+                quantity: 1
+                token: BTC
+            subscriptionId:
+              type: string
+              description: Subscription id for contributions related to recurring gifts
+              example: 6710f34fd5061afeec3eab57
+            frequency:
+              type: string
+              enum:
+              - one-time
+              - recurring
+              nullable: true
+              description: Gift frequency
+              example: one-time
+            paymentMethod:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - ACH
+                  - Card
+                  - Check
+                  - Crypto
+                  - Physical Cash
+                  - Stock
+                  - Other
+                  - Apple Pay
+                  - Google Pay
+                  - Cash App
+                  - Paypal
+                  - DAF
+                last4:
+                  type: string
+                logoUrl:
+                  type: string
+              nullable: true
+              description: Contribution payment method information.
+              example:
+                type: Card
+                logoUrl: https://example.com/logo.png
+                last4: '4242'
+            depositId:
+              type: string
+              nullable: true
+              description: Deposit id for the contribution
+              example: 8810f34fd5061afeec3eab67
+            campaign:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+              required:
+              - id
+              - name
+              nullable: true
+              description: Campaign details for the contribution
+              example:
+                id: 7710f34fd5061afeec3eab78
+                name: Mission 2025
+            subcampaign:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+              required:
+              - id
+              - name
+              nullable: true
+              description: Subcampaign details for the contribution
+              example:
+                id: 7710f34fd5061afeec3eab79
+                name: Toy Drive
+            dedication:
+              type: string
+              nullable: true
+              description: Dedication for the contribution
+              example: In memory of Lois Lane
+            donorNotes:
+              type: string
+              nullable: true
+              description: Notes from the donor
+              example: Happy to support this cause!
+            anonymous:
+              default: false
+              type: boolean
+              description: Whether the donor wants the contribution to be anonymous
+              example: false
+            locationId:
+              type: string
+              description: Location id for the contribution
+              example: 6710f34fd5061afeec3eab58
+            donor:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: Donor Id
+                  example: 6710f34fd5061afeec3eab57
+                createdAt:
+                  type: string
+                  format: date-time
+                  description: Donor created at
+                  example: '2025-01-01T00:00:00.000Z'
+                updatedAt:
+                  type: string
+                  format: date-time
+                  description: Donor updated at
+                  example: '2025-01-01T00:00:00.000Z'
+                firstName:
+                  type: string
+                  description: Donor first name
+                  example: John
+                lastName:
+                  type: string
+                  description: Donor last name
+                  example: Doe
+                email:
+                  type: string
+                  format: email
+                  description: Donor email
+                  example: john.doe@example.com
+                phone:
+                  type: string
+                  description: Donor phone number in E.164 format
+                  example: '+1234567890'
+                address:
+                  type: object
+                  properties:
+                    city:
+                      type: string
+                      minLength: 1
+                    country:
+                      type: string
+                    line1:
+                      type: string
+                      minLength: 1
+                    line2:
+                      type: string
+                    state:
+                      type: string
+                      minLength: 1
+                    timezone:
+                      type: string
+                    zip:
+                      type: string
+                      pattern: ^\d{5}(-\d{4})?$
+                  required:
+                  - city
+                  - line1
+                  - state
+                  - zip
+                  nullable: true
+                  description: Donor address
+                  example:
+                    line1: 123 Main St
+                    line2: Apt 1
+                    city: Anytown
+                    state: CA
+                    zip: '12345'
+                activeRecurringCount:
+                  type: number
+                  description: The number of active recurring donations
+                  example: 1
+                latestContributionDate:
+                  type: string
+                  format: date-time
+                  description: The date of the latest contribution
+                  example: '2025-01-01T00:00:00.000'
+                locationIds:
+                  type: array
+                  items:
+                    type: string
+                  description: The location IDs associated with the donor
+                  example:
+                  - 6710f34fd5061afeec3eab57
+                totalContributionsCount:
+                  type: number
+                  description: Total number of contributions made by the donor
+                  example: 10
+              required:
+              - id
+              - createdAt
+              - updatedAt
+              - firstName
+              - lastName
+              - email
+              - phone
+              - address
+              description: Donor details for the contribution
+            givingLinkId:
+              type: string
+              nullable: true
+              description: Giving link id associated with the contribution
+              example: 6710f34fd5061afeec3eab60
+            pledgeId:
+              type: string
+              nullable: true
+              description: Pledge id associated with the contribution
+              example: 6710f34fd5061afeec3eab61
+            metadata:
+              type: object
+              additionalProperties:
+                type: string
+              nullable: true
+              description: Merchant-defined key-value metadata attached to the contribution.
+              example:
+                orderId: '12345'
+                campaign: spring-2026
+          required:
+          - id
+          - createdAt
+          - updatedAt
+          - type
+          - amount
+          - contributionDate
+          - contributionReceivedAt
+          - liquidationInitiatedAt
+          - receivedTokensAt
+          - status
+          - stocks
+          - crypto
+          - frequency
+          - paymentMethod
+          - depositId
+          - campaign
+          - subcampaign
+          - dedication
+          - donorNotes
+          - donor
+          - givingLinkId
+          - pledgeId
+          description: The contribution for the charge
+      required:
+      - data
+    GetContributionsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Contribution Id
+                example: 6710f34fd5061afeec3eab57
+              createdAt:
+                type: string
+                format: date-time
+                description: Contribution created at
+                example: '2025-01-01T00:00:00.000Z'
+              updatedAt:
+                type: string
+                format: date-time
+                description: Contribution updated at
+                example: '2025-01-01T00:00:00.000Z'
+              type:
+                type: string
+                enum:
+                - CASH
+                - CRYPTO
+                - DAF
+                - MANUAL_CASH
+                - STOCK
+                description: Asset type
+                example: CASH
+              amount:
+                type: number
+                description: Contribution amount
+                example: 1000
+              donorCoveredFees:
+                default: false
+                type: boolean
+                description: Whether the donor covered fees.
+                example: false
+              contributionDate:
+                type: string
+                format: date-time
+                description: Contribution date
+                example: '2025-01-01T00:00:00.000Z'
+              contributionReceivedAt:
+                type: string
+                format: date-time
+                nullable: true
+                description: Contribution received at
+              liquidationInitiatedAt:
+                type: string
+                format: date-time
+                nullable: true
+                description: Liquidation initiated at date for stock contributions
+                example: null
+              receivedTokensAt:
+                type: string
+                format: date-time
+                nullable: true
+                description: Received tokens at date for crypto contributions
+                example: null
+              status:
+                type: string
+                enum:
+                - CHARGEBACK
+                - CONFIRMED
+                - FAILED
+                - PAID_OUT
+                - PENDING
+                - PROCESSING
+                - REFUNDED
+                - VOIDED
+                - PAYOUT_SENT
+                - CONFIRMED
+                - PENDING
+                - PAID_OUT
+                - ABANDONED
+                - CANCELED
+                - CONTRIBUTION_RECEIVED
+                - FAILED
+                - INITIATED
+                - IN_PROCESS
+                - PAYOUT_SENT
+                - PAID_OUT
+                - BILLED
+                - CANCELED
+                - COMPLETED
+                - CONFIRMED
+                - CONTRIBUTION_RECEIVED
+                - DONOR_BROKERAGE_SENT_SHARES
+                - DONOR_UNRESPONSIVE
+                - INITIATED
+                - IN_PROCESS
+                - LIQUIDATION_COMPLETE
+                - LIQUIDATION_INITIATED
+                - PAYOUT_SENT
+                - PAID_OUT
+                - RECEIVED_FOR_LIQUIDATION
+                - TROUBLESHOOTING
+                - VERIFYING_INFORMATION
+                description: Contribution status
+                example: PAID_OUT
+              stocks:
+                type: object
+                properties:
+                  quantity:
+                    type: number
+                  tickers:
+                    type: array
+                    items:
+                      type: string
+                required:
+                - quantity
+                - tickers
+                nullable: true
+                description: Stock details
+                example:
+                  quantity: 2
+                  tickers:
+                  - AAPL
+                  - MSFT
+              crypto:
+                type: object
+                properties:
+                  quantity:
+                    type: number
+                  token:
+                    type: string
+                required:
+                - quantity
+                - token
+                nullable: true
+                description: Crypto details
+                example:
+                  quantity: 1
+                  token: BTC
+              subscriptionId:
+                type: string
+                description: Subscription id for contributions related to recurring gifts
+                example: 6710f34fd5061afeec3eab57
+              frequency:
+                type: string
+                enum:
+                - one-time
+                - recurring
+                nullable: true
+                description: Gift frequency
+                example: one-time
+              paymentMethod:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum:
+                    - ACH
+                    - Card
+                    - Check
+                    - Crypto
+                    - Physical Cash
+                    - Stock
+                    - Other
+                    - Apple Pay
+                    - Google Pay
+                    - Cash App
+                    - Paypal
+                    - DAF
+                  last4:
+                    type: string
+                  logoUrl:
+                    type: string
+                nullable: true
+                description: Contribution payment method information.
+                example:
+                  type: Card
+                  logoUrl: https://example.com/logo.png
+                  last4: '4242'
+              depositId:
+                type: string
+                nullable: true
+                description: Deposit id for the contribution
+                example: 8810f34fd5061afeec3eab67
+              campaign:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                required:
+                - id
+                - name
+                nullable: true
+                description: Campaign details for the contribution
+                example:
+                  id: 7710f34fd5061afeec3eab78
+                  name: Mission 2025
+              subcampaign:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                required:
+                - id
+                - name
+                nullable: true
+                description: Subcampaign details for the contribution
+                example:
+                  id: 7710f34fd5061afeec3eab79
+                  name: Toy Drive
+              dedication:
+                type: string
+                nullable: true
+                description: Dedication for the contribution
+                example: In memory of Lois Lane
+              donorNotes:
+                type: string
+                nullable: true
+                description: Notes from the donor
+                example: Happy to support this cause!
+              anonymous:
+                default: false
+                type: boolean
+                description: Whether the donor wants the contribution to be anonymous
+                example: false
+              locationId:
+                type: string
+                description: Location id for the contribution
+                example: 6710f34fd5061afeec3eab58
+              donor:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Donor Id
+                    example: 6710f34fd5061afeec3eab57
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: Donor created at
+                    example: '2025-01-01T00:00:00.000Z'
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: Donor updated at
+                    example: '2025-01-01T00:00:00.000Z'
+                  firstName:
+                    type: string
+                    description: Donor first name
+                    example: John
+                  lastName:
+                    type: string
+                    description: Donor last name
+                    example: Doe
+                  email:
+                    type: string
+                    format: email
+                    description: Donor email
+                    example: john.doe@example.com
+                  phone:
+                    type: string
+                    description: Donor phone number in E.164 format
+                    example: '+1234567890'
+                  address:
+                    type: object
+                    properties:
+                      city:
+                        type: string
+                        minLength: 1
+                      country:
+                        type: string
+                      line1:
+                        type: string
+                        minLength: 1
+                      line2:
+                        type: string
+                      state:
+                        type: string
+                        minLength: 1
+                      timezone:
+                        type: string
+                      zip:
+                        type: string
+                        pattern: ^\d{5}(-\d{4})?$
+                    required:
+                    - city
+                    - line1
+                    - state
+                    - zip
+                    nullable: true
+                    description: Donor address
+                    example:
+                      line1: 123 Main St
+                      line2: Apt 1
+                      city: Anytown
+                      state: CA
+                      zip: '12345'
+                  activeRecurringCount:
+                    type: number
+                    description: The number of active recurring donations
+                    example: 1
+                  latestContributionDate:
+                    type: string
+                    format: date-time
+                    description: The date of the latest contribution
+                    example: '2025-01-01T00:00:00.000'
+                  locationIds:
+                    type: array
+                    items:
+                      type: string
+                    description: The location IDs associated with the donor
+                    example:
+                    - 6710f34fd5061afeec3eab57
+                  totalContributionsCount:
+                    type: number
+                    description: Total number of contributions made by the donor
+                    example: 10
+                required:
+                - id
+                - createdAt
+                - updatedAt
+                - firstName
+                - lastName
+                - email
+                - phone
+                - address
+                description: Donor details for the contribution
+              givingLinkId:
+                type: string
+                nullable: true
+                description: Giving link id associated with the contribution
+                example: 6710f34fd5061afeec3eab60
+              pledgeId:
+                type: string
+                nullable: true
+                description: Pledge id associated with the contribution
+                example: 6710f34fd5061afeec3eab61
+              metadata:
+                type: object
+                additionalProperties:
+                  type: string
+                nullable: true
+                description: Merchant-defined key-value metadata attached to the contribution.
+                example:
+                  orderId: '12345'
+                  campaign: spring-2026
+            required:
+            - id
+            - createdAt
+            - updatedAt
+            - type
+            - amount
+            - contributionDate
+            - contributionReceivedAt
+            - liquidationInitiatedAt
+            - receivedTokensAt
+            - status
+            - stocks
+            - crypto
+            - frequency
+            - paymentMethod
+            - depositId
+            - campaign
+            - subcampaign
+            - dedication
+            - donorNotes
+            - donor
+            - givingLinkId
+            - pledgeId
+          description: List of contributions.
+        totalCount:
+          type: number
+          description: Total number of contributions matching the filters.
+          example: 100
+      required:
+      - data
+      - totalCount
+    ChargeCashPaymentMethodParams:
+      type: object
+      properties:
+        donorId:
+          type: string
+          description: The ID of the donor
+          example: 6710f34fd5061afeec3eab57
+        paymentMethodId:
+          type: string
+          description: The ID of the payment method to charge
+          example: 6710f34fd5061afeec3eab57
+        amount:
+          type: number
+          minimum: 1
+          description: The amount to charge to the payment method
+          example: 50
+        campaignId:
+          type: string
+          description: The ID of the campaign
+          example: 6710f34fd5061afeec3eab57
+        subcampaignId:
+          type: string
+          description: The ID of the subcampaign
+          example: 6710f34fd5061afeec3eab57
+        anonymous:
+          type: boolean
+          description: Indicates if the donation is anonymous
+          example: true
+        donorNotes:
+          type: string
+          minLength: 1
+          maxLength: 500
+          description: Notes from the donor
+          example: Donor would like to give $1,000.00 to the playground project, and the …
+      required:
+      - donorId
+      - paymentMethodId
+      - amount
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: API Key for API authentication
+    ClientId:
+      type: apiKey
+      in: header
+      name: x-client-id
+      description: Client ID for API authentication

@@ -1,0 +1,229 @@
+openapi: 3.0.0
+info:
+  title: Overflow Open Campaigns Locations API
+  description: '
+
+    The documentation for the Overflow Open APIs.
+
+
+    To access the OpenAPI spec in JSON/YAML format, navigate to:
+
+
+    * `/api/docs/openapi.json`
+
+    * `/api/docs/openapi.yaml`
+
+    '
+  version: '3.0'
+  contact: {}
+servers:
+- url: https://server.stage.overflow.co
+  description: API server
+tags:
+- name: Locations
+paths:
+  /api/v3/locations:
+    get:
+      description: Returns locations for a nonprofit based on the provided filters.
+      operationId: OpenApiLocationsController_getLocations
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: The number of locations to return.
+        schema:
+          minimum: 1
+          maximum: 100
+          default: 25
+          type: number
+      - name: page
+        required: false
+        in: query
+        description: The page number of the locations to return.
+        schema:
+          minimum: 1
+          default: 1
+          type: number
+      - name: includeArchived
+        required: false
+        in: query
+        description: Whether to include locations that have been archived.
+        schema:
+          type: boolean
+      - name: sortBy
+        required: false
+        in: query
+        description: The field to sort the locations by.
+        schema:
+          default: displayOrder
+          example: displayOrder
+          enum:
+          - name
+          - createdAt
+          - displayOrder
+          type: string
+      - name: sortDirection
+        required: false
+        in: query
+        description: The direction to sort the locations by.
+        schema:
+          default: ASC
+          example: ASC
+          enum:
+          - ASC
+          - DESC
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetLocationsResponse'
+      security:
+      - ClientId: []
+        ApiKey: []
+      summary: Get Locations
+      tags:
+      - Locations
+  /api/v3/locations/{locationId}:
+    get:
+      description: Returns a location for the given ID.
+      operationId: OpenApiLocationsController_getLocationById
+      parameters:
+      - name: locationId
+        required: true
+        in: path
+        description: The Id of the location to get.
+        schema:
+          example: 2ea1ae03ca521e437db76d76
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetLocationByIdResponse'
+        '404':
+          description: Location not found.
+      security:
+      - ClientId: []
+        ApiKey: []
+      summary: Get Location
+      tags:
+      - Locations
+components:
+  schemas:
+    GetLocationsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Location Id
+                example: 7710f34fd5061afeec3eab59
+              createdAt:
+                type: string
+                format: date-time
+                description: Location created at
+                example: '2025-01-01T00:00:00.000Z'
+              updatedAt:
+                type: string
+                format: date-time
+                description: Location updated at
+                example: '2025-01-01T00:00:00.000Z'
+              archivedAt:
+                type: string
+                format: date-time
+                nullable: true
+                description: Location archived at
+                example: null
+              name:
+                type: string
+                description: Location name
+                example: Main Campus
+              hideFromDonors:
+                default: false
+                type: boolean
+                description: Whether this location is hidden from donors
+              isDefaultLocation:
+                default: false
+                type: boolean
+                description: Whether this location is the default or fallback location.
+            required:
+            - id
+            - createdAt
+            - updatedAt
+            - archivedAt
+            - name
+          description: List of locations.
+        totalCount:
+          type: number
+          description: Total number of locations matching the filters.
+          example: 10
+      required:
+      - data
+      - totalCount
+    GetLocationByIdResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Location Id
+              example: 7710f34fd5061afeec3eab59
+            createdAt:
+              type: string
+              format: date-time
+              description: Location created at
+              example: '2025-01-01T00:00:00.000Z'
+            updatedAt:
+              type: string
+              format: date-time
+              description: Location updated at
+              example: '2025-01-01T00:00:00.000Z'
+            archivedAt:
+              type: string
+              format: date-time
+              nullable: true
+              description: Location archived at
+              example: null
+            name:
+              type: string
+              description: Location name
+              example: Main Campus
+            hideFromDonors:
+              default: false
+              type: boolean
+              description: Whether this location is hidden from donors
+            isDefaultLocation:
+              default: false
+              type: boolean
+              description: Whether this location is the default or fallback location.
+          required:
+          - id
+          - createdAt
+          - updatedAt
+          - archivedAt
+          - name
+          description: Location for the given id.
+      required:
+      - data
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: API Key for API authentication
+    ClientId:
+      type: apiKey
+      in: header
+      name: x-client-id
+      description: Client ID for API authentication
