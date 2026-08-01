@@ -1,0 +1,35 @@
+generated: '2026-07-20'
+method: searched
+source: >-
+  https://docs.overflow.co/api-reference/quickstart and
+  https://docs.overflow.co/api-reference/welcome — Overflow ships a dedicated
+  staging environment with its own credentials for testing before production.
+description: >-
+  Overflow separates testing from production via a full staging environment.
+  Staging credentials only work against the staging base URL, and production
+  credentials only work against the production base URL. Contact Overflow
+  developers to obtain credentials for each environment.
+environments:
+- name: staging
+  base_url: https://server.stage.overflow.co
+  openapi_host: https://server.stage.overflow.co
+  credentials: separate staging x-client-id + x-api-key
+- name: production
+  base_url: https://server.overflow.co
+  credentials: separate production x-client-id + x-api-key
+credential_separation:
+  enforced: true
+  note: >-
+    Staging credentials only work against the staging base URL, and production
+    credentials only work against the production base URL.
+health_check:
+  operation: OpenApiController_health
+  path: /api/v3/health
+  example: >-
+    curl -X GET 'https://server.stage.overflow.co/api/v3/health'
+    -H 'x-client-id: <CLIENT_ID>' -H 'x-api-key: <API_KEY>'
+test_values:
+  note: >-
+    Overflow does not publish magic test card numbers or fixed test tokens in
+    its public docs; testing is performed against the isolated staging
+    environment with staging credentials. No test values are invented here.

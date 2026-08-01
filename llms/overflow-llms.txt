@@ -1,0 +1,63 @@
+# Overflow Documentation
+
+## Docs
+
+- [Authentication](https://docs.overflow.co/api-reference/authentication.md)
+- [Get Campaigns](https://docs.overflow.co/api-reference/campaigns/get-campaigns.md): Returns campaigns for a nonprofit based on the provided filters.
+- [Get Campaign/Subcampaign](https://docs.overflow.co/api-reference/campaigns/get-campaignsubcampaign.md): Returns campaign/subcampaign for given ID.
+- [Get Chargeback](https://docs.overflow.co/api-reference/chargebacks/get-chargeback.md): Returns a single chargeback by its id for the authenticated nonprofit. All monetary amounts are expressed in cents.
+- [Get Chargebacks](https://docs.overflow.co/api-reference/chargebacks/get-chargebacks.md): Returns chargebacks for the authenticated nonprofit based on the provided filters.
+- [Common Patterns](https://docs.overflow.co/api-reference/common-patterns.md)
+- [Create Contribution](https://docs.overflow.co/api-reference/contributions/create-contribution.md): Creates a charge for the given payment method and donor
+- [Get Contribution](https://docs.overflow.co/api-reference/contributions/get-contribution.md): Returns a single contribution by its id for the authenticated nonprofit. Supports all contribution types.
+- [Get Contributions](https://docs.overflow.co/api-reference/contributions/get-contributions.md): Returns contributions for the nonprofit based on the provided filters.
+- [Initiate Refund](https://docs.overflow.co/api-reference/contributions/initiate-refund.md): Initiates a refund for the given contribution. Currently, we only support refunds for contributions less than $1000 over our API. Please contact support otherwise.
+- [Get Deposit](https://docs.overflow.co/api-reference/deposits/get-deposit.md): Returns a single deposit by its id for the authenticated nonprofit, including its line-item breakdown. All monetary amounts are expressed in cents.
+- [Get Deposit Summary](https://docs.overflow.co/api-reference/deposits/get-deposit-summary.md): Returns aggregated totals (contributions, refunds, chargebacks, adjustments) for the deposit. All monetary amounts are expressed in cents.
+- [Get Deposits](https://docs.overflow.co/api-reference/deposits/get-deposits.md): Returns deposits for the nonprofit based on the provided filters. A deposit is a settlement from Overflow to the nonprofit's bank account.
+- [Create Donor Profile](https://docs.overflow.co/api-reference/donors/create-donor-profile.md): Creates a new Donor Profile.
+- [Get Donor](https://docs.overflow.co/api-reference/donors/get-donor.md): Returns donor for given ID.
+- [Get Donors](https://docs.overflow.co/api-reference/donors/get-donors.md): Returns donors for the nonprofit based on the provided filters.
+- [Update Donor](https://docs.overflow.co/api-reference/donors/update-donor.md): Updates the Donor Profile for the given id
+- [Get Location](https://docs.overflow.co/api-reference/locations/get-location.md): Returns a location for the given ID.
+- [Get Locations](https://docs.overflow.co/api-reference/locations/get-locations.md): Returns locations for a nonprofit based on the provided filters.
+- [Get Payment Methods](https://docs.overflow.co/api-reference/payment-methods/get-payment-methods.md): Returns the payment methods a donor has added.
+- [Authorize Payment](https://docs.overflow.co/api-reference/payments/authorize-payment.md): Authorizes a payment for the given payment method and donor.
+- [Quickstart](https://docs.overflow.co/api-reference/quickstart.md)
+- [Rate Limiting](https://docs.overflow.co/api-reference/rate-limiting.md)
+- [Get Refund](https://docs.overflow.co/api-reference/refunds/get-refund.md): Returns a single refund by its id for the authenticated nonprofit. All monetary amounts are expressed in cents.
+- [Get Refunds](https://docs.overflow.co/api-reference/refunds/get-refunds.md): Returns refunds for the authenticated nonprofit based on the provided filters.
+- [Health](https://docs.overflow.co/api-reference/status/health.md): Returns the health of the server.
+- [Cancel Subscription](https://docs.overflow.co/api-reference/subscriptions/cancel-subscription.md): Cancels a donor subscription by its Id.
+- [Create Subscription](https://docs.overflow.co/api-reference/subscriptions/create-subscription.md): Creates a new recurring donation subscription for a donor.
+- [Get Subscription By Id](https://docs.overflow.co/api-reference/subscriptions/get-subscription-by-id.md): Returns a donor subscription by its Id.
+- [Get Subscriptions](https://docs.overflow.co/api-reference/subscriptions/get-subscriptions.md): Returns all subscriptions for nonprofit
+- [Get Subscriptions By Donor](https://docs.overflow.co/api-reference/subscriptions/get-subscriptions-by-donor.md): Returns all subscriptions for the specified donor.
+- [Update Subscription](https://docs.overflow.co/api-reference/subscriptions/update-subscription.md): Updates a donor subscription by its Id.
+- [Get Tap Destination](https://docs.overflow.co/api-reference/tap/get-tap-destination.md): Returns a single tap destination by ID.
+- [Get Tap Destinations](https://docs.overflow.co/api-reference/tap/get-tap-destinations.md): Returns tap destinations for a nonprofit based on the provided filters.
+- [Get Tap Device](https://docs.overflow.co/api-reference/tap/get-tap-device.md): Returns a single tap device by ID.
+- [Get Tap Devices](https://docs.overflow.co/api-reference/tap/get-tap-devices.md): Returns tap devices for a nonprofit based on the provided filters. The search parameter matches by exact serial number, not fuzzy text search.
+- [Get Tap Events](https://docs.overflow.co/api-reference/tap/get-tap-events.md): Returns tap events for a nonprofit based on the provided filters. Events represent individual tap interactions and are sorted by time of occurrence.
+- [Get Tap Group](https://docs.overflow.co/api-reference/tap/get-tap-group.md): Returns a single tap group by ID.
+- [Get Tap Groups](https://docs.overflow.co/api-reference/tap/get-tap-groups.md): Returns tap groups for a nonprofit based on the provided filters.
+- [Get Webhook](https://docs.overflow.co/api-reference/webhooks/get-webhook.md): Returns a single webhook subscription by id for the authenticated nonprofit.
+- [Get Webhook Event Logs](https://docs.overflow.co/api-reference/webhooks/get-webhook-event-logs.md): Returns webhook delivery logs for a webhook subscription owned by the authenticated nonprofit. Results are cursor paginated.
+- [Get Webhooks](https://docs.overflow.co/api-reference/webhooks/get-webhooks.md): Returns webhook subscriptions for the authenticated nonprofit. Results are paginated using limit and page.
+- [Welcome](https://docs.overflow.co/api-reference/welcome.md)
+- [API](https://docs.overflow.co/overflow-for-nonprofits/developers/api.md)
+- [Authentication](https://docs.overflow.co/overflow-for-nonprofits/developers/authentication.md)
+- [Webhooks](https://docs.overflow.co/overflow-for-nonprofits/developers/webhooks.md): Receive real-time HTTP notifications when events happen in your Overflow account.
+- [Introduction](https://docs.overflow.co/overflow-for-nonprofits/introduction.md): Welcome to Overflow for Nonprofits
+- [Reconciliation](https://docs.overflow.co/overflow-for-nonprofits/nonprofit-dashboard/reconciliation.md): Review deposits, match contributions, and mark deposits as reconciled.
+- [Quickstart](https://docs.overflow.co/overflow-for-nonprofits/quickstart.md): Get an overview of Overflow's features, integrations, and how to use them.
+- [Welcome](https://docs.overflow.co/welcome.md): Welcome to Overflow Docs.
+
+## OpenAPI Specs
+
+- [openapi](https://server.stage.overflow.co/api/docs/openapi.json)
+
+## Optional
+
+- [Overflow](https://overflow.co)
+- [Blog](https://overflow.co/learn)

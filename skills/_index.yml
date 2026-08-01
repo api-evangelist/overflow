@@ -1,0 +1,18 @@
+generated: '2026-07-20'
+method: generated
+source: >-
+  Grounded in openapi/overflow-openapi-original.json operationIds +
+  conventions/overflow-conventions.yml + errors/overflow-problem-types.yml.
+skills:
+- file: overflow-record-contribution.md
+  name: Record a donation with Overflow
+  api: openapi/overflow-openapi-original.json
+  operations: [OpenApiDonorProfilesController_createDonorProfile, OpenApiContributionsController_chargeCashPaymentMethod, OpenApiContributionsController_getContributionById]
+- file: overflow-recurring-gift.md
+  name: Set up a recurring gift with Overflow
+  api: openapi/overflow-openapi-original.json
+  operations: [OpenApiDonorProfilesController_createDonorProfile, OpenApiSubscriptionsController_createSubscription, OpenApiSubscriptionsController_getSubscriptionById, OpenApiSubscriptionsController_cancelSubscription]
+- file: overflow-reconcile-deposits.md
+  name: Reconcile Overflow deposits
+  api: openapi/overflow-openapi-original.json
+  operations: [OpenApiDepositsController_getDeposits, OpenApiDepositsController_getDepositById, OpenApiDepositsController_getDepositSummary, OpenApiContributionsController_getContributions]

@@ -1,0 +1,32 @@
+generated: '2026-07-20'
+method: searched
+source: openapi/overflow-openapi-original.json
+docs: https://docs.overflow.co/api-reference/authentication
+detail: >-
+  Overflow authenticates every request with two header-based API keys used
+  together: x-client-id (public identifier) and x-api-key (secret key).
+  Credentials are environment-scoped — staging credentials only work against
+  https://server.stage.overflow.co and production credentials only against
+  https://server.overflow.co. Credentials are server-side only and must not be
+  exposed in client-side code, public repos, or logs. There is no OAuth or
+  scope surface; access is all-or-nothing per credential pair.
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: ApiKey
+  type: apiKey
+  in: header
+  parameter: x-api-key
+  description: API Key for API authentication
+  sources:
+  - openapi/overflow-openapi-original.json
+- name: ClientId
+  type: apiKey
+  in: header
+  parameter: x-client-id
+  description: Client ID for API authentication
+  sources:
+  - openapi/overflow-openapi-original.json

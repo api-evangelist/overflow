@@ -1,0 +1,111 @@
+generated: '2026-07-20'
+method: derived
+source: >-
+  openapi/overflow-openapi-original.json (4xx/5xx response descriptions),
+  enriched from https://docs.overflow.co/api-reference/common-patterns error table.
+format: json
+note: >-
+  Overflow returns standard HTTP status codes with JSON bodies. Responses do NOT
+  use RFC 9457 application/problem+json; the OpenAPI documents each error as a
+  status code plus a human-readable description. The docs error table classifies
+  which statuses are retryable.
+status_classes:
+- status: 400
+  meaning: Validation / bad input
+  retry: false
+- status: 401
+  meaning: Invalid API credentials / not permitted
+  retry: false
+- status: 403
+  meaning: Forbidden — resource cannot be accessed or mutated
+  retry: false
+- status: 404
+  meaning: Resource not found
+  retry: false
+- status: 409
+  meaning: Conflict — operation not supported in current state
+  retry: false
+- status: 422
+  meaning: Unprocessable — request understood but could not be completed
+  retry: false
+- status: 429
+  meaning: Rate limited (see rate-limiting)
+  retry: true
+- status: 500
+  meaning: Server error
+  retry: true
+problems:
+- status: 400
+  title: Payment method is expired
+  source_operation: openapi/overflow-openapi-original.json#OpenApiContributionsController_chargeCashPaymentMethod
+- status: 400
+  title: Refunds are not supported for contributions greater than $1000
+  remediation: Contact Overflow support for refunds over $1000.
+  source_operation: openapi/overflow-openapi-original.json#OpenApiContributionsController_initiateRefund
+- status: 400
+  title: Donor does not belong to the nonprofit
+  source_operation: openapi/overflow-openapi-original.json#OpenApiDonorProfilesController_getDonorProfile
+- status: 400
+  title: Invalid request parameters
+  source_operation: openapi/overflow-openapi-original.json#OpenApiSubscriptionsController_createSubscription
+- status: 400
+  title: Updating the subscription failed
+  source_operation: openapi/overflow-openapi-original.json#OpenApiSubscriptionsController_updateSubscriptionById
+- status: 401
+  title: You do not have permission to access this resource
+  source_operation: openapi/overflow-openapi-original.json#OpenApiContributionsController_initiateRefund
+- status: 403
+  title: This Donor Profile is associated to a Donor and cannot be updated
+  source_operation: openapi/overflow-openapi-original.json#OpenApiDonorProfilesController_updateDonorProfile
+- status: 404
+  title: Nonprofit not found
+  source_operation: openapi/overflow-openapi-original.json#OpenApiContributionsController_chargeCashPaymentMethod
+- status: 404
+  title: Contribution not found
+  source_operation: openapi/overflow-openapi-original.json#OpenApiContributionsController_getContributionById
+- status: 404
+  title: Deposit not found
+  source_operation: openapi/overflow-openapi-original.json#OpenApiDepositsController_getDepositById
+- status: 404
+  title: Refund not found
+  source_operation: openapi/overflow-openapi-original.json#OpenApiRefundsController_getRefundById
+- status: 404
+  title: Chargeback not found
+  source_operation: openapi/overflow-openapi-original.json#OpenApiChargebacksController_getChargebackById
+- status: 404
+  title: Webhook subscription not found
+  source_operation: openapi/overflow-openapi-original.json#OpenApiWebhooksController_getWebhookById
+- status: 404
+  title: Donor profile does not exist
+  source_operation: openapi/overflow-openapi-original.json#OpenApiDonorProfilesController_getDonorProfile
+- status: 404
+  title: Subscription not found
+  source_operation: openapi/overflow-openapi-original.json#OpenApiSubscriptionsController_getSubscriptionById
+- status: 404
+  title: Campaign not found
+  source_operation: openapi/overflow-openapi-original.json#OpenApiCampaignsController_getCampaignById
+- status: 404
+  title: Location not found
+  source_operation: openapi/overflow-openapi-original.json#OpenApiLocationsController_getLocationById
+- status: 404
+  title: Tap destination not found
+  source_operation: openapi/overflow-openapi-original.json#OpenApiTapDestinationsController_getDestinationById
+- status: 404
+  title: Tap device not found
+  source_operation: openapi/overflow-openapi-original.json#OpenApiTapDevicesController_getDeviceById
+- status: 404
+  title: Tap group not found
+  source_operation: openapi/overflow-openapi-original.json#OpenApiTapGroupsController_getGroupById
+- status: 409
+  title: Refunds not supported for this processing gateway
+  remediation: Contact Overflow support.
+  source_operation: openapi/overflow-openapi-original.json#OpenApiContributionsController_initiateRefund
+- status: 422
+  title: The cash contribution could not be refunded
+  source_operation: openapi/overflow-openapi-original.json#OpenApiContributionsController_initiateRefund
+- status: 500
+  title: Failed to validate campaign
+  source_operation: openapi/overflow-openapi-original.json#OpenApiContributionsController_chargeCashPaymentMethod
+- status: 500
+  title: Internal server error
+  source_operation: openapi/overflow-openapi-original.json#OpenApiSubscriptionsController_createSubscription

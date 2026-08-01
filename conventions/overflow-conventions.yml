@@ -1,0 +1,76 @@
+generated: '2026-07-20'
+method: searched
+source: >-
+  https://docs.overflow.co/api-reference/common-patterns and
+  https://docs.overflow.co/api-reference/rate-limiting — cross-cutting
+  request/response conventions that apply to every Overflow Open API endpoint,
+  plus derivations from openapi/overflow-openapi-original.json.
+description: >-
+  How the Overflow Open API (v3) behaves across every operation: authentication
+  style, pagination, filtering/sorting, the collection response envelope, error
+  handling, versioning, and rate-limit signaling.
+
+base_url: https://server.overflow.co
+api_style: REST over HTTPS, JSON request bodies, JSON responses, standard HTTP verbs and status codes
+
+authentication:
+  scheme: Header API keys (x-client-id + x-api-key used together)
+  docs: https://docs.overflow.co/api-reference/authentication
+  detail: authentication/overflow-authentication.yml
+
+idempotency:
+  supported: false
+  note: >-
+    Overflow does not document an idempotency-key mechanism for its write
+    operations (Create Contribution, Create Donor Profile, Create Subscription,
+    Authorize Payment). No Idempotency-Key header or parameter appears in the
+    OpenAPI or the docs as of this capture.
+
+pagination:
+  style: offset
+  request_params:
+    limit: page size, e.g. 25
+    page: 1-based page number, e.g. 2
+  example: "?limit=25&page=2"
+  response_fields:
+    data: array of resources
+    totalCount: total resources count
+  docs: https://docs.overflow.co/api-reference/common-patterns
+
+filtering_sorting:
+  date_range: [minimumUpdatedDate, maximumUpdatedDate]
+  status_filters: "repeated array params, e.g. statusBucket[]=PENDING&statusBucket[]=CONFIRMED"
+  sorting: [sortBy, sortDirection]
+
+response_envelope:
+  collections:
+    shape: '{ "data": [ ... ], "totalCount": 100 }'
+  monetary_amounts: All monetary amounts are expressed in cents.
+
+error_envelope:
+  detail: >-
+    Errors return standard HTTP status codes (400, 401, 403, 404, 409, 422,
+    500). Responses are JSON but do not use RFC 9457 application/problem+json.
+  detail_artifact: errors/overflow-problem-types.yml
+  retry_guidance:
+    "400": no
+    "401": no
+    "404": no
+    "429": yes (after window reset)
+    "500": yes
+
+versioning:
+  scheme: uri-path
+  current: v3
+  base_path: /api/v3
+  detail: lifecycle/overflow-lifecycle.yml
+
+rate_limiting:
+  limit: 120 requests per minute per client
+  algorithm: fixed-window (60s)
+  headers:
+    x-ratelimit-limit: maximum requests permitted in the window
+    x-ratelimit-remaining: requests remaining in the current window
+    x-ratelimit-reset: seconds until the current window resets
+  exceed_status: 429 Too Many Requests
+  docs: https://docs.overflow.co/api-reference/rate-limiting

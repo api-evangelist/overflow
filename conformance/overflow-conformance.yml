@@ -1,0 +1,42 @@
+generated: '2026-07-20'
+method: derived
+source: >-
+  openapi/overflow-openapi-original.json + https://docs.overflow.co docs
+  (common-patterns, rate-limiting, authentication, webhooks). Asserts
+  cross-cutting standards conformance; no published certification program was
+  found, so no Compliance pointer is emitted.
+standards:
+- id: oauth2
+  conforms: false
+  evidence: No oauth2 securityScheme; auth is header apiKey (x-client-id + x-api-key).
+- id: oidc
+  conforms: false
+- id: apikey-auth
+  conforms: true
+  evidence: securitySchemes ApiKey + ClientId, both apiKey in header.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Error responses are JSON with descriptions but not application/problem+json.
+- id: rest
+  conforms: true
+  evidence: Resource-oriented URLs, JSON bodies, standard HTTP verbs/status codes.
+- id: pagination
+  conforms: true
+  evidence: Offset pagination (limit + page) with { data, totalCount } envelope on all collections.
+- id: rate-limit-headers
+  conforms: true
+  evidence: x-ratelimit-limit / x-ratelimit-remaining / x-ratelimit-reset on every response; 429 on exceed.
+- id: webhooks-hmac
+  conforms: true
+  evidence: HMAC-SHA256 signed webhooks (x-overflow-webhook-signature-hmacsha256), whsk_v1_hs256_ secrets.
+- id: idempotency
+  conforms: false
+  evidence: No documented idempotency-key mechanism on write operations.
+- id: fhir-r4
+  conforms: false
+- id: fapi
+  conforms: false
+- id: scim
+  conforms: false
+- id: json-api
+  conforms: false

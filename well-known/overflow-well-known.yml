@@ -1,0 +1,19 @@
+generated: '2026-07-20'
+method: searched
+source: live probes of /.well-known/* on Overflow hosts
+note: >-
+  No /.well-known/ discovery documents were served. All probes returned 404.
+  Recorded as valid negative data; no WellKnown/SecurityTxt pointer is emitted.
+probes:
+- host: https://server.overflow.co
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+- host: https://overflow.co
+  documents:
+  - path: /.well-known/security.txt
+    status: 404

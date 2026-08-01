@@ -1,0 +1,28 @@
+generated: '2026-07-20'
+method: searched
+source: >-
+  https://docs.overflow.co/api-reference/quickstart (versioning),
+  https://status.overflow.co (status page), and
+  openapi/overflow-openapi-original.json (server versioning + deprecated ops).
+versioning:
+  scheme: uri-path
+  current: v3
+  base_path: /api/v3
+  docs: https://docs.overflow.co/api-reference/quickstart
+  note: >-
+    The current version of the API is v3, reflected in the base path /api/v3.
+    Overflow states documentation will be incrementally updated as new
+    endpoints are released.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: No published deprecation policy or RFC 8594 Sunset/Deprecation header support found.
+sla:
+  url: null
+status_page: https://status.overflow.co
+environments:
+- name: production
+  base_url: https://server.overflow.co
+- name: staging
+  base_url: https://server.stage.overflow.co
+deprecated_operations: []

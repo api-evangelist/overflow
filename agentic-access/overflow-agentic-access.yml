@@ -1,0 +1,444 @@
+generated: '2026-07-20'
+method: generated
+source: openapi/overflow-openapi-original.json
+description: Recommended x-agentic-access execution contracts, classified heuristically from
+  the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
+  audience per deployment. See research/curity/agentic-governance/.
+summary:
+  operations: 38
+  by_action_class:
+    connected: 30
+    acting: 8
+  by_consequence:
+    read: 30
+    safety-critical: 8
+  human_in_the_loop_required: 8
+operations:
+- path: /api/v3/contributions
+  method: get
+  operationId: OpenApiContributionsController_getContributions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/contributions
+  method: post
+  operationId: OpenApiContributionsController_chargeCashPaymentMethod
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/v3/contributions/{contributionId}
+  method: get
+  operationId: OpenApiContributionsController_getContributionById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/contributions/{contributionId}/initiate-refund
+  method: post
+  operationId: OpenApiContributionsController_initiateRefund
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/v3/deposits
+  method: get
+  operationId: OpenApiDepositsController_getDeposits
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/deposits/{depositId}
+  method: get
+  operationId: OpenApiDepositsController_getDepositById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/deposits/{depositId}/summary
+  method: get
+  operationId: OpenApiDepositsController_getDepositSummary
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/refunds
+  method: get
+  operationId: OpenApiRefundsController_getRefunds
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/refunds/{refundId}
+  method: get
+  operationId: OpenApiRefundsController_getRefundById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/chargebacks
+  method: get
+  operationId: OpenApiChargebacksController_getChargebacks
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/chargebacks/{chargebackId}
+  method: get
+  operationId: OpenApiChargebacksController_getChargebackById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/webhooks
+  method: get
+  operationId: OpenApiWebhooksController_getWebhooks
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/webhooks/{webhookId}
+  method: get
+  operationId: OpenApiWebhooksController_getWebhookById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/webhooks/{webhookId}/event-logs
+  method: get
+  operationId: OpenApiWebhooksController_getWebhookEventLogs
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/donors
+  method: get
+  operationId: OpenApiDonorProfilesController_getDonorProfiles
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/donors
+  method: post
+  operationId: OpenApiDonorProfilesController_createDonorProfile
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/v3/donors/{donorId}
+  method: get
+  operationId: OpenApiDonorProfilesController_getDonorProfile
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/donors/{donorId}
+  method: patch
+  operationId: OpenApiDonorProfilesController_updateDonorProfile
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/v3/subscriptions/{donorId}
+  method: post
+  operationId: OpenApiSubscriptionsController_createSubscription
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/v3/subscriptions/{donorId}
+  method: get
+  operationId: OpenApiSubscriptionsController_getSubscriptionsByDonorProfile
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/subscriptions
+  method: get
+  operationId: OpenApiSubscriptionsController_getSubscriptions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/subscriptions/{donorId}/{subscriptionId}
+  method: get
+  operationId: OpenApiSubscriptionsController_getSubscriptionById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/subscriptions/{donorId}/{subscriptionId}
+  method: patch
+  operationId: OpenApiSubscriptionsController_updateSubscriptionById
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/v3/subscriptions/{donorId}/{subscriptionId}
+  method: delete
+  operationId: OpenApiSubscriptionsController_cancelSubscription
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/v3/payment-methods/{donorId}
+  method: get
+  operationId: OpenApiPaymentMethodsController_getPaymentMethods
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/campaigns
+  method: get
+  operationId: OpenApiCampaignsController_getCampaigns
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/campaigns/{campaignId}
+  method: get
+  operationId: OpenApiCampaignsController_getCampaignById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/locations
+  method: get
+  operationId: OpenApiLocationsController_getLocations
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/locations/{locationId}
+  method: get
+  operationId: OpenApiLocationsController_getLocationById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/payments/authorize
+  method: post
+  operationId: OpenApiPaymentsController_authorizePayment
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/v3/tap/destinations
+  method: get
+  operationId: OpenApiTapDestinationsController_getDestinations
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/tap/destinations/{destinationId}
+  method: get
+  operationId: OpenApiTapDestinationsController_getDestinationById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/tap/devices
+  method: get
+  operationId: OpenApiTapDevicesController_getDevices
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/tap/devices/{deviceId}
+  method: get
+  operationId: OpenApiTapDevicesController_getDeviceById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/tap/events
+  method: get
+  operationId: OpenApiTapEventsController_getEvents
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/tap/groups
+  method: get
+  operationId: OpenApiTapGroupsController_getGroups
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/tap/groups/{groupId}
+  method: get
+  operationId: OpenApiTapGroupsController_getGroupById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v3/health
+  method: get
+  operationId: OpenApiController_health
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none

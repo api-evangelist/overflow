@@ -1,8 +1,30 @@
 aid: overflow
 name: Overflow
-description: Overflow is a company surfaced as a portfolio company of uncork-capital and added to the
-  API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: >-
+  Overflow is a fintech giving platform for churches and nonprofits that lets
+  organizations accept and reconcile donations across many asset types — card
+  and ACH, Apple Pay and Google Pay, stock, cryptocurrency, RoundUps, and
+  Donor Advised Funds (DAFs) — through a single unified platform. Overflow also
+  offers Overflow Tap (NFC tap-to-give hardware) and Generosity University donor
+  education. Its public Overflow Open API (v3) is a REST interface over
+  contributions, donors, subscriptions (recurring gifts), payments, campaigns,
+  deposits, refunds, chargebacks, locations, tap devices/events, and webhooks,
+  authenticated with header API keys and used to sync giving data into CRMs and
+  accounting/reconciliation workflows. Overflow is backed by Uncork Capital.
 url: https://raw.githubusercontent.com/api-evangelist/overflow/refs/heads/main/apis.yml
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://cdn.prod.website-files.com/661982b7ce6b433411c6e0c8/661986ff805671631abc51f8_Open%20Graph%20Image.webp
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
@@ -11,12 +33,313 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-20'
 tags:
 - Company
-apis: []
+- Fintech
+- Payments
+- Donations
+- Fundraising
+- Nonprofit
+- Giving
+- Recurring Payments
+- Webhooks
+- Cryptocurrency
+apis:
+- aid: overflow:overflow-campaigns-api
+  name: Overflow Campaigns API
+  description: The Campaigns API from Overflow — 2 operation(s) for campaigns.
+  humanURL: https://docs.overflow.co/api-reference/welcome
+  baseURL: https://server.overflow.co
+  tags:
+  - Campaigns
+  properties:
+  - type: OpenAPI
+    url: openapi/overflow-campaigns-api-openapi.yml
+  - type: Documentation
+    url: https://docs.overflow.co/api-reference/welcome
+  - type: APIReference
+    url: https://docs.overflow.co/api-reference/welcome
+  - type: Authentication
+    url: authentication/overflow-authentication.yml
+  - type: Webhooks
+    url: asyncapi/overflow-webhooks.yml
+- aid: overflow:overflow-chargebacks-api
+  name: Overflow Chargebacks API
+  description: The Chargebacks API from Overflow — 2 operation(s) for chargebacks.
+  humanURL: https://docs.overflow.co/api-reference/welcome
+  baseURL: https://server.overflow.co
+  tags:
+  - Chargebacks
+  properties:
+  - type: OpenAPI
+    url: openapi/overflow-chargebacks-api-openapi.yml
+  - type: Documentation
+    url: https://docs.overflow.co/api-reference/welcome
+  - type: APIReference
+    url: https://docs.overflow.co/api-reference/welcome
+  - type: Authentication
+    url: authentication/overflow-authentication.yml
+  - type: Webhooks
+    url: asyncapi/overflow-webhooks.yml
+- aid: overflow:overflow-contributions-api
+  name: Overflow Contributions API
+  description: The Contributions API from Overflow — 3 operation(s) for contributions.
+  humanURL: https://docs.overflow.co/api-reference/welcome
+  baseURL: https://server.overflow.co
+  tags:
+  - Contributions
+  properties:
+  - type: OpenAPI
+    url: openapi/overflow-contributions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.overflow.co/api-reference/welcome
+  - type: APIReference
+    url: https://docs.overflow.co/api-reference/welcome
+  - type: Authentication
+    url: authentication/overflow-authentication.yml
+  - type: Webhooks
+    url: asyncapi/overflow-webhooks.yml
+- aid: overflow:overflow-deposits-api
+  name: Overflow Deposits API
+  description: The Deposits API from Overflow — 3 operation(s) for deposits.
+  humanURL: https://docs.overflow.co/api-reference/welcome
+  baseURL: https://server.overflow.co
+  tags:
+  - Deposits
+  properties:
+  - type: OpenAPI
+    url: openapi/overflow-deposits-api-openapi.yml
+  - type: Documentation
+    url: https://docs.overflow.co/api-reference/welcome
+  - type: APIReference
+    url: https://docs.overflow.co/api-reference/welcome
+  - type: Authentication
+    url: authentication/overflow-authentication.yml
+  - type: Webhooks
+    url: asyncapi/overflow-webhooks.yml
+- aid: overflow:overflow-donors-api
+  name: Overflow Donors API
+  description: The Donors API from Overflow — 2 operation(s) for donors.
+  humanURL: https://docs.overflow.co/api-reference/welcome
+  baseURL: https://server.overflow.co
+  tags:
+  - Donors
+  properties:
+  - type: OpenAPI
+    url: openapi/overflow-donors-api-openapi.yml
+  - type: Documentation
+    url: https://docs.overflow.co/api-reference/welcome
+  - type: APIReference
+    url: https://docs.overflow.co/api-reference/welcome
+  - type: Authentication
+    url: authentication/overflow-authentication.yml
+  - type: Webhooks
+    url: asyncapi/overflow-webhooks.yml
+- aid: overflow:overflow-locations-api
+  name: Overflow Locations API
+  description: The Locations API from Overflow — 2 operation(s) for locations.
+  humanURL: https://docs.overflow.co/api-reference/welcome
+  baseURL: https://server.overflow.co
+  tags:
+  - Locations
+  properties:
+  - type: OpenAPI
+    url: openapi/overflow-locations-api-openapi.yml
+  - type: Documentation
+    url: https://docs.overflow.co/api-reference/welcome
+  - type: APIReference
+    url: https://docs.overflow.co/api-reference/welcome
+  - type: Authentication
+    url: authentication/overflow-authentication.yml
+  - type: Webhooks
+    url: asyncapi/overflow-webhooks.yml
+- aid: overflow:overflow-payment-methods-api
+  name: Overflow Payment Methods API
+  description: The Payment Methods API from Overflow — 1 operation(s) for payment methods.
+  humanURL: https://docs.overflow.co/api-reference/welcome
+  baseURL: https://server.overflow.co
+  tags:
+  - Payment Methods
+  properties:
+  - type: OpenAPI
+    url: openapi/overflow-payment-methods-api-openapi.yml
+  - type: Documentation
+    url: https://docs.overflow.co/api-reference/welcome
+  - type: APIReference
+    url: https://docs.overflow.co/api-reference/welcome
+  - type: Authentication
+    url: authentication/overflow-authentication.yml
+  - type: Webhooks
+    url: asyncapi/overflow-webhooks.yml
+- aid: overflow:overflow-payments-api
+  name: Overflow Payments API
+  description: The Payments API from Overflow — 1 operation(s) for payments.
+  humanURL: https://docs.overflow.co/api-reference/welcome
+  baseURL: https://server.overflow.co
+  tags:
+  - Payments
+  properties:
+  - type: OpenAPI
+    url: openapi/overflow-payments-api-openapi.yml
+  - type: Documentation
+    url: https://docs.overflow.co/api-reference/welcome
+  - type: APIReference
+    url: https://docs.overflow.co/api-reference/welcome
+  - type: Authentication
+    url: authentication/overflow-authentication.yml
+  - type: Webhooks
+    url: asyncapi/overflow-webhooks.yml
+- aid: overflow:overflow-refunds-api
+  name: Overflow Refunds API
+  description: The Refunds API from Overflow — 2 operation(s) for refunds.
+  humanURL: https://docs.overflow.co/api-reference/welcome
+  baseURL: https://server.overflow.co
+  tags:
+  - Refunds
+  properties:
+  - type: OpenAPI
+    url: openapi/overflow-refunds-api-openapi.yml
+  - type: Documentation
+    url: https://docs.overflow.co/api-reference/welcome
+  - type: APIReference
+    url: https://docs.overflow.co/api-reference/welcome
+  - type: Authentication
+    url: authentication/overflow-authentication.yml
+  - type: Webhooks
+    url: asyncapi/overflow-webhooks.yml
+- aid: overflow:overflow-status-api
+  name: Overflow Status API
+  description: The Status API from Overflow — 1 operation(s) for status.
+  humanURL: https://docs.overflow.co/api-reference/welcome
+  baseURL: https://server.overflow.co
+  tags:
+  - Status
+  properties:
+  - type: OpenAPI
+    url: openapi/overflow-status-api-openapi.yml
+  - type: Documentation
+    url: https://docs.overflow.co/api-reference/welcome
+  - type: APIReference
+    url: https://docs.overflow.co/api-reference/welcome
+  - type: Authentication
+    url: authentication/overflow-authentication.yml
+  - type: Webhooks
+    url: asyncapi/overflow-webhooks.yml
+- aid: overflow:overflow-subscriptions-api
+  name: Overflow Subscriptions API
+  description: The Subscriptions API from Overflow — 3 operation(s) for subscriptions.
+  humanURL: https://docs.overflow.co/api-reference/welcome
+  baseURL: https://server.overflow.co
+  tags:
+  - Subscriptions
+  properties:
+  - type: OpenAPI
+    url: openapi/overflow-subscriptions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.overflow.co/api-reference/welcome
+  - type: APIReference
+    url: https://docs.overflow.co/api-reference/welcome
+  - type: Authentication
+    url: authentication/overflow-authentication.yml
+  - type: Webhooks
+    url: asyncapi/overflow-webhooks.yml
+- aid: overflow:overflow-tap-api
+  name: Overflow Tap API
+  description: The Tap API from Overflow — 7 operation(s) for tap.
+  humanURL: https://docs.overflow.co/api-reference/welcome
+  baseURL: https://server.overflow.co
+  tags:
+  - Tap
+  properties:
+  - type: OpenAPI
+    url: openapi/overflow-tap-api-openapi.yml
+  - type: Documentation
+    url: https://docs.overflow.co/api-reference/welcome
+  - type: APIReference
+    url: https://docs.overflow.co/api-reference/welcome
+  - type: Authentication
+    url: authentication/overflow-authentication.yml
+  - type: Webhooks
+    url: asyncapi/overflow-webhooks.yml
+- aid: overflow:overflow-webhooks-api
+  name: Overflow Webhooks API
+  description: The Webhooks API from Overflow — 3 operation(s) for webhooks.
+  humanURL: https://docs.overflow.co/api-reference/welcome
+  baseURL: https://server.overflow.co
+  tags:
+  - Webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/overflow-webhooks-api-openapi.yml
+  - type: Documentation
+    url: https://docs.overflow.co/api-reference/welcome
+  - type: APIReference
+    url: https://docs.overflow.co/api-reference/welcome
+  - type: Authentication
+    url: authentication/overflow-authentication.yml
+  - type: Webhooks
+    url: asyncapi/overflow-webhooks.yml
+x-enrichment:
+  date: '2026-07-20'
+  status: enriched
+  artifacts_added: 16
+  pass: local-v1
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+common:
+- type: DeveloperPortal
+  url: https://docs.overflow.co
+- type: Documentation
+  url: https://docs.overflow.co
+- type: APIReference
+  url: https://docs.overflow.co/api-reference/welcome
+- type: GettingStarted
+  url: https://docs.overflow.co/api-reference/quickstart
+- type: Authentication
+  url: authentication/overflow-authentication.yml
+- type: RateLimits
+  url: https://docs.overflow.co/api-reference/rate-limiting
+- type: Webhooks
+  url: asyncapi/overflow-webhooks.yml
+- type: StatusPage
+  url: https://status.overflow.co
+- type: Blog
+  url: https://www.overflow.co/learn
+- type: GitHubOrganization
+  url: https://github.com/overflow-co
+- type: SignUp
+  url: https://dashboard.overflow.co/login
+- type: Login
+  url: https://dashboard.overflow.co/login
+- type: TermsOfService
+  url: https://www.overflow.co/terms
+- type: PrivacyPolicy
+  url: https://www.overflow.co/privacy
+- type: LLMsTxt
+  url: llms/overflow-llms.txt
+- type: MCPServer
+  url: mcp/overflow-mcp.yml
+- type: Overlay
+  url: overlays/overflow-openapi-overlay.yaml
+- type: Conformance
+  url: conformance/overflow-conformance.yml
+- type: ErrorCatalog
+  url: errors/overflow-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/overflow-lifecycle.yml
+- type: DomainSecurity
+  url: security/overflow-domain-security.yml
+- type: Conventions
+  url: conventions/overflow-conventions.yml
+- type: Sandbox
+  url: sandbox/overflow-sandbox.yml
+- type: DataModel
+  url: data-model/overflow-data-model.yml
+- type: AgenticAccess
+  url: agentic-access/overflow-agentic-access.yml
+- type: AgentSkill
+  url: skills/_index.yml

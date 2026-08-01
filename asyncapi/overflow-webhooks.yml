@@ -1,0 +1,77 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.overflow.co/overflow-for-nonprofits/developers/webhooks
+spec_type: Webhooks
+note: >-
+  Overflow documents a push-based webhook surface but does not publish an
+  AsyncAPI document. This artifact captures the documented event catalog and
+  delivery semantics verbatim from the docs. No AsyncAPI spec is fabricated.
+description: >-
+  Webhooks deliver real-time signed HTTP POST notifications to a registered
+  HTTPS endpoint when events occur in a nonprofit's Overflow account. Managed
+  from the nonprofit dashboard under Developers -> Webhooks. Subscriptions can
+  target individual events, a whole group, or all events via the wildcard "*".
+transport:
+  method: HTTP POST
+  payload: signed JSON
+  wildcard: "*"
+signature:
+  header: x-overflow-webhook-signature-hmacsha256
+  algorithm: HMAC-SHA256
+  secret_format: whsk_v1_hs256_<random>
+  verify_against: raw request body (not re-serialized JSON)
+  rotation:
+    grace_windows: [immediately, 1 hour, 6 hours]
+    dual_signing: During the grace window, Overflow signs with both the previous and new secret.
+    retained_secrets: up to 10 previous secrets per subscription
+delivery:
+  retries: up to 16 attempts over a 3-day+ exponential backoff for transient errors
+  persistent_failures: stop retrying immediately on persistent misconfiguration
+  event_logs_api: OpenApiWebhooksController_getWebhookEventLogs
+subscription_management:
+  ui: Nonprofit dashboard -> Developers -> Webhooks
+  api_read:
+  - OpenApiWebhooksController_getWebhooks
+  - OpenApiWebhooksController_getWebhookById
+  - OpenApiWebhooksController_getWebhookEventLogs
+event_catalog:
+  contributions:
+  - event: contribution.approved
+    when: A contribution has been approved.
+  - event: contribution.declined
+    when: A contribution was declined.
+  - event: contribution.processing
+    when: A contribution is in flight.
+  - event: contribution.paid_out
+    when: Funds for the contribution have been paid out.
+  - event: contribution.voided
+    when: A contribution was voided.
+  - event: contribution.chargeback_*
+    when: Lifecycle events for chargebacks (3 variants).
+  - event: contribution.refund_*
+    when: Lifecycle events for refunds, including full and partial (6 variants).
+  donors:
+  - event: donor.created
+    when: A new donor record was created.
+  - event: donor.updated
+    when: A donor record was updated.
+  - event: donor.archived
+    when: A donor record was archived.
+  - event: donor.merged
+    when: Two donor records were merged.
+  recurring_gifts:
+  - event: recurring_gift.active
+    when: A recurring gift moved to the active state.
+  - event: recurring_gift.inactive
+    when: A recurring gift was deactivated.
+  - event: recurring_gift.paused
+    when: A recurring gift was paused.
+  - event: recurring_gift.updated
+    when: A recurring gift's configuration changed.
+  - event: recurring_gift.failed
+    when: A recurring gift failed terminally.
+  - event: recurring_gift.cycle_failed
+    when: A single billing cycle of a recurring gift failed.
+  deposits:
+  - event: deposit.paid_out
+    when: A deposit has been paid out to your bank account.

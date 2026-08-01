@@ -1,0 +1,28 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Overflow Open API
+  version: 1.0.0
+extends: openapi/overflow-openapi-original.json
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: overflow
+    x-apievangelist-notes: >-
+      Overflow Open API v3 — donations/giving platform for churches and
+      nonprofits. Header API-key auth (x-client-id + x-api-key), offset
+      pagination (limit + page) with { data, totalCount } envelope, fixed-window
+      rate limiting (120/min, x-ratelimit-* headers), HMAC-SHA256 signed
+      webhooks. No idempotency-key mechanism documented as of this capture.
+    x-apievangelist-artifacts:
+      conventions: conventions/overflow-conventions.yml
+      authentication: authentication/overflow-authentication.yml
+      errors: errors/overflow-problem-types.yml
+      lifecycle: lifecycle/overflow-lifecycle.yml
+      webhooks: asyncapi/overflow-webhooks.yml
+      data_model: data-model/overflow-data-model.yml
+- target: $.servers
+  update:
+  - url: https://server.overflow.co
+    description: Production
+  - url: https://server.stage.overflow.co
+    description: Staging

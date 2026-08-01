@@ -1,0 +1,127 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/overflow-openapi-original.json
+status: candidate
+note: >-
+  No official hosted/remote Overflow MCP server was found. This is a candidate
+  tool list derived one-per-operation from the Overflow Open API v3 OpenAPI, for
+  a future MCP wrapper. Not an authoritative provider claim.
+server:
+  name: overflow
+  transport: http
+  url: null
+tools:
+  - name: OpenApiContributionsController_getContributions
+    description: Get Contributions
+    source_operation: openapi/overflow-openapi-original.json#OpenApiContributionsController_getContributions
+  - name: OpenApiContributionsController_chargeCashPaymentMethod
+    description: Create Contribution
+    source_operation: openapi/overflow-openapi-original.json#OpenApiContributionsController_chargeCashPaymentMethod
+  - name: OpenApiContributionsController_getContributionById
+    description: Get Contribution
+    source_operation: openapi/overflow-openapi-original.json#OpenApiContributionsController_getContributionById
+  - name: OpenApiContributionsController_initiateRefund
+    description: Initiate Refund
+    source_operation: openapi/overflow-openapi-original.json#OpenApiContributionsController_initiateRefund
+  - name: OpenApiDepositsController_getDeposits
+    description: Get Deposits
+    source_operation: openapi/overflow-openapi-original.json#OpenApiDepositsController_getDeposits
+  - name: OpenApiDepositsController_getDepositById
+    description: Get Deposit
+    source_operation: openapi/overflow-openapi-original.json#OpenApiDepositsController_getDepositById
+  - name: OpenApiDepositsController_getDepositSummary
+    description: Get Deposit Summary
+    source_operation: openapi/overflow-openapi-original.json#OpenApiDepositsController_getDepositSummary
+  - name: OpenApiRefundsController_getRefunds
+    description: Get Refunds
+    source_operation: openapi/overflow-openapi-original.json#OpenApiRefundsController_getRefunds
+  - name: OpenApiRefundsController_getRefundById
+    description: Get Refund
+    source_operation: openapi/overflow-openapi-original.json#OpenApiRefundsController_getRefundById
+  - name: OpenApiChargebacksController_getChargebacks
+    description: Get Chargebacks
+    source_operation: openapi/overflow-openapi-original.json#OpenApiChargebacksController_getChargebacks
+  - name: OpenApiChargebacksController_getChargebackById
+    description: Get Chargeback
+    source_operation: openapi/overflow-openapi-original.json#OpenApiChargebacksController_getChargebackById
+  - name: OpenApiWebhooksController_getWebhooks
+    description: Get Webhooks
+    source_operation: openapi/overflow-openapi-original.json#OpenApiWebhooksController_getWebhooks
+  - name: OpenApiWebhooksController_getWebhookById
+    description: Get Webhook
+    source_operation: openapi/overflow-openapi-original.json#OpenApiWebhooksController_getWebhookById
+  - name: OpenApiWebhooksController_getWebhookEventLogs
+    description: Get Webhook Event Logs
+    source_operation: openapi/overflow-openapi-original.json#OpenApiWebhooksController_getWebhookEventLogs
+  - name: OpenApiDonorProfilesController_getDonorProfiles
+    description: Get Donors
+    source_operation: openapi/overflow-openapi-original.json#OpenApiDonorProfilesController_getDonorProfiles
+  - name: OpenApiDonorProfilesController_createDonorProfile
+    description: Create Donor Profile
+    source_operation: openapi/overflow-openapi-original.json#OpenApiDonorProfilesController_createDonorProfile
+  - name: OpenApiDonorProfilesController_getDonorProfile
+    description: Get Donor
+    source_operation: openapi/overflow-openapi-original.json#OpenApiDonorProfilesController_getDonorProfile
+  - name: OpenApiDonorProfilesController_updateDonorProfile
+    description: Update Donor
+    source_operation: openapi/overflow-openapi-original.json#OpenApiDonorProfilesController_updateDonorProfile
+  - name: OpenApiSubscriptionsController_createSubscription
+    description: Create Subscription
+    source_operation: openapi/overflow-openapi-original.json#OpenApiSubscriptionsController_createSubscription
+  - name: OpenApiSubscriptionsController_getSubscriptionsByDonorProfile
+    description: Get Subscriptions By Donor
+    source_operation: openapi/overflow-openapi-original.json#OpenApiSubscriptionsController_getSubscriptionsByDonorProfile
+  - name: OpenApiSubscriptionsController_getSubscriptions
+    description: Get Subscriptions
+    source_operation: openapi/overflow-openapi-original.json#OpenApiSubscriptionsController_getSubscriptions
+  - name: OpenApiSubscriptionsController_getSubscriptionById
+    description: Get Subscription By Id
+    source_operation: openapi/overflow-openapi-original.json#OpenApiSubscriptionsController_getSubscriptionById
+  - name: OpenApiSubscriptionsController_updateSubscriptionById
+    description: Update Subscription
+    source_operation: openapi/overflow-openapi-original.json#OpenApiSubscriptionsController_updateSubscriptionById
+  - name: OpenApiSubscriptionsController_cancelSubscription
+    description: Cancel Subscription
+    source_operation: openapi/overflow-openapi-original.json#OpenApiSubscriptionsController_cancelSubscription
+  - name: OpenApiPaymentMethodsController_getPaymentMethods
+    description: Get Payment Methods
+    source_operation: openapi/overflow-openapi-original.json#OpenApiPaymentMethodsController_getPaymentMethods
+  - name: OpenApiCampaignsController_getCampaigns
+    description: Get Campaigns
+    source_operation: openapi/overflow-openapi-original.json#OpenApiCampaignsController_getCampaigns
+  - name: OpenApiCampaignsController_getCampaignById
+    description: Get Campaign/Subcampaign
+    source_operation: openapi/overflow-openapi-original.json#OpenApiCampaignsController_getCampaignById
+  - name: OpenApiLocationsController_getLocations
+    description: Get Locations
+    source_operation: openapi/overflow-openapi-original.json#OpenApiLocationsController_getLocations
+  - name: OpenApiLocationsController_getLocationById
+    description: Get Location
+    source_operation: openapi/overflow-openapi-original.json#OpenApiLocationsController_getLocationById
+  - name: OpenApiPaymentsController_authorizePayment
+    description: Authorize Payment
+    source_operation: openapi/overflow-openapi-original.json#OpenApiPaymentsController_authorizePayment
+  - name: OpenApiTapDestinationsController_getDestinations
+    description: Get Tap Destinations
+    source_operation: openapi/overflow-openapi-original.json#OpenApiTapDestinationsController_getDestinations
+  - name: OpenApiTapDestinationsController_getDestinationById
+    description: Get Tap Destination
+    source_operation: openapi/overflow-openapi-original.json#OpenApiTapDestinationsController_getDestinationById
+  - name: OpenApiTapDevicesController_getDevices
+    description: Get Tap Devices
+    source_operation: openapi/overflow-openapi-original.json#OpenApiTapDevicesController_getDevices
+  - name: OpenApiTapDevicesController_getDeviceById
+    description: Get Tap Device
+    source_operation: openapi/overflow-openapi-original.json#OpenApiTapDevicesController_getDeviceById
+  - name: OpenApiTapEventsController_getEvents
+    description: Get Tap Events
+    source_operation: openapi/overflow-openapi-original.json#OpenApiTapEventsController_getEvents
+  - name: OpenApiTapGroupsController_getGroups
+    description: Get Tap Groups
+    source_operation: openapi/overflow-openapi-original.json#OpenApiTapGroupsController_getGroups
+  - name: OpenApiTapGroupsController_getGroupById
+    description: Get Tap Group
+    source_operation: openapi/overflow-openapi-original.json#OpenApiTapGroupsController_getGroupById
+  - name: OpenApiController_health
+    description: Health
+    source_operation: openapi/overflow-openapi-original.json#OpenApiController_health

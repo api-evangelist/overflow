@@ -1,0 +1,96 @@
+generated: '2026-07-20'
+method: derived
+source: >-
+  openapi/overflow-openapi-original.json — entity graph derived from schema
+  reference fields (donorId, campaignId, locationId, contributionId,
+  paymentMethodId, subscriptionId, fundId/subFundId, subcampaignId) and the
+  path nesting of the v3 operations.
+entities:
+- name: Donor
+  aka: DonorProfile
+  operations: [OpenApiDonorProfilesController_getDonorProfiles, OpenApiDonorProfilesController_createDonorProfile, OpenApiDonorProfilesController_getDonorProfile, OpenApiDonorProfilesController_updateDonorProfile]
+- name: Contribution
+  note: 5 types via discriminator `type` — Cash, Crypto, DAF, Stock, Manual. Amounts in cents.
+  operations: [OpenApiContributionsController_getContributions, OpenApiContributionsController_chargeCashPaymentMethod, OpenApiContributionsController_getContributionById, OpenApiContributionsController_initiateRefund]
+- name: Subscription
+  aka: RecurringGift
+  operations: [OpenApiSubscriptionsController_createSubscription, OpenApiSubscriptionsController_getSubscriptions, OpenApiSubscriptionsController_getSubscriptionsByDonorProfile, OpenApiSubscriptionsController_getSubscriptionById, OpenApiSubscriptionsController_updateSubscriptionById, OpenApiSubscriptionsController_cancelSubscription]
+- name: PaymentMethod
+  subtypes: [CardPaymentMethod, BankPaymentMethod, PlaidBankPaymentMethod, WalletPaymentMethod, StoredPaymentMethod]
+  operations: [OpenApiPaymentMethodsController_getPaymentMethods]
+- name: Payment
+  operations: [OpenApiPaymentsController_authorizePayment]
+- name: Deposit
+  note: A settlement from Overflow to the nonprofit's bank account; has a line-item breakdown.
+  operations: [OpenApiDepositsController_getDeposits, OpenApiDepositsController_getDepositById, OpenApiDepositsController_getDepositSummary]
+- name: Refund
+  operations: [OpenApiRefundsController_getRefunds, OpenApiRefundsController_getRefundById]
+- name: Chargeback
+  operations: [OpenApiChargebacksController_getChargebacks, OpenApiChargebacksController_getChargebackById]
+- name: Campaign
+  operations: [OpenApiCampaignsController_getCampaigns, OpenApiCampaignsController_getCampaignById]
+- name: Location
+  operations: [OpenApiLocationsController_getLocations, OpenApiLocationsController_getLocationById]
+- name: Webhook
+  operations: [OpenApiWebhooksController_getWebhooks, OpenApiWebhooksController_getWebhookById, OpenApiWebhooksController_getWebhookEventLogs]
+- name: TapDestination
+  operations: [OpenApiTapDestinationsController_getDestinations, OpenApiTapDestinationsController_getDestinationById]
+- name: TapDevice
+  operations: [OpenApiTapDevicesController_getDevices, OpenApiTapDevicesController_getDeviceById]
+- name: TapGroup
+  operations: [OpenApiTapGroupsController_getGroups, OpenApiTapGroupsController_getGroupById]
+- name: TapEvent
+  operations: [OpenApiTapEventsController_getEvents]
+relationships:
+- from: Subscription
+  type: belongs_to
+  to: Donor
+  via: donorId
+- from: Donor
+  type: has_many
+  to: Subscription
+  via: donorId
+- from: Donor
+  type: has_many
+  to: PaymentMethod
+  via: donorId
+- from: Contribution
+  type: belongs_to
+  to: Donor
+  via: donorId
+- from: Contribution
+  type: belongs_to
+  to: Campaign
+  via: campaignId
+- from: Contribution
+  type: belongs_to
+  to: Location
+  via: locationId
+- from: Contribution
+  type: has_one
+  to: PaymentMethod
+  via: paymentMethodId
+- from: Refund
+  type: belongs_to
+  to: Contribution
+  via: contributionId
+- from: Chargeback
+  type: belongs_to
+  to: Contribution
+  via: contributionId
+- from: Deposit
+  type: has_many
+  to: Contribution
+  via: line-item breakdown
+- from: Campaign
+  type: has_many
+  to: Campaign
+  via: subcampaignId
+- from: Contribution
+  type: belongs_to
+  to: Campaign
+  via: fundId/subFundId
+- from: Webhook
+  type: has_many
+  to: WebhookEventLog
+  via: webhookId

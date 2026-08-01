@@ -1,0 +1,38 @@
+{
+  "provider": "overflow",
+  "sources": [
+    "overflow-campaigns-api-openapi.yml",
+    "overflow-chargebacks-api-openapi.yml",
+    "overflow-contributions-api-openapi.yml",
+    "overflow-deposits-api-openapi.yml",
+    "overflow-donors-api-openapi.yml",
+    "overflow-locations-api-openapi.yml",
+    "overflow-payment-methods-api-openapi.yml",
+    "overflow-payments-api-openapi.yml",
+    "overflow-refunds-api-openapi.yml",
+    "overflow-status-api-openapi.yml",
+    "overflow-subscriptions-api-openapi.yml",
+    "overflow-tap-api-openapi.yml",
+    "overflow-webhooks-api-openapi.yml"
+  ],
+  "outputs": [
+    "overflow-campaigns-api-openapi.yml",
+    "overflow-chargebacks-api-openapi.yml",
+    "overflow-contributions-api-openapi.yml",
+    "overflow-deposits-api-openapi.yml",
+    "overflow-donors-api-openapi.yml",
+    "overflow-locations-api-openapi.yml",
+    "overflow-payment-methods-api-openapi.yml",
+    "overflow-payments-api-openapi.yml",
+    "overflow-refunds-api-openapi.yml",
+    "overflow-status-api-openapi.yml",
+    "overflow-subscriptions-api-openapi.yml",
+    "overflow-tap-api-openapi.yml",
+    "overflow-webhooks-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
