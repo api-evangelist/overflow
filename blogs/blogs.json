@@ -2,6 +2,13 @@
   "repo": "overflow",
   "feeds": [
     {
+      "source": "https://status.overflow.co/rss",
+      "feed_url": "https://status.overflow.co/rss",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
       "source": "https://status.overflow.co",
       "feed_url": "https://status.overflow.co/rss",
       "title": "",
@@ -10,5 +17,5 @@
     }
   ],
   "post_count": 0,
-  "fetched": "2026-07-25T15:00:33Z"
+  "fetched": "2026-08-01T15:49:00Z"
 }
