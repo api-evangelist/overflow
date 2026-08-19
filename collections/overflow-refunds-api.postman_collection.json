@@ -1,0 +1,356 @@
+{
+  "item": [
+    {
+      "id": "6677f6cd-519c-407f-ab7c-f0f07d042070",
+      "name": "Refunds",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f706b8c7-bfd3-4ee3-afcc-e6007d82842f",
+          "name": "Get Refunds",
+          "request": {
+            "name": "Get Refunds",
+            "description": {
+              "content": "\nReturns refunds for the authenticated nonprofit based on the provided filters.\n\n---\n\n### Refund Status\n\n* `PENDING`: The refund request has been created and is awaiting processor completion.\n* `SUCCEEDED`: The refund has completed successfully.\n* `FAILED`: The refund failed at the processor or settlement layer.\n* `CANCELED`: The refund was canceled before completion.\n* `REQUIRES_ACTION`: Additional action is required before the refund can complete.\n\n---\n\n### Refund Reasons\n\n* `REQUESTED_BY_CUSTOMER`: The donor requested the refund.\n* `FRAUDULENT`: The refund was issued due to suspected fraud.\n* `DUPLICATE`: The refund was issued for a duplicate charge.\n* `EXPIRED_OR_UNCAPTURED_CHARGE`: The original charge expired or was not captured.\n\n---\n\n### Filtering\n\n* Use `contributionId` to return refunds for a specific contribution.\n* Use `minimumUpdatedDate` and `maximumUpdatedDate` to poll for refunds that changed within a specific window.\n* Results are sorted by `createdAt` (ascending or descending via `sortDirection`) and paginated with `limit` and `page`.\n\nAll monetary amounts in the response are expressed in cents.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "refunds"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "25",
+                  "description": "The number of refunds to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "The page number of the refunds to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortDirection",
+                  "value": "<string>",
+                  "description": "Sort direction by refund created date. Defaults to descending."
+                },
+                {
+                  "disabled": false,
+                  "key": "contributionId",
+                  "value": "<string>",
+                  "description": "Filter by contribution id."
+                },
+                {
+                  "disabled": false,
+                  "key": "minimumUpdatedDate",
+                  "value": "<dateTime>",
+                  "description": "The minimum updated date of the refunds to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "maximumUpdatedDate",
+                  "value": "<dateTime>",
+                  "description": "The maximum updated date of the refunds to return."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-client-id"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "6c0917e3-8246-448f-aa42-327b51af6b87",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "refunds"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "25"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "sortDirection",
+                      "value": "DESC"
+                    },
+                    {
+                      "key": "contributionId",
+                      "value": "8810f34fd5061afeec3eab68"
+                    },
+                    {
+                      "key": "minimumUpdatedDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "maximumUpdatedDate",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"8810f34fd5061afeec3eab67\",\n      \"contributionId\": \"8810f34fd5061afeec3eab68\",\n      \"status\": \"SUCCEEDED\",\n      \"reason\": \"REQUESTED_BY_CUSTOMER\",\n      \"amountInCents\": 12500,\n      \"netValueInCents\": 12100,\n      \"feeValueInCents\": 400,\n      \"processorRefundId\": \"re_123456789\",\n      \"depositId\": \"8810f34fd5061afeec3eab69\",\n      \"createdAt\": \"2026-05-19T00:00:00.000Z\",\n      \"updatedAt\": \"2026-05-20T00:00:00.000Z\"\n    },\n    {\n      \"id\": \"8810f34fd5061afeec3eab67\",\n      \"contributionId\": \"8810f34fd5061afeec3eab68\",\n      \"status\": \"SUCCEEDED\",\n      \"reason\": \"REQUESTED_BY_CUSTOMER\",\n      \"amountInCents\": 12500,\n      \"netValueInCents\": 12100,\n      \"feeValueInCents\": 400,\n      \"processorRefundId\": \"re_123456789\",\n      \"depositId\": \"8810f34fd5061afeec3eab69\",\n      \"createdAt\": \"2026-05-19T00:00:00.000Z\",\n      \"updatedAt\": \"2026-05-20T00:00:00.000Z\"\n    }\n  ],\n  \"totalCount\": 100\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ea6b6dff-dc45-459b-9305-a4fb019a7efa",
+          "name": "Get Refund",
+          "request": {
+            "name": "Get Refund",
+            "description": {
+              "content": "Returns a single refund by its id for the authenticated nonprofit. All monetary amounts are expressed in cents.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "refunds",
+                ":refundId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "refundId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-client-id"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "54048eaa-c735-43ce-bb5f-e941d8d3760d",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "refunds",
+                    ":refundId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "refundId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"8810f34fd5061afeec3eab67\",\n    \"contributionId\": \"8810f34fd5061afeec3eab68\",\n    \"status\": \"SUCCEEDED\",\n    \"reason\": \"REQUESTED_BY_CUSTOMER\",\n    \"amountInCents\": 12500,\n    \"netValueInCents\": 12100,\n    \"feeValueInCents\": 400,\n    \"processorRefundId\": \"re_123456789\",\n    \"depositId\": \"8810f34fd5061afeec3eab69\",\n    \"createdAt\": \"2026-05-19T00:00:00.000Z\",\n    \"updatedAt\": \"2026-05-20T00:00:00.000Z\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1d932f35-c612-45d7-8ad1-f890d08d2b18",
+              "name": "Refund not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "refunds",
+                    ":refundId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "refundId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://server.stage.overflow.co",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "8f819b27-1ddc-446c-8329-ffbd16f8130d",
+    "name": "Overflow Open Campaigns Refunds API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "\nThe documentation for the Overflow Open APIs.\n\nTo access the OpenAPI spec in JSON/YAML format, navigate to:\n\n* `/api/docs/openapi.json`\n* `/api/docs/openapi.yaml`\n",
+      "type": "text/plain"
+    }
+  }
+}

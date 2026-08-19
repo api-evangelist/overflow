@@ -1,0 +1,287 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Overflow Open Campaigns Subscriptions API",
+    "version": "3.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Subscriptions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Subscriptions By Donor",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://server.stage.overflow.co/api/v3/subscriptions/:donorId",
+            "params": [
+              {
+                "name": "donorId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of subscriptions to return."
+              },
+              {
+                "name": "maximumUpdatedDate",
+                "value": "",
+                "type": "query",
+                "description": "The maximum updated date of the subscriptions to return."
+              },
+              {
+                "name": "minimumUpdatedDate",
+                "value": "",
+                "type": "query",
+                "description": "The minimum updated date of the subscriptions to return."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number of the subscriptions to return."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "The status of the subscriptions to return."
+              },
+              {
+                "name": "locationIds",
+                "value": "",
+                "type": "query",
+                "description": "Filter subscriptions by location Ids."
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query",
+                "description": "The field to sort the subscriptions by."
+              },
+              {
+                "name": "sortDirection",
+                "value": "",
+                "type": "query",
+                "description": "The direction to sort the subscriptions by."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns all subscriptions for the specified donor."
+        },
+        {
+          "info": {
+            "name": "Create Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://server.stage.overflow.co/api/v3/subscriptions/:donorId",
+            "params": [
+              {
+                "name": "donorId",
+                "value": "",
+                "type": "path",
+                "description": "The Id of the donor to create the subscription for."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Creates a new recurring donation subscription for a donor."
+        },
+        {
+          "info": {
+            "name": "Get Subscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://server.stage.overflow.co/api/v3/subscriptions",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of subscriptions to return."
+              },
+              {
+                "name": "maximumUpdatedDate",
+                "value": "",
+                "type": "query",
+                "description": "The maximum updated date of the subscriptions to return."
+              },
+              {
+                "name": "minimumUpdatedDate",
+                "value": "",
+                "type": "query",
+                "description": "The minimum updated date of the subscriptions to return."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number of the subscriptions to return."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "The status of the subscriptions to return."
+              },
+              {
+                "name": "locationIds",
+                "value": "",
+                "type": "query",
+                "description": "Filter subscriptions by location Ids."
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query",
+                "description": "The field to sort the subscriptions by."
+              },
+              {
+                "name": "sortDirection",
+                "value": "",
+                "type": "query",
+                "description": "The direction to sort the subscriptions by."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns all subscriptions for nonprofit"
+        },
+        {
+          "info": {
+            "name": "Get Subscription By Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://server.stage.overflow.co/api/v3/subscriptions/:donorId/:subscriptionId",
+            "params": [
+              {
+                "name": "donorId",
+                "value": "",
+                "type": "path",
+                "description": "The Id of the donor to get the subscription for."
+              },
+              {
+                "name": "subscriptionId",
+                "value": "",
+                "type": "path",
+                "description": "The Id of the subscription to get."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns a donor subscription by its Id."
+        },
+        {
+          "info": {
+            "name": "Update Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://server.stage.overflow.co/api/v3/subscriptions/:donorId/:subscriptionId",
+            "params": [
+              {
+                "name": "donorId",
+                "value": "",
+                "type": "path",
+                "description": "The Id of the donor to update the subscription for."
+              },
+              {
+                "name": "subscriptionId",
+                "value": "",
+                "type": "path",
+                "description": "The Id of the subscription to update."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Updates a donor subscription by its Id."
+        },
+        {
+          "info": {
+            "name": "Cancel Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://server.stage.overflow.co/api/v3/subscriptions/:donorId/:subscriptionId",
+            "params": [
+              {
+                "name": "donorId",
+                "value": "",
+                "type": "path",
+                "description": "The Id of the donor to cancel the subscription for."
+              },
+              {
+                "name": "subscriptionId",
+                "value": "",
+                "type": "path",
+                "description": "The Id of the subscription to cancel."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Cancels a donor subscription by its Id."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

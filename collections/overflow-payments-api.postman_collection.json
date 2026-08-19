@@ -1,0 +1,152 @@
+{
+  "item": [
+    {
+      "id": "ccd91e2f-91db-44be-8f0c-b3ac8cf526f3",
+      "name": "Payments",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f4adc22f-da23-48a5-ae95-149b1b5f5740",
+          "name": "Authorize Payment",
+          "request": {
+            "name": "Authorize Payment",
+            "description": {
+              "content": "Authorizes a payment for the given payment method and donor.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "payments",
+                "authorize"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-client-id"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amountInCents\": \"<integer>\",\n  \"email\": \"<email>\",\n  \"paymentMethod\": {\n    \"paymentMethodType\": \"<string>\",\n    \"defaultForDonor\": \"<boolean>\",\n    \"encryptedCardNumber\": \"<string>\",\n    \"encryptedExpiryMonth\": \"<string>\",\n    \"encryptedExpiryYear\": \"<string>\",\n    \"encryptedSecurityCode\": \"<string>\"\n  },\n  \"processingChannel\": \"<string>\",\n  \"anonymous\": \"<boolean>\",\n  \"billingAddress\": {\n    \"city\": \"<string>\",\n    \"country\": \"<string>\",\n    \"line1\": \"<string>\",\n    \"line2\": \"<string>\",\n    \"state\": \"<string>\",\n    \"zip\": \"<string>\"\n  },\n  \"browserInfo\": {\n    \"acceptHeader\": \"<string>\",\n    \"colorDepth\": \"<number>\",\n    \"javaEnabled\": \"<boolean>\",\n    \"language\": \"<string>\",\n    \"screenHeight\": \"<number>\",\n    \"screenWidth\": \"<number>\",\n    \"timeZoneOffset\": \"<number>\",\n    \"userAgent\": \"<string>\"\n  },\n  \"coveredFees\": {\n    \"coveredFeeValue\": \"<number>\",\n    \"coveredFlatFeeValue\": \"<number>\",\n    \"coveredPercentageFeeString\": \"<string>\"\n  },\n  \"dedication\": {\n    \"recipientEmail\": \"<string>\",\n    \"recipientName\": \"<string>\",\n    \"type\": \"<string>\"\n  },\n  \"deductible\": \"<boolean>\",\n  \"firstName\": \"<string>\",\n  \"fundId\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"locationId\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": {}\n  },\n  \"notes\": \"<string>\",\n  \"phone\": \"<string>\",\n  \"recurring\": {\n    \"frequency\": \"<string>\",\n    \"startDate\": \"<dateTime>\",\n    \"cycles\": \"<number>\"\n  },\n  \"riskData\": {\n    \"clientData\": \"<string>\"\n  },\n  \"subFundId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "026d0077-b596-4a15-b8b1-47a0089f857c",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "payments",
+                    "authorize"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amountInCents\": 5000,\n  \"email\": \"jane@example.com\",\n  \"paymentMethod\": {\n    \"paymentMethodType\": \"<string>\",\n    \"defaultForDonor\": \"<boolean>\",\n    \"encryptedCardNumber\": \"<string>\",\n    \"encryptedExpiryMonth\": \"<string>\",\n    \"encryptedExpiryYear\": \"<string>\",\n    \"encryptedSecurityCode\": \"<string>\"\n  },\n  \"processingChannel\": \"Ecommerce\",\n  \"anonymous\": false,\n  \"billingAddress\": {\n    \"city\": \"<string>\",\n    \"country\": \"<string>\",\n    \"line1\": \"<string>\",\n    \"line2\": \"<string>\",\n    \"state\": \"<string>\",\n    \"zip\": \"<string>\"\n  },\n  \"browserInfo\": {\n    \"acceptHeader\": \"<string>\",\n    \"colorDepth\": \"<number>\",\n    \"javaEnabled\": \"<boolean>\",\n    \"language\": \"<string>\",\n    \"screenHeight\": \"<number>\",\n    \"screenWidth\": \"<number>\",\n    \"timeZoneOffset\": \"<number>\",\n    \"userAgent\": \"<string>\"\n  },\n  \"coveredFees\": {\n    \"coveredFeeValue\": \"<number>\",\n    \"coveredFlatFeeValue\": \"<number>\",\n    \"coveredPercentageFeeString\": \"<string>\"\n  },\n  \"dedication\": {\n    \"recipientEmail\": \"<string>\",\n    \"recipientName\": \"<string>\",\n    \"type\": \"<string>\"\n  },\n  \"deductible\": true,\n  \"firstName\": \"Jane\",\n  \"fundId\": \"fund_abc123\",\n  \"lastName\": \"Donor\",\n  \"locationId\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": {}\n  },\n  \"notes\": \"<string>\",\n  \"phone\": \"+15555550100\",\n  \"recurring\": {\n    \"frequency\": \"<string>\",\n    \"startDate\": \"<dateTime>\",\n    \"cycles\": \"<number>\"\n  },\n  \"riskData\": {\n    \"clientData\": \"<string>\"\n  },\n  \"subFundId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"donorId\": \"6710f34fd5061afeec3eab57\",\n  \"contributionId\": \"7710f34fd5061afeec3eab59\",\n  \"paymentMethodId\": \"5710f34fd5061afeec3eab58\",\n  \"paymentMethod\": {\n    \"brand\": \"visa\",\n    \"last4\": \"1111\",\n    \"expiration\": {\n      \"month\": \"string\",\n      \"year\": \"string\"\n    },\n    \"fundingSource\": \"credit\"\n  },\n  \"subscriptionId\": \"8810f34fd5061afeec3eab60\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://server.stage.overflow.co",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "aaf6f0dc-607b-4abf-b8c1-61f9a9c02ab1",
+    "name": "Overflow Open Campaigns Payments API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "\nThe documentation for the Overflow Open APIs.\n\nTo access the OpenAPI spec in JSON/YAML format, navigate to:\n\n* `/api/docs/openapi.json`\n* `/api/docs/openapi.yaml`\n",
+      "type": "text/plain"
+    }
+  }
+}

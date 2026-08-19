@@ -1,0 +1,61 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Overflow Open Campaigns Payment Methods API",
+    "version": "3.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Payment Methods",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Payment Methods",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://server.stage.overflow.co/api/v3/payment-methods/:donorId",
+            "params": [
+              {
+                "name": "donorId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the donor to get payment methods for."
+              },
+              {
+                "name": "maximumUpdatedDate",
+                "value": "",
+                "type": "query",
+                "description": "The maximum updated date of the payment methods to return. YYYY-MM-DD"
+              },
+              {
+                "name": "minimumUpdatedDate",
+                "value": "",
+                "type": "query",
+                "description": "The minimum updated date of the payment methods to return. YYYY-MM-DD"
+              },
+              {
+                "name": "showExpired",
+                "value": "",
+                "type": "query",
+                "description": "Whether to return expired payment methods or not."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns the payment methods a donor has added."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

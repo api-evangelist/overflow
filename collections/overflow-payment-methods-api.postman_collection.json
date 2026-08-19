@@ -1,0 +1,305 @@
+{
+  "item": [
+    {
+      "id": "8a682621-79e4-4c85-be6b-c3c19efd741a",
+      "name": "Payment Methods",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "121355a2-16c9-40a0-9b8c-5373c728fae1",
+          "name": "Get Payment Methods",
+          "request": {
+            "name": "Get Payment Methods",
+            "description": {
+              "content": "Returns the payment methods a donor has added.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "payment-methods",
+                ":donorId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "maximumUpdatedDate",
+                  "value": "<dateTime>",
+                  "description": "The maximum updated date of the payment methods to return. YYYY-MM-DD"
+                },
+                {
+                  "disabled": false,
+                  "key": "minimumUpdatedDate",
+                  "value": "<dateTime>",
+                  "description": "The minimum updated date of the payment methods to return. YYYY-MM-DD"
+                },
+                {
+                  "disabled": false,
+                  "key": "showExpired",
+                  "value": "false",
+                  "description": "Whether to return expired payment methods or not."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "donorId",
+                  "description": "(Required) The ID of the donor to get payment methods for."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-client-id"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "972a719e-00af-41ce-bc1a-c04f50bcb24f",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "payment-methods",
+                    ":donorId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "maximumUpdatedDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "minimumUpdatedDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "showExpired",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "donorId",
+                      "description": "(Required) The ID of the donor to get payment methods for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"6710f34fd5061afeec3eab57\",\n      \"last4\": \"4242\",\n      \"type\": \"card\",\n      \"updatedAt\": \"2025-01-01T00:00:00.000Z\",\n      \"holderName\": \"John Doe\",\n      \"expirationDate\": \"12/26\",\n      \"isExpired\": false\n    },\n    {\n      \"id\": \"6710f34fd5061afeec3eab57\",\n      \"last4\": \"4242\",\n      \"type\": \"card\",\n      \"updatedAt\": \"2025-01-01T00:00:00.000Z\",\n      \"holderName\": \"John Doe\",\n      \"expirationDate\": \"12/26\",\n      \"isExpired\": false\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5f23af7b-8716-4a32-8e28-10f5d09b0c2b",
+              "name": "Donor does not belong to the nonprofit",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "payment-methods",
+                    ":donorId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "maximumUpdatedDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "minimumUpdatedDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "showExpired",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "donorId",
+                      "description": "(Required) The ID of the donor to get payment methods for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a2124462-9a99-4405-acc7-b2a6720277df",
+              "name": "Donor profile does not exist",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "payment-methods",
+                    ":donorId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "maximumUpdatedDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "minimumUpdatedDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "showExpired",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "donorId",
+                      "description": "(Required) The ID of the donor to get payment methods for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://server.stage.overflow.co",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "9408e0d2-63f3-470d-8400-448847752a7d",
+    "name": "Overflow Open Campaigns Payment Methods API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "\nThe documentation for the Overflow Open APIs.\n\nTo access the OpenAPI spec in JSON/YAML format, navigate to:\n\n* `/api/docs/openapi.json`\n* `/api/docs/openapi.yaml`\n",
+      "type": "text/plain"
+    }
+  }
+}

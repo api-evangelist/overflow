@@ -1,0 +1,97 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Overflow Open Campaigns Chargebacks API",
+    "version": "3.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Chargebacks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Chargebacks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://server.stage.overflow.co/api/v3/chargebacks",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of chargebacks to return."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number of the chargebacks to return."
+              },
+              {
+                "name": "sortDirection",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction by chargeback created date. Defaults to descending."
+              },
+              {
+                "name": "contributionId",
+                "value": "",
+                "type": "query",
+                "description": "Filter by contribution id."
+              },
+              {
+                "name": "minimumUpdatedDate",
+                "value": "",
+                "type": "query",
+                "description": "The minimum updated date of the chargebacks to return."
+              },
+              {
+                "name": "maximumUpdatedDate",
+                "value": "",
+                "type": "query",
+                "description": "The maximum updated date of the chargebacks to return."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\nReturns chargebacks for the authenticated nonprofit based on the provided filters.\n\n---\n\n### Chargeback Status\n\n* `pending`: The chargeback is still in progress.\n* `lost`: The chargeback was finalized against the nonprofit.\n* `won`: The chargeback was finalized in the nonprofit's favor.\n\n---\n\n### Chargeback Types\n\n* `ach_return`: The chargeback originated from an ACH return.\n* `dispute`: The chargeback originated from a card dispute.\n\n---\n\n### Filtering\n\n* Use `contributionId` to return chargeb"
+        },
+        {
+          "info": {
+            "name": "Get Chargeback",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://server.stage.overflow.co/api/v3/chargebacks/:chargebackId",
+            "params": [
+              {
+                "name": "chargebackId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns a single chargeback by its id for the authenticated nonprofit. All monetary amounts are expressed in cents."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,1711 @@
+{
+  "item": [
+    {
+      "id": "ab997f6e-de35-4074-bcaa-7500376ca983",
+      "name": "Subscriptions",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "cb15091d-1cab-4065-85c6-62600056e504",
+          "name": "Create Subscription",
+          "request": {
+            "name": "Create Subscription",
+            "description": {
+              "content": "Creates a new recurring donation subscription for a donor.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "subscriptions",
+                ":donorId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "donorId",
+                  "description": "(Required) The Id of the donor to create the subscription for."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-client-id"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"paymentMethodId\": \"<string>\",\n  \"amount\": \"<number>\",\n  \"frequency\": \"<string>\",\n  \"startDate\": \"<dateTime>\",\n  \"timezone\": \"<string>\",\n  \"anonymous\": \"<boolean>\",\n  \"campaignId\": \"<string>\",\n  \"subcampaignId\": \"<string>\",\n  \"donorNotes\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "787f9f75-f719-4be1-8fcf-ff08aa3ca8b8",
+              "name": "Subscription created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "subscriptions",
+                    ":donorId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "donorId",
+                      "description": "(Required) The Id of the donor to create the subscription for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"paymentMethodId\": \"6710f34fd5061afeec3eab57\",\n  \"amount\": 50,\n  \"frequency\": \"month\",\n  \"startDate\": \"2025-01-15T05:00:00.000Z\",\n  \"timezone\": \"America/Chicago\",\n  \"anonymous\": false,\n  \"campaignId\": \"7710f34fd5061afeec3eab78\",\n  \"subcampaignId\": \"7710f34fd5061afeec3eab79\",\n  \"donorNotes\": \"Happy to support this cause!\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"6710f34fd5061afeec3eab57\",\n    \"donorId\": \"6710f34fd5061afeec3eab57\",\n    \"createdAt\": \"2025-01-01T00:00:00.000Z\",\n    \"updatedAt\": \"2025-01-01T00:00:00.000Z\",\n    \"startDate\": \"2025-01-01T00:00:00.000Z\",\n    \"status\": \"active\",\n    \"amount\": 50,\n    \"anonymous\": false,\n    \"frequency\": \"weekly\",\n    \"nextPaymentDate\": \"2025-01-01T00:00:00.000Z\",\n    \"paymentMethod\": {\n      \"id\": \"string\",\n      \"type\": \"wallet\",\n      \"last4\": \"string\",\n      \"expiration\": \"string\",\n      \"holderName\": \"string\"\n    },\n    \"campaign\": {\n      \"id\": \"string\",\n      \"name\": \"string\"\n    },\n    \"subcampaign\": {\n      \"id\": \"string\",\n      \"name\": \"string\"\n    },\n    \"donorCoveredFees\": false,\n    \"metadata\": {\n      \"orderId\": \"abc-123\"\n    },\n    \"locationId\": \"6710f34fd5061afeec3eab57\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "70ff3a3d-664d-4673-bdbf-ce3ded1f21d3",
+              "name": "Invalid request parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "subscriptions",
+                    ":donorId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "donorId",
+                      "description": "(Required) The Id of the donor to create the subscription for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"paymentMethodId\": \"6710f34fd5061afeec3eab57\",\n  \"amount\": 50,\n  \"frequency\": \"month\",\n  \"startDate\": \"2025-01-15T05:00:00.000Z\",\n  \"timezone\": \"America/Chicago\",\n  \"anonymous\": false,\n  \"campaignId\": \"7710f34fd5061afeec3eab78\",\n  \"subcampaignId\": \"7710f34fd5061afeec3eab79\",\n  \"donorNotes\": \"Happy to support this cause!\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0487aae3-730b-4e90-90ac-cbc0bba754f1",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "subscriptions",
+                    ":donorId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "donorId",
+                      "description": "(Required) The Id of the donor to create the subscription for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"paymentMethodId\": \"6710f34fd5061afeec3eab57\",\n  \"amount\": 50,\n  \"frequency\": \"month\",\n  \"startDate\": \"2025-01-15T05:00:00.000Z\",\n  \"timezone\": \"America/Chicago\",\n  \"anonymous\": false,\n  \"campaignId\": \"7710f34fd5061afeec3eab78\",\n  \"subcampaignId\": \"7710f34fd5061afeec3eab79\",\n  \"donorNotes\": \"Happy to support this cause!\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1cf8b153-8bbf-4b48-b24e-06039ab9720a",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "subscriptions",
+                    ":donorId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "donorId",
+                      "description": "(Required) The Id of the donor to create the subscription for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"paymentMethodId\": \"6710f34fd5061afeec3eab57\",\n  \"amount\": 50,\n  \"frequency\": \"month\",\n  \"startDate\": \"2025-01-15T05:00:00.000Z\",\n  \"timezone\": \"America/Chicago\",\n  \"anonymous\": false,\n  \"campaignId\": \"7710f34fd5061afeec3eab78\",\n  \"subcampaignId\": \"7710f34fd5061afeec3eab79\",\n  \"donorNotes\": \"Happy to support this cause!\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8e8099cc-f2bc-4121-b8cc-716ed33835c6",
+          "name": "Get Subscriptions By Donor",
+          "request": {
+            "name": "Get Subscriptions By Donor",
+            "description": {
+              "content": "Returns all subscriptions for the specified donor.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "subscriptions",
+                ":donorId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "25",
+                  "description": "The number of subscriptions to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "maximumUpdatedDate",
+                  "value": "<dateTime>",
+                  "description": "The maximum updated date of the subscriptions to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "minimumUpdatedDate",
+                  "value": "<dateTime>",
+                  "description": "The minimum updated date of the subscriptions to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "The page number of the subscriptions to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "The status of the subscriptions to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "The status of the subscriptions to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "locationIds",
+                  "value": "<string>",
+                  "description": "Filter subscriptions by location Ids."
+                },
+                {
+                  "disabled": false,
+                  "key": "locationIds",
+                  "value": "<string>",
+                  "description": "Filter subscriptions by location Ids."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortBy",
+                  "value": "createdAt",
+                  "description": "The field to sort the subscriptions by."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortDirection",
+                  "value": "DESC",
+                  "description": "The direction to sort the subscriptions by."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "",
+                  "key": "donorId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-client-id"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "fec9da28-1417-4e28-94bd-5e1ed1744e58",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "subscriptions",
+                    ":donorId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "25"
+                    },
+                    {
+                      "key": "maximumUpdatedDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "minimumUpdatedDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "status",
+                      "value": "active"
+                    },
+                    {
+                      "key": "locationIds",
+                      "value": "6710f34fd5061afeec3eab57"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "createdAt"
+                    },
+                    {
+                      "key": "sortDirection",
+                      "value": "DESC"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "",
+                      "key": "donorId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"6710f34fd5061afeec3eab57\",\n      \"donorId\": \"6710f34fd5061afeec3eab57\",\n      \"createdAt\": \"2025-01-01T00:00:00.000Z\",\n      \"updatedAt\": \"2025-01-01T00:00:00.000Z\",\n      \"startDate\": \"2025-01-01T00:00:00.000Z\",\n      \"status\": \"active\",\n      \"amount\": 50,\n      \"anonymous\": false,\n      \"frequency\": \"weekly\",\n      \"nextPaymentDate\": \"2025-01-01T00:00:00.000Z\",\n      \"paymentMethod\": {\n        \"id\": \"string\",\n        \"type\": \"wallet\",\n        \"last4\": \"string\",\n        \"expiration\": \"string\",\n        \"holderName\": \"string\"\n      },\n      \"campaign\": {\n        \"id\": \"string\",\n        \"name\": \"string\"\n      },\n      \"subcampaign\": {\n        \"id\": \"string\",\n        \"name\": \"string\"\n      },\n      \"donorCoveredFees\": false,\n      \"metadata\": {\n        \"orderId\": \"abc-123\"\n      },\n      \"locationId\": \"6710f34fd5061afeec3eab57\"\n    },\n    {\n      \"id\": \"6710f34fd5061afeec3eab57\",\n      \"donorId\": \"6710f34fd5061afeec3eab57\",\n      \"createdAt\": \"2025-01-01T00:00:00.000Z\",\n      \"updatedAt\": \"2025-01-01T00:00:00.000Z\",\n      \"startDate\": \"2025-01-01T00:00:00.000Z\",\n      \"status\": \"active\",\n      \"amount\": 50,\n      \"anonymous\": false,\n      \"frequency\": \"weekly\",\n      \"nextPaymentDate\": \"2025-01-01T00:00:00.000Z\",\n      \"paymentMethod\": {\n        \"id\": \"string\",\n        \"type\": \"bank\",\n        \"last4\": \"string\",\n        \"expiration\": \"string\",\n        \"holderName\": \"string\"\n      },\n      \"campaign\": {\n        \"id\": \"string\",\n        \"name\": \"string\"\n      },\n      \"subcampaign\": {\n        \"id\": \"string\",\n        \"name\": \"string\"\n      },\n      \"donorCoveredFees\": false,\n      \"metadata\": {\n        \"orderId\": \"abc-123\"\n      },\n      \"locationId\": \"6710f34fd5061afeec3eab57\"\n    }\n  ],\n  \"totalCount\": 100\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e65f59f5-fe31-4e5d-81d5-f8127fee4f2d",
+              "name": "Donor does not belong to the nonprofit",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "subscriptions",
+                    ":donorId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "25"
+                    },
+                    {
+                      "key": "maximumUpdatedDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "minimumUpdatedDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "status",
+                      "value": "active"
+                    },
+                    {
+                      "key": "locationIds",
+                      "value": "6710f34fd5061afeec3eab57"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "createdAt"
+                    },
+                    {
+                      "key": "sortDirection",
+                      "value": "DESC"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "",
+                      "key": "donorId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "440c3090-71c3-4f00-86a5-ad825b860b5a",
+              "name": "Donor profile does not exist",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "subscriptions",
+                    ":donorId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "25"
+                    },
+                    {
+                      "key": "maximumUpdatedDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "minimumUpdatedDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "status",
+                      "value": "active"
+                    },
+                    {
+                      "key": "locationIds",
+                      "value": "6710f34fd5061afeec3eab57"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "createdAt"
+                    },
+                    {
+                      "key": "sortDirection",
+                      "value": "DESC"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "",
+                      "key": "donorId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "af0ace5c-a912-4bde-ac98-dd00f5ddc709",
+          "name": "Get Subscriptions",
+          "request": {
+            "name": "Get Subscriptions",
+            "description": {
+              "content": "Returns all subscriptions for nonprofit",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "subscriptions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "25",
+                  "description": "The number of subscriptions to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "maximumUpdatedDate",
+                  "value": "<dateTime>",
+                  "description": "The maximum updated date of the subscriptions to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "minimumUpdatedDate",
+                  "value": "<dateTime>",
+                  "description": "The minimum updated date of the subscriptions to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "The page number of the subscriptions to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "The status of the subscriptions to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "The status of the subscriptions to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "locationIds",
+                  "value": "<string>",
+                  "description": "Filter subscriptions by location Ids."
+                },
+                {
+                  "disabled": false,
+                  "key": "locationIds",
+                  "value": "<string>",
+                  "description": "Filter subscriptions by location Ids."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortBy",
+                  "value": "createdAt",
+                  "description": "The field to sort the subscriptions by."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortDirection",
+                  "value": "DESC",
+                  "description": "The direction to sort the subscriptions by."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-client-id"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "2bdd54f4-3462-4a91-8b61-096d3dc620bb",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "subscriptions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "25"
+                    },
+                    {
+                      "key": "maximumUpdatedDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "minimumUpdatedDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "status",
+                      "value": "active"
+                    },
+                    {
+                      "key": "locationIds",
+                      "value": "6710f34fd5061afeec3eab57"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "createdAt"
+                    },
+                    {
+                      "key": "sortDirection",
+                      "value": "DESC"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"6710f34fd5061afeec3eab57\",\n      \"donorId\": \"6710f34fd5061afeec3eab57\",\n      \"createdAt\": \"2025-01-01T00:00:00.000Z\",\n      \"updatedAt\": \"2025-01-01T00:00:00.000Z\",\n      \"startDate\": \"2025-01-01T00:00:00.000Z\",\n      \"status\": \"active\",\n      \"amount\": 50,\n      \"anonymous\": false,\n      \"frequency\": \"weekly\",\n      \"nextPaymentDate\": \"2025-01-01T00:00:00.000Z\",\n      \"paymentMethod\": {\n        \"id\": \"string\",\n        \"type\": \"card\",\n        \"last4\": \"string\",\n        \"expiration\": \"string\",\n        \"holderName\": \"string\"\n      },\n      \"campaign\": {\n        \"id\": \"string\",\n        \"name\": \"string\"\n      },\n      \"subcampaign\": {\n        \"id\": \"string\",\n        \"name\": \"string\"\n      },\n      \"donorCoveredFees\": false,\n      \"metadata\": {\n        \"orderId\": \"abc-123\"\n      },\n      \"locationId\": \"6710f34fd5061afeec3eab57\"\n    },\n    {\n      \"id\": \"6710f34fd5061afeec3eab57\",\n      \"donorId\": \"6710f34fd5061afeec3eab57\",\n      \"createdAt\": \"2025-01-01T00:00:00.000Z\",\n      \"updatedAt\": \"2025-01-01T00:00:00.000Z\",\n      \"startDate\": \"2025-01-01T00:00:00.000Z\",\n      \"status\": \"active\",\n      \"amount\": 50,\n      \"anonymous\": false,\n      \"frequency\": \"weekly\",\n      \"nextPaymentDate\": \"2025-01-01T00:00:00.000Z\",\n      \"paymentMethod\": {\n        \"id\": \"string\",\n        \"type\": \"bank\",\n        \"last4\": \"string\",\n        \"expiration\": \"string\",\n        \"holderName\": \"string\"\n      },\n      \"campaign\": {\n        \"id\": \"string\",\n        \"name\": \"string\"\n      },\n      \"subcampaign\": {\n        \"id\": \"string\",\n        \"name\": \"string\"\n      },\n      \"donorCoveredFees\": false,\n      \"metadata\": {\n        \"orderId\": \"abc-123\"\n      },\n      \"locationId\": \"6710f34fd5061afeec3eab57\"\n    }\n  ],\n  \"totalCount\": 100\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6bbed893-581e-4fea-aed9-8862215bee48",
+          "name": "Get Subscription By Id",
+          "request": {
+            "name": "Get Subscription By Id",
+            "description": {
+              "content": "Returns a donor subscription by its Id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "subscriptions",
+                ":donorId",
+                ":subscriptionId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "donorId",
+                  "description": "(Required) The Id of the donor to get the subscription for."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "subscriptionId",
+                  "description": "(Required) The Id of the subscription to get."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-client-id"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "0797448a-306b-479c-aa79-70a081861b65",
+              "name": "Subscription",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "subscriptions",
+                    ":donorId",
+                    ":subscriptionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "donorId",
+                      "description": "(Required) The Id of the donor to get the subscription for."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "subscriptionId",
+                      "description": "(Required) The Id of the subscription to get."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"6710f34fd5061afeec3eab57\",\n    \"donorId\": \"6710f34fd5061afeec3eab57\",\n    \"createdAt\": \"2025-01-01T00:00:00.000Z\",\n    \"updatedAt\": \"2025-01-01T00:00:00.000Z\",\n    \"startDate\": \"2025-01-01T00:00:00.000Z\",\n    \"status\": \"active\",\n    \"amount\": 50,\n    \"anonymous\": false,\n    \"frequency\": \"weekly\",\n    \"nextPaymentDate\": \"2025-01-01T00:00:00.000Z\",\n    \"paymentMethod\": {\n      \"id\": \"string\",\n      \"type\": \"bank\",\n      \"last4\": \"string\",\n      \"expiration\": \"string\",\n      \"holderName\": \"string\"\n    },\n    \"campaign\": {\n      \"id\": \"string\",\n      \"name\": \"string\"\n    },\n    \"subcampaign\": {\n      \"id\": \"string\",\n      \"name\": \"string\"\n    },\n    \"donorCoveredFees\": false,\n    \"metadata\": {\n      \"orderId\": \"abc-123\"\n    },\n    \"locationId\": \"6710f34fd5061afeec3eab57\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d5ec8581-d7b8-470d-b757-7bb0c9bba4be",
+              "name": "Invalid request parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "subscriptions",
+                    ":donorId",
+                    ":subscriptionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "donorId",
+                      "description": "(Required) The Id of the donor to get the subscription for."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "subscriptionId",
+                      "description": "(Required) The Id of the subscription to get."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2291bf2a-005b-4f85-b86d-b8b02e5ab770",
+              "name": "Subscription not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "subscriptions",
+                    ":donorId",
+                    ":subscriptionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "donorId",
+                      "description": "(Required) The Id of the donor to get the subscription for."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "subscriptionId",
+                      "description": "(Required) The Id of the subscription to get."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a50a5c87-b1d9-4830-bba5-c3ce2bd24ede",
+          "name": "Update Subscription",
+          "request": {
+            "name": "Update Subscription",
+            "description": {
+              "content": "Updates a donor subscription by its Id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "subscriptions",
+                ":donorId",
+                ":subscriptionId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "donorId",
+                  "description": "(Required) The Id of the donor to update the subscription for."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "subscriptionId",
+                  "description": "(Required) The Id of the subscription to update."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-client-id"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"paymentMethodId\": \"<string>\",\n  \"amount\": \"<number>\",\n  \"startDate\": \"<dateTime>\",\n  \"timezone\": \"<string>\",\n  \"anonymous\": \"<boolean>\",\n  \"campaignId\": \"<string>\",\n  \"subcampaignId\": \"<string>\",\n  \"donorNotes\": \"<string>\",\n  \"frequency\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8e6701af-99cc-452a-a24e-4358248f9455",
+              "name": "Subscription updated successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "subscriptions",
+                    ":donorId",
+                    ":subscriptionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "donorId",
+                      "description": "(Required) The Id of the donor to update the subscription for."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "subscriptionId",
+                      "description": "(Required) The Id of the subscription to update."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"paymentMethodId\": \"6710f34fd5061afeec3eab57\",\n  \"amount\": 50,\n  \"startDate\": \"2025-01-15T05:00:00.000Z\",\n  \"timezone\": \"America/Chicago\",\n  \"anonymous\": false,\n  \"campaignId\": \"7710f34fd5061afeec3eab78\",\n  \"subcampaignId\": \"7710f34fd5061afeec3eab79\",\n  \"donorNotes\": \"Happy to support this cause!\",\n  \"frequency\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "318a539f-e9d4-49db-9123-d2597b101707",
+              "name": "Updating the subscription failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "subscriptions",
+                    ":donorId",
+                    ":subscriptionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "donorId",
+                      "description": "(Required) The Id of the donor to update the subscription for."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "subscriptionId",
+                      "description": "(Required) The Id of the subscription to update."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"paymentMethodId\": \"6710f34fd5061afeec3eab57\",\n  \"amount\": 50,\n  \"startDate\": \"2025-01-15T05:00:00.000Z\",\n  \"timezone\": \"America/Chicago\",\n  \"anonymous\": false,\n  \"campaignId\": \"7710f34fd5061afeec3eab78\",\n  \"subcampaignId\": \"7710f34fd5061afeec3eab79\",\n  \"donorNotes\": \"Happy to support this cause!\",\n  \"frequency\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "34f830ab-9724-4ee4-b094-3f3f1445a05d",
+              "name": "Subscription not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "subscriptions",
+                    ":donorId",
+                    ":subscriptionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "donorId",
+                      "description": "(Required) The Id of the donor to update the subscription for."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "subscriptionId",
+                      "description": "(Required) The Id of the subscription to update."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"paymentMethodId\": \"6710f34fd5061afeec3eab57\",\n  \"amount\": 50,\n  \"startDate\": \"2025-01-15T05:00:00.000Z\",\n  \"timezone\": \"America/Chicago\",\n  \"anonymous\": false,\n  \"campaignId\": \"7710f34fd5061afeec3eab78\",\n  \"subcampaignId\": \"7710f34fd5061afeec3eab79\",\n  \"donorNotes\": \"Happy to support this cause!\",\n  \"frequency\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "dac74f47-fcf2-4b38-8999-d89a9cb81703",
+          "name": "Cancel Subscription",
+          "request": {
+            "name": "Cancel Subscription",
+            "description": {
+              "content": "Cancels a donor subscription by its Id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "subscriptions",
+                ":donorId",
+                ":subscriptionId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "donorId",
+                  "description": "(Required) The Id of the donor to cancel the subscription for."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "subscriptionId",
+                  "description": "(Required) The Id of the subscription to cancel."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-client-id"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cancellationReason\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "466275a8-bad6-4c83-bcb0-e7f0b9187e48",
+              "name": "Subscription cancelled successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "subscriptions",
+                    ":donorId",
+                    ":subscriptionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "donorId",
+                      "description": "(Required) The Id of the donor to cancel the subscription for."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "subscriptionId",
+                      "description": "(Required) The Id of the subscription to cancel."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cancellationReason\": \"I no longer attend this organization.\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "34ab0cdb-f881-44d7-b3e4-5cbc7615bd63",
+              "name": "Invalid request parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "subscriptions",
+                    ":donorId",
+                    ":subscriptionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "donorId",
+                      "description": "(Required) The Id of the donor to cancel the subscription for."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "subscriptionId",
+                      "description": "(Required) The Id of the subscription to cancel."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cancellationReason\": \"I no longer attend this organization.\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f873677d-1596-4f5a-8faf-0668e7311086",
+              "name": "Subscription not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "subscriptions",
+                    ":donorId",
+                    ":subscriptionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "donorId",
+                      "description": "(Required) The Id of the donor to cancel the subscription for."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "subscriptionId",
+                      "description": "(Required) The Id of the subscription to cancel."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cancellationReason\": \"I no longer attend this organization.\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://server.stage.overflow.co",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "81ee39a8-ab08-45a6-8599-bc12990d7f92",
+    "name": "Overflow Open Campaigns Subscriptions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "\nThe documentation for the Overflow Open APIs.\n\nTo access the OpenAPI spec in JSON/YAML format, navigate to:\n\n* `/api/docs/openapi.json`\n* `/api/docs/openapi.yaml`\n",
+      "type": "text/plain"
+    }
+  }
+}

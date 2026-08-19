@@ -1,0 +1,154 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Overflow Open Campaigns Donors API",
+    "version": "3.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Donors",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Donors",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://server.stage.overflow.co/api/v3/donors",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of donors to return"
+              },
+              {
+                "name": "locationIds",
+                "value": "",
+                "type": "query",
+                "description": "Filter donors by location IDs"
+              },
+              {
+                "name": "maximumUpdatedDate",
+                "value": "",
+                "type": "query",
+                "description": "The maximum updated date of the donors to return."
+              },
+              {
+                "name": "minimumUpdatedDate",
+                "value": "",
+                "type": "query",
+                "description": "The minimum updated date of the donors to return."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number of the donors to return"
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query",
+                "description": "The field to sort the donors by."
+              },
+              {
+                "name": "sortDirection",
+                "value": "",
+                "type": "query",
+                "description": "The direction to sort the donors by."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns donors for the nonprofit based on the provided filters."
+        },
+        {
+          "info": {
+            "name": "Create Donor Profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://server.stage.overflow.co/api/v3/donors",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Creates a new Donor Profile."
+        },
+        {
+          "info": {
+            "name": "Get Donor",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://server.stage.overflow.co/api/v3/donors/:donorId",
+            "params": [
+              {
+                "name": "donorId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the donor to fetch."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns donor for given ID."
+        },
+        {
+          "info": {
+            "name": "Update Donor",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://server.stage.overflow.co/api/v3/donors/:donorId",
+            "params": [
+              {
+                "name": "donorId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the donor to update."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Updates the Donor Profile for the given id"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

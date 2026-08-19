@@ -1,0 +1,634 @@
+{
+  "item": [
+    {
+      "id": "edf24f99-031d-4e04-973f-4b25ddcfdb59",
+      "name": "Deposits",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5f7227bc-210d-4b81-8654-41b344ce035e",
+          "name": "Get Deposits",
+          "request": {
+            "name": "Get Deposits",
+            "description": {
+              "content": "\nReturns deposits for the nonprofit based on the provided filters. A deposit is a settlement from Overflow to the nonprofit's bank account.\n\n---\n\n### Deposit Status\n\n* `PENDING`: The deposit is awaiting processing.\n* `IN_TRANSIT`: The deposit has been initiated and is in transit to the bank.\n* `PAID`: The deposit has arrived in the bank account.\n* `FAILED`: The deposit failed to be processed.\n* `CANCELED`: The deposit was canceled before processing.\n\n---\n\n### Deposit Types\n\n* `AUTOMATED`: A scheduled payout initiated by Overflow.\n* `MANUAL`: A payout initiated manually.\n* `IMPORT`: An imported historical payout.\n\n---\n\n### Filtering\n\n* Use `startDate` and `endDate` to filter by the deposit's arrival date.\n* Use `minimumEstimatedValueInCents` and `maximumEstimatedValueInCents` to filter by net amount (values are in cents).\n* Use `reconciled` to filter by reconciliation status.\n\nAll monetary amounts in the response are expressed in cents.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "deposits"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "25",
+                  "description": "The number of deposits to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "The page number of the deposits to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "createdAt",
+                  "value": "<dateTime>",
+                  "description": "Filter deposits created on this date."
+                },
+                {
+                  "disabled": false,
+                  "key": "startDate",
+                  "value": "<dateTime>",
+                  "description": "Filter deposits whose arrival date is on or after this date."
+                },
+                {
+                  "disabled": false,
+                  "key": "endDate",
+                  "value": "<dateTime>",
+                  "description": "Filter deposits whose arrival date is on or before this date."
+                },
+                {
+                  "disabled": false,
+                  "key": "ids",
+                  "value": "<string>",
+                  "description": "Filter by deposit ids."
+                },
+                {
+                  "disabled": false,
+                  "key": "ids",
+                  "value": "<string>",
+                  "description": "Filter by deposit ids."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortBy",
+                  "value": "<string>",
+                  "description": "Field to sort deposits by. Defaults to arrival date."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortDirection",
+                  "value": "<string>",
+                  "description": "Sort direction. Defaults to descending."
+                },
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "Free-text search across deposit fields."
+                },
+                {
+                  "disabled": false,
+                  "key": "reconciled",
+                  "value": "<boolean>",
+                  "description": "Filter by reconciliation status."
+                },
+                {
+                  "disabled": false,
+                  "key": "minimumEstimatedValueInCents",
+                  "value": "<string>",
+                  "description": "Filter deposits with net amount greater than or equal to this value, in cents."
+                },
+                {
+                  "disabled": false,
+                  "key": "maximumEstimatedValueInCents",
+                  "value": "<string>",
+                  "description": "Filter deposits with net amount less than or equal to this value, in cents."
+                },
+                {
+                  "disabled": false,
+                  "key": "paymentMethod",
+                  "value": "<string>",
+                  "description": "Filter by payment method types."
+                },
+                {
+                  "disabled": false,
+                  "key": "paymentMethod",
+                  "value": "<string>",
+                  "description": "Filter by payment method types."
+                },
+                {
+                  "disabled": false,
+                  "key": "types",
+                  "value": "<string>",
+                  "description": "Filter by deposit types."
+                },
+                {
+                  "disabled": false,
+                  "key": "types",
+                  "value": "<string>",
+                  "description": "Filter by deposit types."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-client-id"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "93806104-54e1-4b14-8260-690dce910fd1",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "deposits"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "25"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "createdAt",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "startDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortDirection",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "reconciled",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "minimumEstimatedValueInCents",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "maximumEstimatedValueInCents",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "paymentMethod",
+                      "value": "card"
+                    },
+                    {
+                      "key": "paymentMethod",
+                      "value": "ach"
+                    },
+                    {
+                      "key": "types",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "types",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"8810f34fd5061afeec3eab67\",\n      \"status\": \"PAID\",\n      \"type\": \"AUTOMATED\",\n      \"amountInCents\": 125000,\n      \"arrivalAt\": \"2026-05-20T00:00:00.000Z\",\n      \"startingBalanceInCents\": 0,\n      \"endingBalanceInCents\": 125000,\n      \"bankName\": \"Chase\",\n      \"bankLast4\": \"1234\",\n      \"statementDescriptor\": \"OVERFLOW PAYOUT\",\n      \"paymentMethodType\": [\n        \"card\",\n        \"ach\"\n      ],\n      \"name\": \"May payout\",\n      \"reconciledAt\": null,\n      \"createdAt\": \"2026-05-19T00:00:00.000Z\",\n      \"updatedAt\": \"2026-05-20T00:00:00.000Z\",\n      \"lineItems\": [\n        {\n          \"type\": \"payment\",\n          \"grossValueInCents\": 5000,\n          \"grossFeeValueInCents\": 145,\n          \"referenceId\": \"6710f34fd5061afeec3eab57\",\n          \"description\": \"Contribution from John D.\"\n        },\n        {\n          \"type\": \"payment\",\n          \"grossValueInCents\": 5000,\n          \"grossFeeValueInCents\": 145,\n          \"referenceId\": \"6710f34fd5061afeec3eab57\",\n          \"description\": \"Contribution from John D.\"\n        }\n      ]\n    },\n    {\n      \"id\": \"8810f34fd5061afeec3eab67\",\n      \"status\": \"PAID\",\n      \"type\": \"AUTOMATED\",\n      \"amountInCents\": 125000,\n      \"arrivalAt\": \"2026-05-20T00:00:00.000Z\",\n      \"startingBalanceInCents\": 0,\n      \"endingBalanceInCents\": 125000,\n      \"bankName\": \"Chase\",\n      \"bankLast4\": \"1234\",\n      \"statementDescriptor\": \"OVERFLOW PAYOUT\",\n      \"paymentMethodType\": [\n        \"card\",\n        \"ach\"\n      ],\n      \"name\": \"May payout\",\n      \"reconciledAt\": null,\n      \"createdAt\": \"2026-05-19T00:00:00.000Z\",\n      \"updatedAt\": \"2026-05-20T00:00:00.000Z\",\n      \"lineItems\": [\n        {\n          \"type\": \"payment\",\n          \"grossValueInCents\": 5000,\n          \"grossFeeValueInCents\": 145,\n          \"referenceId\": \"6710f34fd5061afeec3eab57\",\n          \"description\": \"Contribution from John D.\"\n        },\n        {\n          \"type\": \"payment\",\n          \"grossValueInCents\": 5000,\n          \"grossFeeValueInCents\": 145,\n          \"referenceId\": \"6710f34fd5061afeec3eab57\",\n          \"description\": \"Contribution from John D.\"\n        }\n      ]\n    }\n  ],\n  \"totalCount\": 100\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f8e9fd02-a9a0-46ca-8420-97a879fe20e0",
+          "name": "Get Deposit",
+          "request": {
+            "name": "Get Deposit",
+            "description": {
+              "content": "Returns a single deposit by its id for the authenticated nonprofit, including its line-item breakdown. All monetary amounts are expressed in cents.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "deposits",
+                ":depositId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "depositId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-client-id"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "9f04ef0f-f2e8-4f61-8bed-523855003d10",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "deposits",
+                    ":depositId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "depositId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"8810f34fd5061afeec3eab67\",\n    \"status\": \"PAID\",\n    \"type\": \"AUTOMATED\",\n    \"amountInCents\": 125000,\n    \"arrivalAt\": \"2026-05-20T00:00:00.000Z\",\n    \"startingBalanceInCents\": 0,\n    \"endingBalanceInCents\": 125000,\n    \"bankName\": \"Chase\",\n    \"bankLast4\": \"1234\",\n    \"statementDescriptor\": \"OVERFLOW PAYOUT\",\n    \"paymentMethodType\": [\n      \"card\",\n      \"ach\"\n    ],\n    \"name\": \"May payout\",\n    \"reconciledAt\": null,\n    \"createdAt\": \"2026-05-19T00:00:00.000Z\",\n    \"updatedAt\": \"2026-05-20T00:00:00.000Z\",\n    \"lineItems\": [\n      {\n        \"type\": \"payment\",\n        \"grossValueInCents\": 5000,\n        \"grossFeeValueInCents\": 145,\n        \"referenceId\": \"6710f34fd5061afeec3eab57\",\n        \"description\": \"Contribution from John D.\"\n      },\n      {\n        \"type\": \"payment\",\n        \"grossValueInCents\": 5000,\n        \"grossFeeValueInCents\": 145,\n        \"referenceId\": \"6710f34fd5061afeec3eab57\",\n        \"description\": \"Contribution from John D.\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6e6c67bb-4d1e-434d-84ef-96911ca75ec3",
+              "name": "Deposit not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "deposits",
+                    ":depositId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "depositId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8e7598c3-df12-461e-b90f-826a3052293f",
+          "name": "Get Deposit Summary",
+          "request": {
+            "name": "Get Deposit Summary",
+            "description": {
+              "content": "Returns aggregated totals (contributions, refunds, chargebacks, adjustments) for the deposit. All monetary amounts are expressed in cents.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "deposits",
+                ":depositId",
+                "summary"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "depositId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-client-id"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "082fdfa4-b288-45ec-af0a-12b2e6597d1f",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "deposits",
+                    ":depositId",
+                    "summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "depositId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"contributions\": {\n      \"count\": 42,\n      \"feesInCents\": 1450,\n      \"grossInCents\": 50000,\n      \"totalInCents\": 48550\n    },\n    \"refunds\": {\n      \"count\": 42,\n      \"feesInCents\": 1450,\n      \"grossInCents\": 50000,\n      \"totalInCents\": 48550\n    },\n    \"chargebacks\": {\n      \"count\": 42,\n      \"feesInCents\": 1450,\n      \"grossInCents\": 50000,\n      \"totalInCents\": 48550\n    },\n    \"adjustments\": {\n      \"count\": 42,\n      \"feesInCents\": 1450,\n      \"grossInCents\": 50000,\n      \"totalInCents\": 48550\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "05ae1694-61cf-4483-acc4-181b5c19392f",
+              "name": "Deposit not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "deposits",
+                    ":depositId",
+                    "summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "depositId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://server.stage.overflow.co",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "6f62036a-a167-4a58-a1ca-e3b04fa4b660",
+    "name": "Overflow Open Campaigns Deposits API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "\nThe documentation for the Overflow Open APIs.\n\nTo access the OpenAPI spec in JSON/YAML format, navigate to:\n\n* `/api/docs/openapi.json`\n* `/api/docs/openapi.yaml`\n",
+      "type": "text/plain"
+    }
+  }
+}

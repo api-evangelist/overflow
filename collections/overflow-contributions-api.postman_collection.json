@@ -1,0 +1,1074 @@
+{
+  "item": [
+    {
+      "id": "b8350991-9771-4ee1-9954-65ce0626fee8",
+      "name": "Contributions",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e7e8fb50-6be9-4da6-93f3-632ba56ad876",
+          "name": "Get Contributions",
+          "request": {
+            "name": "Get Contributions",
+            "description": {
+              "content": "\nReturns contributions for the nonprofit based on the provided filters. \n\n### Contribution Types\nThere are 5 types of contributions representing the different asset types Overflow supports: **Cash**, **Crypto**, **DAF**, **Stock**, and **Manual** contributions. They can be differentiated by the discriminator key `type` in the response.\n\n---\n\n### Final Confirmation States\nA contribution is considered successful or confirmed when it reaches the following status:\n* **CASH**: `PAID_OUT`\n* **MANUAL_CASH**: `CONFIRMED`\n* **CRYPTO**: `CONFIRMED`\n* **STOCK**: `CONTRIBUTION_RECEIVED` or `BILLED`\n* **DAF**: `CONTRIBUTION_RECEIVED`\n\n---\n\n### Status Definitions by Asset Type\n\n**Cash**\n* `PENDING`: Awaiting authorization by the payment gateway.\n* `PROCESSING`: Contribution is being processed. This status only applies to ACH/Bank payments.\n* `CONFIRMED`: Contribution has been authorized by the payment gateway.\n* `PAID_OUT`: Contribution has been settled and paid out to the NPO.\n* `FAILED`: Something went wrong and the contribution was never received.\n* `VOIDED`: Contribution was voided such that it never confirmed.\n* `REFUNDED`: Contribution was refunded, typically at the request of the donor.\n* `CHARGEBACK`: Disputed by the donor or rejected by the bank.\n\n**Manual Cash**\n* `PENDING`: Awaiting confirmation from the NPO (currently in an open gift entry batch).\n* `CONFIRMED`: Confirmed by the NPO (gift entry batch has been closed).\n* `VOIDED`: Contribution was voided from a gift entry batch.\n\n**Crypto**\n* `PENDING`: Initiated by a donor but not yet sent via their wallet.\n* `CONFIRMED`: The crypto gift has been received by the NPO.\n* `PAYOUT_SENT`: The crypto gift net-funds were processed by our team.\n* `PAID_OUT`: The crypto gift has been settled and paid out to the NPO.\n\n**DAF (Donor Advised Funds)**\n* `INITIATED`: The DAF gift has been initiated but not yet captured.\n* `IN_PROCESS`: The DAF gift has been captured and is being sent to the NPO.\n* `CONTRIBUTION_RECEIVED`: The DAF gift has been received by the NPO.\n* `PAYOUT_SENT`: The DAF gift net-funds were processed by our team.\n* `PAID_OUT`: The DAF gift has been settled and paid out to the NPO.\n* `FAILED`: The DAF gift has failed to be captured or initiated.\n* `CANCELED` / `ABANDONED`: The DAF gift has been canceled or abandoned.\n\n**Stock**\n* `VERIFYING_INFORMATION`: Gathering transaction information from the donor.\n* `INITIATED`: Donor intent to give received through the platform.\n* `IN_PROCESS`: Forms sent to the sending brokerage and being processed.\n* `DONOR_BROKERAGE_SENT_SHARES`: Donor has seen shares leave their account.\n* `RECEIVED_FOR_LIQUIDATION`: Shares received by Overflow’s brokerage.\n* `LIQUIDATION_INITIATED` / `LIQUIDATION_COMPLETE`: Selling shares to lock in value.\n* `CONTRIBUTION_RECEIVED`: NPO has received the shares or liquidation cash.\n* `BILLED`: Successfully billed the client for this contribution.\n* `COMPLETED`: Client has paid the bill; gift lifecycle complete.\n* `PAYOUT_SENT` / `PAID_OUT`: Proceeds transferred and settled to the NPO.\n* `TROUBLESHOOTING` / `DONOR_UNRESPONSIVE`: Delays or loss of contact with donor.\n* `CANCELED`: Transaction never fully processed or was canceled.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "contributions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "25",
+                  "description": "The number of contributions to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "The page number of the contributions to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "minimumUpdatedDate",
+                  "value": "<dateTime>",
+                  "description": "The minimum updated date of the contributions to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "maximumUpdatedDate",
+                  "value": "<dateTime>",
+                  "description": "The maximum updated date of the contributions to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "minimumInitiatedDate",
+                  "value": "<dateTime>",
+                  "description": "The minimum date the contributions were initiated to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "maximumInitiatedDate",
+                  "value": "<dateTime>",
+                  "description": "The maximum date the contributions were initiated to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "statusBucket",
+                  "value": "<string>",
+                  "description": "Filter contributions by status buckets."
+                },
+                {
+                  "disabled": false,
+                  "key": "statusBucket",
+                  "value": "<string>",
+                  "description": "Filter contributions by status buckets."
+                },
+                {
+                  "disabled": false,
+                  "key": "campaignId",
+                  "value": "<string>",
+                  "description": "Filter by campaign id."
+                },
+                {
+                  "disabled": false,
+                  "key": "subcampaignId",
+                  "value": "<string>",
+                  "description": "Filter by subcampaign id."
+                },
+                {
+                  "disabled": false,
+                  "key": "locationIds",
+                  "value": "<string>",
+                  "description": "Filter by location ids."
+                },
+                {
+                  "disabled": false,
+                  "key": "locationIds",
+                  "value": "<string>",
+                  "description": "Filter by location ids."
+                },
+                {
+                  "disabled": false,
+                  "key": "givingLinkId",
+                  "value": "<string>",
+                  "description": "Filter by giving link id."
+                },
+                {
+                  "disabled": false,
+                  "key": "pledgeId",
+                  "value": "<string>",
+                  "description": "Filter by pledge id."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-client-id"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "b09b7767-8243-4f70-94e6-41e698f9f93a",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "contributions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "25"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "minimumUpdatedDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "maximumUpdatedDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "minimumInitiatedDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "maximumInitiatedDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "statusBucket",
+                      "value": "PENDING"
+                    },
+                    {
+                      "key": "statusBucket",
+                      "value": "CONFIRMED"
+                    },
+                    {
+                      "key": "campaignId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "subcampaignId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "locationIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "locationIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "givingLinkId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pledgeId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"6710f34fd5061afeec3eab57\",\n      \"createdAt\": \"2025-01-01T00:00:00.000Z\",\n      \"updatedAt\": \"2025-01-01T00:00:00.000Z\",\n      \"amount\": 5000,\n      \"donorCoveredFees\": false,\n      \"contributionDate\": \"2025-01-01T00:00:00.000Z\",\n      \"contributionReceivedAt\": \"2025-01-01T00:00:00.000Z\",\n      \"depositId\": \"8810f34fd5061afeec3eab67\",\n      \"campaign\": {\n        \"id\": \"7710f34fd5061afeec3eab78\",\n        \"name\": \"Mission 2025\"\n      },\n      \"subcampaign\": null,\n      \"dedication\": null,\n      \"donorNotes\": null,\n      \"anonymous\": false,\n      \"locationId\": \"6710f34fd5061afeec3eab58\",\n      \"donor\": {\n        \"id\": \"6710f34fd5061afeec3eab50\",\n        \"firstName\": \"Jane\",\n        \"lastName\": \"Doe\",\n        \"email\": \"jane.doe@example.com\"\n      },\n      \"givingLinkId\": null,\n      \"pledgeId\": null,\n      \"metadata\": null,\n      \"type\": \"CASH\",\n      \"status\": \"PAID_OUT\",\n      \"frequency\": \"ONE_TIME\",\n      \"liquidationInitiatedAt\": null,\n      \"receivedTokensAt\": null,\n      \"stocks\": null,\n      \"crypto\": null,\n      \"paymentMethod\": {\n        \"type\": \"card\",\n        \"last4\": \"4242\",\n        \"logoUrl\": null\n      }\n    }\n  ],\n  \"totalCount\": 1\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f326b242-a626-46f7-9991-3842bcefc2f7",
+          "name": "Create Contribution",
+          "request": {
+            "name": "Create Contribution",
+            "description": {
+              "content": "Creates a charge for the given payment method and donor",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "contributions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-client-id"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"donorId\": \"<string>\",\n  \"paymentMethodId\": \"<string>\",\n  \"amount\": \"<number>\",\n  \"campaignId\": \"<string>\",\n  \"subcampaignId\": \"<string>\",\n  \"anonymous\": \"<boolean>\",\n  \"donorNotes\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9274f510-5cc3-4ace-a650-aa5d68841502",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "contributions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"donorId\": \"6710f34fd5061afeec3eab57\",\n  \"paymentMethodId\": \"6710f34fd5061afeec3eab57\",\n  \"amount\": 50,\n  \"campaignId\": \"6710f34fd5061afeec3eab57\",\n  \"subcampaignId\": \"6710f34fd5061afeec3eab57\",\n  \"anonymous\": true,\n  \"donorNotes\": \"Donor would like to give $1,000.00 to the playground project, and the …\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"6710f34fd5061afeec3eab57\",\n    \"createdAt\": \"2025-01-01T00:00:00.000Z\",\n    \"updatedAt\": \"2025-01-01T00:00:00.000Z\",\n    \"type\": \"CASH\",\n    \"amount\": 1000,\n    \"contributionDate\": \"2025-01-01T00:00:00.000Z\",\n    \"contributionReceivedAt\": \"2010-10-12T20:21:08.302Z\",\n    \"liquidationInitiatedAt\": null,\n    \"receivedTokensAt\": null,\n    \"status\": \"PAID_OUT\",\n    \"stocks\": {\n      \"quantity\": 2,\n      \"tickers\": [\n        \"AAPL\",\n        \"MSFT\"\n      ]\n    },\n    \"crypto\": {\n      \"quantity\": 1,\n      \"token\": \"BTC\"\n    },\n    \"frequency\": \"one-time\",\n    \"paymentMethod\": {\n      \"type\": \"Card\",\n      \"logoUrl\": \"https://example.com/logo.png\",\n      \"last4\": \"4242\"\n    },\n    \"depositId\": \"8810f34fd5061afeec3eab67\",\n    \"campaign\": {\n      \"id\": \"string\",\n      \"name\": \"string\"\n    },\n    \"subcampaign\": {\n      \"id\": \"string\",\n      \"name\": \"string\"\n    },\n    \"dedication\": \"In memory of Lois Lane\",\n    \"donorNotes\": \"Happy to support this cause!\",\n    \"donor\": {\n      \"id\": \"6710f34fd5061afeec3eab57\",\n      \"createdAt\": \"2025-01-01T00:00:00.000Z\",\n      \"updatedAt\": \"2025-01-01T00:00:00.000Z\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"email\": \"john.doe@example.com\",\n      \"phone\": \"+1234567890\",\n      \"address\": {\n        \"line1\": \"123 Main St\",\n        \"line2\": \"Apt 1\",\n        \"city\": \"Anytown\",\n        \"state\": \"CA\",\n        \"zip\": \"12345\"\n      },\n      \"activeRecurringCount\": 1,\n      \"latestContributionDate\": \"2025-01-01T00:00:00.000\",\n      \"locationIds\": [\n        \"6710f34fd5061afeec3eab57\"\n      ],\n      \"totalContributionsCount\": 10\n    },\n    \"givingLinkId\": \"6710f34fd5061afeec3eab60\",\n    \"pledgeId\": \"6710f34fd5061afeec3eab61\",\n    \"donorCoveredFees\": false,\n    \"subscriptionId\": \"6710f34fd5061afeec3eab57\",\n    \"anonymous\": false,\n    \"locationId\": \"6710f34fd5061afeec3eab58\",\n    \"metadata\": {\n      \"orderId\": \"12345\",\n      \"campaign\": \"spring-2026\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a1c57e13-e099-4c2a-b1d6-d25bd18d06c0",
+              "name": "Payment method is expired.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "contributions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"donorId\": \"6710f34fd5061afeec3eab57\",\n  \"paymentMethodId\": \"6710f34fd5061afeec3eab57\",\n  \"amount\": 50,\n  \"campaignId\": \"6710f34fd5061afeec3eab57\",\n  \"subcampaignId\": \"6710f34fd5061afeec3eab57\",\n  \"anonymous\": true,\n  \"donorNotes\": \"Donor would like to give $1,000.00 to the playground project, and the …\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c24a386f-fd89-41ce-9820-8732a7aac90b",
+              "name": "Nonprofit not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "contributions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"donorId\": \"6710f34fd5061afeec3eab57\",\n  \"paymentMethodId\": \"6710f34fd5061afeec3eab57\",\n  \"amount\": 50,\n  \"campaignId\": \"6710f34fd5061afeec3eab57\",\n  \"subcampaignId\": \"6710f34fd5061afeec3eab57\",\n  \"anonymous\": true,\n  \"donorNotes\": \"Donor would like to give $1,000.00 to the playground project, and the …\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "fc5d633a-fac8-4773-896a-3ace7aaea400",
+              "name": "Failed to validate campaign.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "contributions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"donorId\": \"6710f34fd5061afeec3eab57\",\n  \"paymentMethodId\": \"6710f34fd5061afeec3eab57\",\n  \"amount\": 50,\n  \"campaignId\": \"6710f34fd5061afeec3eab57\",\n  \"subcampaignId\": \"6710f34fd5061afeec3eab57\",\n  \"anonymous\": true,\n  \"donorNotes\": \"Donor would like to give $1,000.00 to the playground project, and the …\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "481fa3e3-74ce-4ad2-862f-416f20411906",
+          "name": "Get Contribution",
+          "request": {
+            "name": "Get Contribution",
+            "description": {
+              "content": "Returns a single contribution by its id for the authenticated nonprofit. Supports all contribution types.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "contributions",
+                ":contributionId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "contributionId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-client-id"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "66449add-a7ba-4ce8-8cc1-540fad70b500",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "contributions",
+                    ":contributionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contributionId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"6710f34fd5061afeec3eab57\",\n    \"createdAt\": \"2025-01-01T00:00:00.000Z\",\n    \"updatedAt\": \"2025-01-01T00:00:00.000Z\",\n    \"amount\": 5000,\n    \"donorCoveredFees\": false,\n    \"contributionDate\": \"2025-01-01T00:00:00.000Z\",\n    \"contributionReceivedAt\": \"2025-01-01T00:00:00.000Z\",\n    \"depositId\": \"8810f34fd5061afeec3eab67\",\n    \"campaign\": {\n      \"id\": \"7710f34fd5061afeec3eab78\",\n      \"name\": \"Mission 2025\"\n    },\n    \"subcampaign\": null,\n    \"dedication\": null,\n    \"donorNotes\": null,\n    \"anonymous\": false,\n    \"locationId\": \"6710f34fd5061afeec3eab58\",\n    \"donor\": {\n      \"id\": \"6710f34fd5061afeec3eab50\",\n      \"firstName\": \"Jane\",\n      \"lastName\": \"Doe\",\n      \"email\": \"jane.doe@example.com\"\n    },\n    \"givingLinkId\": null,\n    \"pledgeId\": null,\n    \"metadata\": null,\n    \"type\": \"CASH\",\n    \"status\": \"PAID_OUT\",\n    \"frequency\": \"ONE_TIME\",\n    \"liquidationInitiatedAt\": null,\n    \"receivedTokensAt\": null,\n    \"stocks\": null,\n    \"crypto\": null,\n    \"paymentMethod\": {\n      \"type\": \"card\",\n      \"last4\": \"4242\",\n      \"logoUrl\": null\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "52d014eb-7f7d-4e53-9dce-59136aee84a4",
+              "name": "Contribution not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "contributions",
+                    ":contributionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contributionId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c420805f-52e8-4772-8083-e7f046a521ed",
+          "name": "Initiate Refund",
+          "request": {
+            "name": "Initiate Refund",
+            "description": {
+              "content": "Initiates a refund for the given contribution. Currently, we only support refunds for contributions less than $1000 over our API. Please contact support otherwise.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "contributions",
+                ":contributionId",
+                "initiate-refund"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "contributionId",
+                  "description": "(Required) The Id of the contribution to refund."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-client-id"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "100483d7-6e57-491f-8f98-0c32b1e7c884",
+              "name": "The cash contribution was successfully refunded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "contributions",
+                    ":contributionId",
+                    "initiate-refund"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contributionId",
+                      "description": "(Required) The Id of the contribution to refund."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5e71d991-cc1b-4c0e-9837-fc4637b2f46f",
+              "name": "Refunds are not supported for contributions greater than $1000. Please contact support.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "contributions",
+                    ":contributionId",
+                    "initiate-refund"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contributionId",
+                      "description": "(Required) The Id of the contribution to refund."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ffe23b1c-0fb3-4b63-8e9c-93eb26b7c93b",
+              "name": "You do not have permission to access this resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "contributions",
+                    ":contributionId",
+                    "initiate-refund"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contributionId",
+                      "description": "(Required) The Id of the contribution to refund."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1da9bb22-a0be-4245-b315-1ec9de1966b0",
+              "name": "The contributtion was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "contributions",
+                    ":contributionId",
+                    "initiate-refund"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contributionId",
+                      "description": "(Required) The Id of the contribution to refund."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4cfd793c-e7d1-4ec3-81e2-224b3552910e",
+              "name": "Refunds not supported for this processing gateway. Please contact support.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "contributions",
+                    ":contributionId",
+                    "initiate-refund"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contributionId",
+                      "description": "(Required) The Id of the contribution to refund."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c15afe20-1eb9-46aa-824b-113e2ad6f89b",
+              "name": "The cash contribution could not be refunded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "contributions",
+                    ":contributionId",
+                    "initiate-refund"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contributionId",
+                      "description": "(Required) The Id of the contribution to refund."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://server.stage.overflow.co",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "c2132af7-d563-41ce-b1dc-499c8322e39b",
+    "name": "Overflow Open Campaigns Contributions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "\nThe documentation for the Overflow Open APIs.\n\nTo access the OpenAPI spec in JSON/YAML format, navigate to:\n\n* `/api/docs/openapi.json`\n* `/api/docs/openapi.yaml`\n",
+      "type": "text/plain"
+    }
+  }
+}

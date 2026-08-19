@@ -1,0 +1,179 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Overflow Open Campaigns Contributions API",
+    "version": "3.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Contributions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Contributions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://server.stage.overflow.co/api/v3/contributions",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of contributions to return."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number of the contributions to return."
+              },
+              {
+                "name": "minimumUpdatedDate",
+                "value": "",
+                "type": "query",
+                "description": "The minimum updated date of the contributions to return."
+              },
+              {
+                "name": "maximumUpdatedDate",
+                "value": "",
+                "type": "query",
+                "description": "The maximum updated date of the contributions to return."
+              },
+              {
+                "name": "minimumInitiatedDate",
+                "value": "",
+                "type": "query",
+                "description": "The minimum date the contributions were initiated to return."
+              },
+              {
+                "name": "maximumInitiatedDate",
+                "value": "",
+                "type": "query",
+                "description": "The maximum date the contributions were initiated to return."
+              },
+              {
+                "name": "statusBucket",
+                "value": "",
+                "type": "query",
+                "description": "Filter contributions by status buckets."
+              },
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "query",
+                "description": "Filter by campaign id."
+              },
+              {
+                "name": "subcampaignId",
+                "value": "",
+                "type": "query",
+                "description": "Filter by subcampaign id."
+              },
+              {
+                "name": "locationIds",
+                "value": "",
+                "type": "query",
+                "description": "Filter by location ids."
+              },
+              {
+                "name": "givingLinkId",
+                "value": "",
+                "type": "query",
+                "description": "Filter by giving link id."
+              },
+              {
+                "name": "pledgeId",
+                "value": "",
+                "type": "query",
+                "description": "Filter by pledge id."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\nReturns contributions for the nonprofit based on the provided filters. \n\n### Contribution Types\nThere are 5 types of contributions representing the different asset types Overflow supports: **Cash**, **Crypto**, **DAF**, **Stock**, and **Manual** contributions. They can be differentiated by the discriminator key `type` in the response.\n\n---\n\n### Final Confirmation States\nA contribution is considered successful or confirmed when it reaches the following status:\n* **CASH**: `PAID_OUT`\n* **MANUAL_C"
+        },
+        {
+          "info": {
+            "name": "Create Contribution",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://server.stage.overflow.co/api/v3/contributions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Creates a charge for the given payment method and donor"
+        },
+        {
+          "info": {
+            "name": "Get Contribution",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://server.stage.overflow.co/api/v3/contributions/:contributionId",
+            "params": [
+              {
+                "name": "contributionId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns a single contribution by its id for the authenticated nonprofit. Supports all contribution types."
+        },
+        {
+          "info": {
+            "name": "Initiate Refund",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://server.stage.overflow.co/api/v3/contributions/:contributionId/initiate-refund",
+            "params": [
+              {
+                "name": "contributionId",
+                "value": "",
+                "type": "path",
+                "description": "The Id of the contribution to refund."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Initiates a refund for the given contribution. Currently, we only support refunds for contributions less than $1000 over our API. Please contact support otherwise."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

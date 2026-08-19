@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Overflow Open Campaigns Payments API",
+    "version": "3.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Payments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Authorize Payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://server.stage.overflow.co/api/v3/payments/authorize",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Authorizes a payment for the given payment method and donor."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

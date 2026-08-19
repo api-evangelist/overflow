@@ -1,0 +1,97 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Overflow Open Campaigns Refunds API",
+    "version": "3.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Refunds",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Refunds",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://server.stage.overflow.co/api/v3/refunds",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of refunds to return."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number of the refunds to return."
+              },
+              {
+                "name": "sortDirection",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction by refund created date. Defaults to descending."
+              },
+              {
+                "name": "contributionId",
+                "value": "",
+                "type": "query",
+                "description": "Filter by contribution id."
+              },
+              {
+                "name": "minimumUpdatedDate",
+                "value": "",
+                "type": "query",
+                "description": "The minimum updated date of the refunds to return."
+              },
+              {
+                "name": "maximumUpdatedDate",
+                "value": "",
+                "type": "query",
+                "description": "The maximum updated date of the refunds to return."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\nReturns refunds for the authenticated nonprofit based on the provided filters.\n\n---\n\n### Refund Status\n\n* `PENDING`: The refund request has been created and is awaiting processor completion.\n* `SUCCEEDED`: The refund has completed successfully.\n* `FAILED`: The refund failed at the processor or settlement layer.\n* `CANCELED`: The refund was canceled before completion.\n* `REQUIRES_ACTION`: Additional action is required before the refund can complete.\n\n---\n\n### Refund Reasons\n\n* `REQUESTED_BY_CUST"
+        },
+        {
+          "info": {
+            "name": "Get Refund",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://server.stage.overflow.co/api/v3/refunds/:refundId",
+            "params": [
+              {
+                "name": "refundId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns a single refund by its id for the authenticated nonprofit. All monetary amounts are expressed in cents."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

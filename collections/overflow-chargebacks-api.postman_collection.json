@@ -1,0 +1,356 @@
+{
+  "item": [
+    {
+      "id": "065fe060-7b71-48c2-953c-c28c66005073",
+      "name": "Chargebacks",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5fcca20b-afca-4296-9ed8-fdea75452136",
+          "name": "Get Chargebacks",
+          "request": {
+            "name": "Get Chargebacks",
+            "description": {
+              "content": "\nReturns chargebacks for the authenticated nonprofit based on the provided filters.\n\n---\n\n### Chargeback Status\n\n* `pending`: The chargeback is still in progress.\n* `lost`: The chargeback was finalized against the nonprofit.\n* `won`: The chargeback was finalized in the nonprofit's favor.\n\n---\n\n### Chargeback Types\n\n* `ach_return`: The chargeback originated from an ACH return.\n* `dispute`: The chargeback originated from a card dispute.\n\n---\n\n### Filtering\n\n* Use `contributionId` to return chargebacks for a specific contribution.\n* Use `minimumUpdatedDate` and `maximumUpdatedDate` to poll for chargebacks that changed within a specific window.\n* Results are sorted by `createdAt` (ascending or descending via `sortDirection`) and paginated with `limit` and `page`.\n\nAll monetary amounts in the response are expressed in cents.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "chargebacks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "25",
+                  "description": "The number of chargebacks to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "The page number of the chargebacks to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortDirection",
+                  "value": "<string>",
+                  "description": "Sort direction by chargeback created date. Defaults to descending."
+                },
+                {
+                  "disabled": false,
+                  "key": "contributionId",
+                  "value": "<string>",
+                  "description": "Filter by contribution id."
+                },
+                {
+                  "disabled": false,
+                  "key": "minimumUpdatedDate",
+                  "value": "<dateTime>",
+                  "description": "The minimum updated date of the chargebacks to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "maximumUpdatedDate",
+                  "value": "<dateTime>",
+                  "description": "The maximum updated date of the chargebacks to return."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-client-id"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "6cd3483b-0b8a-4932-b95a-8fb555110265",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "chargebacks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "25"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "sortDirection",
+                      "value": "DESC"
+                    },
+                    {
+                      "key": "contributionId",
+                      "value": "8810f34fd5061afeec3eab68"
+                    },
+                    {
+                      "key": "minimumUpdatedDate",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "maximumUpdatedDate",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"8810f34fd5061afeec3eab67\",\n      \"contributionId\": \"8810f34fd5061afeec3eab68\",\n      \"status\": \"pending\",\n      \"type\": \"dispute\",\n      \"amountInCents\": 12500,\n      \"netValueInCents\": 12900,\n      \"feeValueInCents\": 400,\n      \"processorChargebackId\": \"du_123456789\",\n      \"reason\": \"Unauthorized transaction\",\n      \"depositId\": \"8810f34fd5061afeec3eab69\",\n      \"createdAt\": \"2026-05-19T00:00:00.000Z\",\n      \"updatedAt\": \"2026-05-20T00:00:00.000Z\"\n    },\n    {\n      \"id\": \"8810f34fd5061afeec3eab67\",\n      \"contributionId\": \"8810f34fd5061afeec3eab68\",\n      \"status\": \"pending\",\n      \"type\": \"dispute\",\n      \"amountInCents\": 12500,\n      \"netValueInCents\": 12900,\n      \"feeValueInCents\": 400,\n      \"processorChargebackId\": \"du_123456789\",\n      \"reason\": \"Unauthorized transaction\",\n      \"depositId\": \"8810f34fd5061afeec3eab69\",\n      \"createdAt\": \"2026-05-19T00:00:00.000Z\",\n      \"updatedAt\": \"2026-05-20T00:00:00.000Z\"\n    }\n  ],\n  \"totalCount\": 100\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4eaebee6-848d-42e2-a121-6c71ba1b51d1",
+          "name": "Get Chargeback",
+          "request": {
+            "name": "Get Chargeback",
+            "description": {
+              "content": "Returns a single chargeback by its id for the authenticated nonprofit. All monetary amounts are expressed in cents.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "chargebacks",
+                ":chargebackId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "chargebackId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-client-id"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "02dd9ca9-ffeb-42b7-a27a-8eab878da602",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "chargebacks",
+                    ":chargebackId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "chargebackId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"8810f34fd5061afeec3eab67\",\n    \"contributionId\": \"8810f34fd5061afeec3eab68\",\n    \"status\": \"pending\",\n    \"type\": \"dispute\",\n    \"amountInCents\": 12500,\n    \"netValueInCents\": 12900,\n    \"feeValueInCents\": 400,\n    \"processorChargebackId\": \"du_123456789\",\n    \"reason\": \"Unauthorized transaction\",\n    \"depositId\": \"8810f34fd5061afeec3eab69\",\n    \"createdAt\": \"2026-05-19T00:00:00.000Z\",\n    \"updatedAt\": \"2026-05-20T00:00:00.000Z\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "98aafc91-d9f4-4786-b766-5a97e3223ecf",
+              "name": "Chargeback not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "chargebacks",
+                    ":chargebackId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "chargebackId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://server.stage.overflow.co",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "45a61ff6-8116-41b9-bac3-781a93888d99",
+    "name": "Overflow Open Campaigns Chargebacks API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "\nThe documentation for the Overflow Open APIs.\n\nTo access the OpenAPI spec in JSON/YAML format, navigate to:\n\n* `/api/docs/openapi.json`\n* `/api/docs/openapi.yaml`\n",
+      "type": "text/plain"
+    }
+  }
+}

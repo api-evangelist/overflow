@@ -1,0 +1,116 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Overflow Open Campaigns API",
+    "version": "3.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Campaigns",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Campaigns",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://server.stage.overflow.co/api/v3/campaigns",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of campaigns to return."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number of the campaigns to return."
+              },
+              {
+                "name": "includeArchived",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include campaigns that have been archived."
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query",
+                "description": "The field to sort the campaigns by."
+              },
+              {
+                "name": "sortDirection",
+                "value": "",
+                "type": "query",
+                "description": "The direction to sort the campaigns by."
+              },
+              {
+                "name": "isSubcampaign",
+                "value": "",
+                "type": "query",
+                "description": "Whether to return subcampaigns or campaigns. If true, returns subcampaigns, otherwise returns campaigns"
+              },
+              {
+                "name": "parentCampaignId",
+                "value": "",
+                "type": "query",
+                "description": "The id of the parent campaign to return subcampaigns for."
+              },
+              {
+                "name": "excludeInactive",
+                "value": "",
+                "type": "query",
+                "description": "Whether to exclude campaigns that have ended."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search by campaign name."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns campaigns for a nonprofit based on the provided filters."
+        },
+        {
+          "info": {
+            "name": "Get Campaign/Subcampaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://server.stage.overflow.co/api/v3/campaigns/:campaignId",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path",
+                "description": "The Id of the campaign/subcampaign to get."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns campaign/subcampaign for given ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,343 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Overflow Open Campaigns Tap API",
+    "version": "3.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tap",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Tap Destinations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://server.stage.overflow.co/api/v3/tap/destinations",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of tap destinations to return."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number of the tap destinations to return."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search tap destinations by name."
+              },
+              {
+                "name": "destinationType",
+                "value": "",
+                "type": "query",
+                "description": "Filter tap destinations by type."
+              },
+              {
+                "name": "includeArchived",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include tap destinations that have been archived."
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query",
+                "description": "The field to sort the tap destinations by."
+              },
+              {
+                "name": "sortDirection",
+                "value": "",
+                "type": "query",
+                "description": "The direction to sort the tap destinations by."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns tap destinations for a nonprofit based on the provided filters."
+        },
+        {
+          "info": {
+            "name": "Get Tap Destination",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://server.stage.overflow.co/api/v3/tap/destinations/:destinationId",
+            "params": [
+              {
+                "name": "destinationId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the tap destination."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns a single tap destination by ID."
+        },
+        {
+          "info": {
+            "name": "Get Tap Devices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://server.stage.overflow.co/api/v3/tap/devices",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of tap devices to return."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number of the tap devices to return."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search by exact serial number. Must be a numeric value."
+              },
+              {
+                "name": "groupId",
+                "value": "",
+                "type": "query",
+                "description": "Filter tap devices by group Id. Use \"unassigned\" to get devices not assigned to any group."
+              },
+              {
+                "name": "deviceType",
+                "value": "",
+                "type": "query",
+                "description": "Filter tap devices by device type."
+              },
+              {
+                "name": "includeArchived",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include tap devices that have been archived."
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query",
+                "description": "The field to sort the tap devices by."
+              },
+              {
+                "name": "sortDirection",
+                "value": "",
+                "type": "query",
+                "description": "The direction to sort the tap devices by."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns tap devices for a nonprofit based on the provided filters. The search parameter matches by exact serial number, not fuzzy text search."
+        },
+        {
+          "info": {
+            "name": "Get Tap Device",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://server.stage.overflow.co/api/v3/tap/devices/:deviceId",
+            "params": [
+              {
+                "name": "deviceId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the tap device."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns a single tap device by ID."
+        },
+        {
+          "info": {
+            "name": "Get Tap Events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://server.stage.overflow.co/api/v3/tap/events",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of tap events to return."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number of the tap events to return."
+              },
+              {
+                "name": "groupIds",
+                "value": "",
+                "type": "query",
+                "description": "Filter tap events by group IDs."
+              },
+              {
+                "name": "destinationIds",
+                "value": "",
+                "type": "query",
+                "description": "Filter tap events by destination IDs."
+              },
+              {
+                "name": "deviceIds",
+                "value": "",
+                "type": "query",
+                "description": "Filter tap events by device IDs."
+              },
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query",
+                "description": "Filter tap events on or after this date (ISO 8601)."
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query",
+                "description": "Filter tap events on or before this date (ISO 8601)."
+              },
+              {
+                "name": "sortDirection",
+                "value": "",
+                "type": "query",
+                "description": "The direction to sort the tap events by. Events are always sorted by time of occurrence."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns tap events for a nonprofit based on the provided filters. Events represent individual tap interactions and are sorted by time of occurrence."
+        },
+        {
+          "info": {
+            "name": "Get Tap Groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://server.stage.overflow.co/api/v3/tap/groups",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of tap groups to return."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number of the tap groups to return."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search tap groups by name."
+              },
+              {
+                "name": "includeArchived",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include tap groups that have been archived."
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query",
+                "description": "The field to sort the tap groups by."
+              },
+              {
+                "name": "sortDirection",
+                "value": "",
+                "type": "query",
+                "description": "The direction to sort the tap groups by."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns tap groups for a nonprofit based on the provided filters."
+        },
+        {
+          "info": {
+            "name": "Get Tap Group",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://server.stage.overflow.co/api/v3/tap/groups/:groupId",
+            "params": [
+              {
+                "name": "groupId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the tap group."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-client-id",
+              "value": "{{x-client-id}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns a single tap group by ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,386 @@
+{
+  "item": [
+    {
+      "id": "906fb6d8-4c17-4c19-8a75-752edec08b50",
+      "name": "Campaigns",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "fc309511-0976-4cee-89d7-47373bb11250",
+          "name": "Get Campaigns",
+          "request": {
+            "name": "Get Campaigns",
+            "description": {
+              "content": "Returns campaigns for a nonprofit based on the provided filters.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "campaigns"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "25",
+                  "description": "The number of campaigns to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "The page number of the campaigns to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "includeArchived",
+                  "value": "<boolean>",
+                  "description": "Whether to include campaigns that have been archived."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortBy",
+                  "value": "startDate",
+                  "description": "The field to sort the campaigns by."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortDirection",
+                  "value": "DESC",
+                  "description": "The direction to sort the campaigns by."
+                },
+                {
+                  "disabled": false,
+                  "key": "isSubcampaign",
+                  "value": "false",
+                  "description": "Whether to return subcampaigns or campaigns. If true, returns subcampaigns, otherwise returns campaigns"
+                },
+                {
+                  "disabled": false,
+                  "key": "parentCampaignId",
+                  "value": "<string>",
+                  "description": "The id of the parent campaign to return subcampaigns for."
+                },
+                {
+                  "disabled": false,
+                  "key": "excludeInactive",
+                  "value": "<boolean>",
+                  "description": "Whether to exclude campaigns that have ended."
+                },
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "Search by campaign name."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-client-id"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "2c9aa3e3-30b6-45fc-9dc3-4037f02d77ee",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "campaigns"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "25"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "includeArchived",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "startDate"
+                    },
+                    {
+                      "key": "sortDirection",
+                      "value": "DESC"
+                    },
+                    {
+                      "key": "isSubcampaign",
+                      "value": "false"
+                    },
+                    {
+                      "key": "parentCampaignId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "excludeInactive",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "Summer Camp"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"7710f34fd5061afeec3eab59\",\n      \"archivedAt\": \"2025-01-01T00:00:00.000Z\",\n      \"createdAt\": \"2025-01-01T00:00:00.000Z\",\n      \"updatedAt\": \"2025-01-01T00:00:00.000Z\",\n      \"name\": \"Builders Fundraiser\",\n      \"startDate\": \"2025-01-01T00:00:00.000Z\",\n      \"endDate\": \"2025-12-01T00:00:00.000Z\",\n      \"status\": \"ACTIVE\",\n      \"displayOrder\": 1,\n      \"isSubcampaign\": false,\n      \"hideFromDonors\": false,\n      \"isActive\": false,\n      \"locationIds\": [\n        \"string\",\n        \"string\"\n      ],\n      \"parentCampaigns\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\"\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\"\n        }\n      ],\n      \"subcampaigns\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\"\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\"\n        }\n      ],\n      \"applyToAllCampaigns\": false,\n      \"totalContributionCount\": 100,\n      \"totalContributionValue\": 1000,\n      \"uniqueDonorCount\": 100\n    },\n    {\n      \"id\": \"7710f34fd5061afeec3eab59\",\n      \"archivedAt\": \"2025-01-01T00:00:00.000Z\",\n      \"createdAt\": \"2025-01-01T00:00:00.000Z\",\n      \"updatedAt\": \"2025-01-01T00:00:00.000Z\",\n      \"name\": \"Builders Fundraiser\",\n      \"startDate\": \"2025-01-01T00:00:00.000Z\",\n      \"endDate\": \"2025-12-01T00:00:00.000Z\",\n      \"status\": \"ACTIVE\",\n      \"displayOrder\": 1,\n      \"isSubcampaign\": false,\n      \"hideFromDonors\": false,\n      \"isActive\": false,\n      \"locationIds\": [\n        \"string\",\n        \"string\"\n      ],\n      \"parentCampaigns\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\"\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\"\n        }\n      ],\n      \"subcampaigns\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\"\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\"\n        }\n      ],\n      \"applyToAllCampaigns\": false,\n      \"totalContributionCount\": 100,\n      \"totalContributionValue\": 1000,\n      \"uniqueDonorCount\": 100\n    }\n  ],\n  \"totalCount\": 100\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b1f8dde8-8d82-4197-a855-40f12afa5f54",
+          "name": "Get Campaign/Subcampaign",
+          "request": {
+            "name": "Get Campaign/Subcampaign",
+            "description": {
+              "content": "Returns campaign/subcampaign for given ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "campaigns",
+                ":campaignId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "campaignId",
+                  "description": "(Required) The Id of the campaign/subcampaign to get."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-client-id"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "fc77ef55-c88f-4a6c-ab56-80f8300fad85",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "campaigns",
+                    ":campaignId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "campaignId",
+                      "description": "(Required) The Id of the campaign/subcampaign to get."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"7710f34fd5061afeec3eab59\",\n    \"archivedAt\": \"2025-01-01T00:00:00.000Z\",\n    \"createdAt\": \"2025-01-01T00:00:00.000Z\",\n    \"updatedAt\": \"2025-01-01T00:00:00.000Z\",\n    \"name\": \"Builders Fundraiser\",\n    \"startDate\": \"2025-01-01T00:00:00.000Z\",\n    \"endDate\": \"2025-12-01T00:00:00.000Z\",\n    \"status\": \"ACTIVE\",\n    \"displayOrder\": 1,\n    \"isSubcampaign\": false,\n    \"hideFromDonors\": false,\n    \"isActive\": false,\n    \"locationIds\": [\n      \"string\",\n      \"string\"\n    ],\n    \"parentCampaigns\": [\n      {\n        \"id\": \"string\",\n        \"name\": \"string\"\n      },\n      {\n        \"id\": \"string\",\n        \"name\": \"string\"\n      }\n    ],\n    \"subcampaigns\": [\n      {\n        \"id\": \"string\",\n        \"name\": \"string\"\n      },\n      {\n        \"id\": \"string\",\n        \"name\": \"string\"\n      }\n    ],\n    \"applyToAllCampaigns\": false,\n    \"totalContributionCount\": 100,\n    \"totalContributionValue\": 1000,\n    \"uniqueDonorCount\": 100\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "88b55f7f-4027-466e-897a-da7fc1e7282f",
+              "name": "Campaign not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "campaigns",
+                    ":campaignId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "campaignId",
+                      "description": "(Required) The Id of the campaign/subcampaign to get."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-client-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://server.stage.overflow.co",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "5e10d80a-2b61-4803-b740-01fcb723dab0",
+    "name": "Overflow Open Campaigns API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "\nThe documentation for the Overflow Open APIs.\n\nTo access the OpenAPI spec in JSON/YAML format, navigate to:\n\n* `/api/docs/openapi.json`\n* `/api/docs/openapi.yaml`\n",
+      "type": "text/plain"
+    }
+  }
+}
