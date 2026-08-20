@@ -40,6 +40,17 @@ tags:
 - Payments
 - Donations
 - Fundraising
+- Non-Profit
+- Giving
+- Recurring Payments
+- Webhook
+- Cryptocurrency
+tags_raw:
+- Company
+- Fintech
+- Payments
+- Donations
+- Fundraising
 - Nonprofit
 - Giving
 - Recurring Payments
@@ -232,6 +243,8 @@ apis:
   humanURL: https://docs.overflow.co/api-reference/welcome
   baseURL: https://server.overflow.co
   tags:
+  - Subscription
+  tags_raw:
   - Subscriptions
   properties:
   - type: OpenAPI
@@ -250,6 +263,8 @@ apis:
   humanURL: https://docs.overflow.co/api-reference/welcome
   baseURL: https://server.overflow.co
   tags:
+  - TAP
+  tags_raw:
   - Tap
   properties:
   - type: OpenAPI
@@ -268,6 +283,8 @@ apis:
   humanURL: https://docs.overflow.co/api-reference/welcome
   baseURL: https://server.overflow.co
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
