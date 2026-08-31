@@ -275,7 +275,7 @@ apis:
   humanURL: https://docs.overflow.co/api-reference/welcome
   baseURL: https://server.overflow.co
   tags:
-  - TAP
+  - Tap
   tags_raw:
   - Tap
   properties:
