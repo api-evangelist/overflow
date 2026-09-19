@@ -167,6 +167,8 @@ apis:
   humanURL: https://docs.overflow.co/api-reference/welcome
   baseURL: https://server.overflow.co
   tags:
+  - Location
+  tags_raw:
   - Locations
   properties:
   - type: OpenAPI
