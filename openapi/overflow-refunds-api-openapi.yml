@@ -1,9 +1,7 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Overflow Open Campaigns Refunds API
-  description: '
-
-    The documentation for the Overflow Open APIs.
+  title: Overflow Open Refunds API
+  description: 'The documentation for the Overflow Open APIs.
 
 
     To access the OpenAPI spec in JSON/YAML format, navigate to:
@@ -11,9 +9,7 @@ info:
 
     * `/api/docs/openapi.json`
 
-    * `/api/docs/openapi.yaml`
-
-    '
+    * `/api/docs/openapi.yaml`'
   version: '3.0'
   contact: {}
 servers:
@@ -24,9 +20,7 @@ tags:
 paths:
   /api/v3/refunds:
     get:
-      description: '
-
-        Returns refunds for the authenticated nonprofit based on the provided filters.
+      description: 'Returns refunds for the authenticated nonprofit based on the provided filters.
 
 
         ---
@@ -74,9 +68,7 @@ paths:
         * Results are sorted by `createdAt` (ascending or descending via `sortDirection`) and paginated with `limit` and `page`.
 
 
-        All monetary amounts in the response are expressed in cents.
-
-        '
+        All monetary amounts in the response are expressed in cents.'
       operationId: OpenApiRefundsController_getRefunds
       parameters:
       - name: limit
@@ -197,13 +189,14 @@ components:
                 description: Refund status.
                 example: SUCCEEDED
               reason:
-                type: string
+                type:
+                - string
+                - 'null'
                 enum:
                 - DUPLICATE
                 - EXPIRED_OR_UNCAPTURED_CHARGE
                 - FRAUDULENT
                 - REQUESTED_BY_CUSTOMER
-                nullable: true
                 description: Refund reason when provided by the processor.
                 example: REQUESTED_BY_CUSTOMER
               amountInCents:
@@ -215,8 +208,9 @@ components:
                 description: Net refund amount in cents.
                 example: 12100
               feeValueInCents:
-                type: number
-                nullable: true
+                type:
+                - number
+                - 'null'
                 description: Total refund fees in cents.
                 example: 400
               processorRefundId:
@@ -224,8 +218,9 @@ components:
                 description: Processor refund identifier.
                 example: re_123456789
               depositId:
-                type: string
-                nullable: true
+                type:
+                - string
+                - 'null'
                 description: Deposit id associated with the refund, when available.
                 example: 8810f34fd5061afeec3eab69
               createdAt:
@@ -283,13 +278,14 @@ components:
               description: Refund status.
               example: SUCCEEDED
             reason:
-              type: string
+              type:
+              - string
+              - 'null'
               enum:
               - DUPLICATE
               - EXPIRED_OR_UNCAPTURED_CHARGE
               - FRAUDULENT
               - REQUESTED_BY_CUSTOMER
-              nullable: true
               description: Refund reason when provided by the processor.
               example: REQUESTED_BY_CUSTOMER
             amountInCents:
@@ -301,8 +297,9 @@ components:
               description: Net refund amount in cents.
               example: 12100
             feeValueInCents:
-              type: number
-              nullable: true
+              type:
+              - number
+              - 'null'
               description: Total refund fees in cents.
               example: 400
             processorRefundId:
@@ -310,8 +307,9 @@ components:
               description: Processor refund identifier.
               example: re_123456789
             depositId:
-              type: string
-              nullable: true
+              type:
+              - string
+              - 'null'
               description: Deposit id associated with the refund, when available.
               example: 8810f34fd5061afeec3eab69
             createdAt:

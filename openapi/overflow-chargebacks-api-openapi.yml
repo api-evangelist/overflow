@@ -1,9 +1,7 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Overflow Open Campaigns Chargebacks API
-  description: '
-
-    The documentation for the Overflow Open APIs.
+  title: Overflow Open Chargebacks API
+  description: 'The documentation for the Overflow Open APIs.
 
 
     To access the OpenAPI spec in JSON/YAML format, navigate to:
@@ -11,9 +9,7 @@ info:
 
     * `/api/docs/openapi.json`
 
-    * `/api/docs/openapi.yaml`
-
-    '
+    * `/api/docs/openapi.yaml`'
   version: '3.0'
   contact: {}
 servers:
@@ -24,9 +20,7 @@ tags:
 paths:
   /api/v3/chargebacks:
     get:
-      description: '
-
-        Returns chargebacks for the authenticated nonprofit based on the provided filters.
+      description: 'Returns chargebacks for the authenticated nonprofit based on the provided filters.
 
 
         ---
@@ -66,9 +60,7 @@ paths:
         * Results are sorted by `createdAt` (ascending or descending via `sortDirection`) and paginated with `limit` and `page`.
 
 
-        All monetary amounts in the response are expressed in cents.
-
-        '
+        All monetary amounts in the response are expressed in cents.'
       operationId: OpenApiChargebacksController_getChargebacks
       parameters:
       - name: limit
@@ -198,13 +190,15 @@ components:
                 description: Gross chargeback amount in cents.
                 example: 12500
               netValueInCents:
-                type: number
-                nullable: true
+                type:
+                - number
+                - 'null'
                 description: Net chargeback amount in cents.
                 example: 12900
               feeValueInCents:
-                type: number
-                nullable: true
+                type:
+                - number
+                - 'null'
                 description: Chargeback fee amount in cents.
                 example: 400
               processorChargebackId:
@@ -212,13 +206,15 @@ components:
                 description: Processor chargeback identifier.
                 example: du_123456789
               reason:
-                type: string
-                nullable: true
+                type:
+                - string
+                - 'null'
                 description: Chargeback reason when provided by the processor.
                 example: Unauthorized transaction
               depositId:
-                type: string
-                nullable: true
+                type:
+                - string
+                - 'null'
                 description: Deposit id associated with the chargeback, when available.
                 example: 8810f34fd5061afeec3eab69
               createdAt:
@@ -286,13 +282,15 @@ components:
               description: Gross chargeback amount in cents.
               example: 12500
             netValueInCents:
-              type: number
-              nullable: true
+              type:
+              - number
+              - 'null'
               description: Net chargeback amount in cents.
               example: 12900
             feeValueInCents:
-              type: number
-              nullable: true
+              type:
+              - number
+              - 'null'
               description: Chargeback fee amount in cents.
               example: 400
             processorChargebackId:
@@ -300,13 +298,15 @@ components:
               description: Processor chargeback identifier.
               example: du_123456789
             reason:
-              type: string
-              nullable: true
+              type:
+              - string
+              - 'null'
               description: Chargeback reason when provided by the processor.
               example: Unauthorized transaction
             depositId:
-              type: string
-              nullable: true
+              type:
+              - string
+              - 'null'
               description: Deposit id associated with the chargeback, when available.
               example: 8810f34fd5061afeec3eab69
             createdAt:

@@ -1,9 +1,7 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Overflow Open Campaigns Deposits API
-  description: '
-
-    The documentation for the Overflow Open APIs.
+  title: Overflow Open Deposits API
+  description: 'The documentation for the Overflow Open APIs.
 
 
     To access the OpenAPI spec in JSON/YAML format, navigate to:
@@ -11,9 +9,7 @@ info:
 
     * `/api/docs/openapi.json`
 
-    * `/api/docs/openapi.yaml`
-
-    '
+    * `/api/docs/openapi.yaml`'
   version: '3.0'
   contact: {}
 servers:
@@ -24,9 +20,7 @@ tags:
 paths:
   /api/v3/deposits:
     get:
-      description: '
-
-        Returns deposits for the nonprofit based on the provided filters. A deposit is a settlement from Overflow to the nonprofit''s bank account.
+      description: 'Returns deposits for the nonprofit based on the provided filters. A deposit is a settlement from Overflow to the nonprofit''s bank account.
 
 
         ---
@@ -72,9 +66,7 @@ paths:
         * Use `reconciled` to filter by reconciliation status.
 
 
-        All monetary amounts in the response are expressed in cents.
-
-        '
+        All monetary amounts in the response are expressed in cents.'
       operationId: OpenApiDepositsController_getDeposits
       parameters:
       - name: limit
@@ -253,6 +245,100 @@ paths:
       - Deposits
 components:
   schemas:
+    GetDepositSummaryResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            contributions:
+              type: object
+              properties:
+                count:
+                  type: number
+                  description: Number of items in this bucket.
+                  example: 42
+                feesInCents:
+                  type: number
+                  description: Total fees for this bucket, in cents.
+                  example: 1450
+                grossInCents:
+                  type: number
+                  description: Total gross value for this bucket, in cents.
+                  example: 50000
+                totalInCents:
+                  type: number
+                  description: Total net value for this bucket (gross minus fees), in cents.
+                  example: 48550
+              description: Totals for contributions included in this deposit.
+            refunds:
+              type: object
+              properties:
+                count:
+                  type: number
+                  description: Number of items in this bucket.
+                  example: 42
+                feesInCents:
+                  type: number
+                  description: Total fees for this bucket, in cents.
+                  example: 1450
+                grossInCents:
+                  type: number
+                  description: Total gross value for this bucket, in cents.
+                  example: 50000
+                totalInCents:
+                  type: number
+                  description: Total net value for this bucket (gross minus fees), in cents.
+                  example: 48550
+              description: Totals for refunds included in this deposit.
+            chargebacks:
+              type: object
+              properties:
+                count:
+                  type: number
+                  description: Number of items in this bucket.
+                  example: 42
+                feesInCents:
+                  type: number
+                  description: Total fees for this bucket, in cents.
+                  example: 1450
+                grossInCents:
+                  type: number
+                  description: Total gross value for this bucket, in cents.
+                  example: 50000
+                totalInCents:
+                  type: number
+                  description: Total net value for this bucket (gross minus fees), in cents.
+                  example: 48550
+              description: Totals for chargebacks included in this deposit.
+            adjustments:
+              type: object
+              properties:
+                count:
+                  type: number
+                  description: Number of items in this bucket.
+                  example: 42
+                feesInCents:
+                  type: number
+                  description: Total fees for this bucket, in cents.
+                  example: 1450
+                grossInCents:
+                  type: number
+                  description: Total gross value for this bucket, in cents.
+                  example: 50000
+                totalInCents:
+                  type: number
+                  description: Total net value for this bucket (gross minus fees), in cents.
+                  example: 48550
+              description: Totals for adjustments included in this deposit.
+          required:
+          - contributions
+          - refunds
+          - chargebacks
+          - adjustments
+          description: Aggregated contribution, refund, chargeback, and adjustment totals for the deposit.
+      required:
+      - data
     GetDepositResponse:
       type: object
       properties:
@@ -291,28 +377,33 @@ components:
               description: Date the deposit is expected to or did arrive in the bank.
               example: '2026-05-20T00:00:00.000Z'
             startingBalanceInCents:
-              type: number
-              nullable: true
+              type:
+              - number
+              - 'null'
               description: Starting balance of the account at the time of payout, in cents.
               example: 0
             endingBalanceInCents:
-              type: number
-              nullable: true
+              type:
+              - number
+              - 'null'
               description: Ending balance of the account after the payout, in cents.
               example: 125000
             bankName:
-              type: string
-              nullable: true
+              type:
+              - string
+              - 'null'
               description: Name of the bank where the funds were deposited.
               example: Chase
             bankLast4:
-              type: string
-              nullable: true
+              type:
+              - string
+              - 'null'
               description: Last 4 digits of the bank or account number where the funds were deposited.
               example: '1234'
             statementDescriptor:
-              type: string
-              nullable: true
+              type:
+              - string
+              - 'null'
               description: Information about the payout that displays on the recipient bank statement.
               example: OVERFLOW PAYOUT
             paymentMethodType:
@@ -324,14 +415,16 @@ components:
               - card
               - ach
             name:
-              type: string
-              nullable: true
+              type:
+              - string
+              - 'null'
               description: Display name used to visually group contributions in this payout.
               example: May payout
             reconciledAt:
-              type: string
+              type:
+              - string
+              - 'null'
               format: date-time
-              nullable: true
               description: Date the deposit was marked as reconciled. Null if not yet reconciled.
               example: null
             createdAt:
@@ -438,28 +531,33 @@ components:
                 description: Date the deposit is expected to or did arrive in the bank.
                 example: '2026-05-20T00:00:00.000Z'
               startingBalanceInCents:
-                type: number
-                nullable: true
+                type:
+                - number
+                - 'null'
                 description: Starting balance of the account at the time of payout, in cents.
                 example: 0
               endingBalanceInCents:
-                type: number
-                nullable: true
+                type:
+                - number
+                - 'null'
                 description: Ending balance of the account after the payout, in cents.
                 example: 125000
               bankName:
-                type: string
-                nullable: true
+                type:
+                - string
+                - 'null'
                 description: Name of the bank where the funds were deposited.
                 example: Chase
               bankLast4:
-                type: string
-                nullable: true
+                type:
+                - string
+                - 'null'
                 description: Last 4 digits of the bank or account number where the funds were deposited.
                 example: '1234'
               statementDescriptor:
-                type: string
-                nullable: true
+                type:
+                - string
+                - 'null'
                 description: Information about the payout that displays on the recipient bank statement.
                 example: OVERFLOW PAYOUT
               paymentMethodType:
@@ -471,14 +569,16 @@ components:
                 - card
                 - ach
               name:
-                type: string
-                nullable: true
+                type:
+                - string
+                - 'null'
                 description: Display name used to visually group contributions in this payout.
                 example: May payout
               reconciledAt:
-                type: string
+                type:
+                - string
+                - 'null'
                 format: date-time
-                nullable: true
                 description: Date the deposit was marked as reconciled. Null if not yet reconciled.
                 example: null
               createdAt:
@@ -550,100 +650,6 @@ components:
       required:
       - data
       - totalCount
-    GetDepositSummaryResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            contributions:
-              type: object
-              properties:
-                count:
-                  type: number
-                  description: Number of items in this bucket.
-                  example: 42
-                feesInCents:
-                  type: number
-                  description: Total fees for this bucket, in cents.
-                  example: 1450
-                grossInCents:
-                  type: number
-                  description: Total gross value for this bucket, in cents.
-                  example: 50000
-                totalInCents:
-                  type: number
-                  description: Total net value for this bucket (gross minus fees), in cents.
-                  example: 48550
-              description: Totals for contributions included in this deposit.
-            refunds:
-              type: object
-              properties:
-                count:
-                  type: number
-                  description: Number of items in this bucket.
-                  example: 42
-                feesInCents:
-                  type: number
-                  description: Total fees for this bucket, in cents.
-                  example: 1450
-                grossInCents:
-                  type: number
-                  description: Total gross value for this bucket, in cents.
-                  example: 50000
-                totalInCents:
-                  type: number
-                  description: Total net value for this bucket (gross minus fees), in cents.
-                  example: 48550
-              description: Totals for refunds included in this deposit.
-            chargebacks:
-              type: object
-              properties:
-                count:
-                  type: number
-                  description: Number of items in this bucket.
-                  example: 42
-                feesInCents:
-                  type: number
-                  description: Total fees for this bucket, in cents.
-                  example: 1450
-                grossInCents:
-                  type: number
-                  description: Total gross value for this bucket, in cents.
-                  example: 50000
-                totalInCents:
-                  type: number
-                  description: Total net value for this bucket (gross minus fees), in cents.
-                  example: 48550
-              description: Totals for chargebacks included in this deposit.
-            adjustments:
-              type: object
-              properties:
-                count:
-                  type: number
-                  description: Number of items in this bucket.
-                  example: 42
-                feesInCents:
-                  type: number
-                  description: Total fees for this bucket, in cents.
-                  example: 1450
-                grossInCents:
-                  type: number
-                  description: Total gross value for this bucket, in cents.
-                  example: 50000
-                totalInCents:
-                  type: number
-                  description: Total net value for this bucket (gross minus fees), in cents.
-                  example: 48550
-              description: Totals for adjustments included in this deposit.
-          required:
-          - contributions
-          - refunds
-          - chargebacks
-          - adjustments
-          description: Aggregated contribution, refund, chargeback, and adjustment totals for the deposit.
-      required:
-      - data
   securitySchemes:
     ApiKey:
       type: apiKey

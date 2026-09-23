@@ -1,9 +1,7 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Overflow Open Campaigns Payments API
-  description: '
-
-    The documentation for the Overflow Open APIs.
+  title: Overflow Open Payments API
+  description: 'The documentation for the Overflow Open APIs.
 
 
     To access the OpenAPI spec in JSON/YAML format, navigate to:
@@ -11,9 +9,7 @@ info:
 
     * `/api/docs/openapi.json`
 
-    * `/api/docs/openapi.yaml`
-
-    '
+    * `/api/docs/openapi.yaml`'
   version: '3.0'
   contact: {}
 servers:
@@ -48,6 +44,99 @@ paths:
       - Payments
 components:
   schemas:
+    AuthorizePaymentResponse:
+      type: object
+      properties:
+        donorId:
+          type: string
+          description: Donor ID. Either the existing donor matched by email/phone, or a newly created one.
+          example: 6710f34fd5061afeec3eab57
+        contributionId:
+          type: string
+          description: Contribution ID. Present when a payment was charged (new-method charge or stored-method charge). Use this to correlate with webhook notifications and reference the payment in subsequent API calls.
+          example: 7710f34fd5061afeec3eab59
+        paymentMethodId:
+          type: string
+          description: Payment method ID. Present when a new payment method was tokenized (either as the main output of a $0 tokenize-only flow, or as a side-effect of an authorize-and-store flow). Use this ID for future charges against the stored payment method.
+          example: 5710f34fd5061afeec3eab58
+        paymentMethod:
+          type: object
+          properties:
+            brand:
+              type: string
+              description: Payment method brand (e.g. visa, mc, amex, ach).
+              example: visa
+            last4:
+              type: string
+              description: Last four digits of the card or bank account.
+              example: '1111'
+            expiration:
+              type: object
+              properties:
+                month:
+                  type: string
+                year:
+                  type: string
+              required:
+              - month
+              - year
+              description: Card / wallet expiration (omitted for ACH).
+            fundingSource:
+              type: string
+              enum:
+              - credit
+              - debit
+              - prepaid
+              description: Card funding source. Omitted when unknown or not applicable (e.g. ACH).
+          required:
+          - brand
+          - last4
+          description: Display details for the tokenized payment method. Present together with `paymentMethodId`.
+        subscriptionId:
+          type: string
+          description: Subscription ID. Present when a recurring schedule was created. Use this to manage the recurring donation in subsequent API calls.
+          example: 8810f34fd5061afeec3eab60
+      required:
+      - donorId
+    WalletPaymentMethod:
+      type: object
+      properties:
+        paymentMethodType:
+          type: string
+          enum:
+          - Wallet
+        walletAccountType:
+          type: string
+          enum:
+          - applepay
+          - googlepay
+          description: Wallet type for the payment. Only `applepay` and `googlepay` are accepted.
+        walletToken:
+          type: string
+      required:
+      - paymentMethodType
+      - walletAccountType
+      - walletToken
+      title: WalletPaymentMethod
+    PlaidBankPaymentMethod:
+      type: object
+      properties:
+        paymentMethodType:
+          type: string
+          enum:
+          - PlaidBank
+        publicToken:
+          type: string
+        accountId:
+          type: string
+        defaultForDonor:
+          type: boolean
+      required:
+      - paymentMethodType
+      - publicToken
+      - accountId
+      - defaultForDonor
+      title: PlaidBankPaymentMethod
     AuthorizePaymentRequest:
       type: object
       properties:
@@ -64,23 +153,29 @@ components:
           type: object
           properties:
             city:
-              type: string
-              nullable: true
+              type:
+              - string
+              - 'null'
             country:
-              type: string
-              nullable: true
+              type:
+              - string
+              - 'null'
             line1:
-              type: string
-              nullable: true
+              type:
+              - string
+              - 'null'
             line2:
-              type: string
-              nullable: true
+              type:
+              - string
+              - 'null'
             state:
-              type: string
-              nullable: true
+              type:
+              - string
+              - 'null'
             zip:
-              type: string
-              nullable: true
+              type:
+              - string
+              - 'null'
           description: Billing address for the payment.
         browserInfo:
           type: object
@@ -219,82 +314,6 @@ components:
       - email
       - paymentMethod
       - processingChannel
-    PlaidBankPaymentMethod:
-      type: object
-      properties:
-        paymentMethodType:
-          type: string
-          enum:
-          - PlaidBank
-        publicToken:
-          type: string
-        accountId:
-          type: string
-        defaultForDonor:
-          type: boolean
-      required:
-      - paymentMethodType
-      - publicToken
-      - accountId
-      - defaultForDonor
-      title: PlaidBankPaymentMethod
-    StoredPaymentMethod:
-      type: object
-      properties:
-        paymentMethodType:
-          type: string
-          enum:
-          - StoredPaymentMethod
-        paymentMethodId:
-          type: string
-      required:
-      - paymentMethodType
-      - paymentMethodId
-      title: StoredPaymentMethod
-    WalletPaymentMethod:
-      type: object
-      properties:
-        paymentMethodType:
-          type: string
-          enum:
-          - Wallet
-        walletAccountType:
-          type: string
-          enum:
-          - applepay
-          - googlepay
-          description: Wallet type for the payment. Only `applepay` and `googlepay` are accepted.
-        walletToken:
-          type: string
-      required:
-      - paymentMethodType
-      - walletAccountType
-      - walletToken
-      title: WalletPaymentMethod
-    CardPaymentMethod:
-      type: object
-      properties:
-        paymentMethodType:
-          type: string
-          enum:
-          - Card
-        defaultForDonor:
-          type: boolean
-        encryptedCardNumber:
-          type: string
-        encryptedExpiryMonth:
-          type: string
-        encryptedExpiryYear:
-          type: string
-        encryptedSecurityCode:
-          type: string
-      required:
-      - paymentMethodType
-      - defaultForDonor
-      - encryptedCardNumber
-      - encryptedExpiryMonth
-      - encryptedExpiryYear
-      title: CardPaymentMethod
     BankPaymentMethod:
       type: object
       properties:
@@ -326,60 +345,43 @@ components:
       - encryptedBankAccountNumber
       - encryptedBankRoutingNumber
       title: BankPaymentMethod
-    AuthorizePaymentResponse:
+    CardPaymentMethod:
       type: object
       properties:
-        donorId:
+        paymentMethodType:
           type: string
-          description: Donor ID. Either the existing donor matched by email/phone, or a newly created one.
-          example: 6710f34fd5061afeec3eab57
-        contributionId:
+          enum:
+          - Card
+        defaultForDonor:
+          type: boolean
+        encryptedCardNumber:
           type: string
-          description: Contribution ID. Present when a payment was charged (new-method charge or stored-method charge). Use this to correlate with webhook notifications and reference the payment in subsequent API calls.
-          example: 7710f34fd5061afeec3eab59
+        encryptedExpiryMonth:
+          type: string
+        encryptedExpiryYear:
+          type: string
+        encryptedSecurityCode:
+          type: string
+      required:
+      - paymentMethodType
+      - defaultForDonor
+      - encryptedCardNumber
+      - encryptedExpiryMonth
+      - encryptedExpiryYear
+      title: CardPaymentMethod
+    StoredPaymentMethod:
+      type: object
+      properties:
+        paymentMethodType:
+          type: string
+          enum:
+          - StoredPaymentMethod
         paymentMethodId:
           type: string
-          description: Payment method ID. Present when a new payment method was tokenized (either as the main output of a $0 tokenize-only flow, or as a side-effect of an authorize-and-store flow). Use this ID for future charges against the stored payment method.
-          example: 5710f34fd5061afeec3eab58
-        paymentMethod:
-          type: object
-          properties:
-            brand:
-              type: string
-              description: Payment method brand (e.g. visa, mc, amex, ach).
-              example: visa
-            last4:
-              type: string
-              description: Last four digits of the card or bank account.
-              example: '1111'
-            expiration:
-              type: object
-              properties:
-                month:
-                  type: string
-                year:
-                  type: string
-              required:
-              - month
-              - year
-              description: Card / wallet expiration (omitted for ACH).
-            fundingSource:
-              type: string
-              enum:
-              - credit
-              - debit
-              - prepaid
-              description: Card funding source. Omitted when unknown or not applicable (e.g. ACH).
-          required:
-          - brand
-          - last4
-          description: Display details for the tokenized payment method. Present together with `paymentMethodId`.
-        subscriptionId:
-          type: string
-          description: Subscription ID. Present when a recurring schedule was created. Use this to manage the recurring donation in subsequent API calls.
-          example: 8810f34fd5061afeec3eab60
       required:
-      - donorId
+      - paymentMethodType
+      - paymentMethodId
+      title: StoredPaymentMethod
   securitySchemes:
     ApiKey:
       type: apiKey

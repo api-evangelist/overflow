@@ -1,19 +1,7 @@
 {
   "provider": "overflow",
   "sources": [
-    "overflow-campaigns-api-openapi.yml",
-    "overflow-chargebacks-api-openapi.yml",
-    "overflow-contributions-api-openapi.yml",
-    "overflow-deposits-api-openapi.yml",
-    "overflow-donors-api-openapi.yml",
-    "overflow-locations-api-openapi.yml",
-    "overflow-payment-methods-api-openapi.yml",
-    "overflow-payments-api-openapi.yml",
-    "overflow-refunds-api-openapi.yml",
-    "overflow-status-api-openapi.yml",
-    "overflow-subscriptions-api-openapi.yml",
-    "overflow-tap-api-openapi.yml",
-    "overflow-webhooks-api-openapi.yml"
+    "_original/overflow-openapi-original.json"
   ],
   "outputs": [
     "overflow-campaigns-api-openapi.yml",
@@ -33,6 +21,37 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "overflow-openapi-original.json: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "overflow-openapi-original.json: declared missing tag: Campaigns",
+    "overflow-openapi-original.json: declared missing tag: Chargebacks",
+    "overflow-openapi-original.json: declared missing tag: Contributions",
+    "overflow-openapi-original.json: declared missing tag: Deposits",
+    "overflow-openapi-original.json: declared missing tag: Donors",
+    "overflow-openapi-original.json: declared missing tag: Locations",
+    "overflow-openapi-original.json: declared missing tag: Payment Methods",
+    "overflow-openapi-original.json: declared missing tag: Payments",
+    "overflow-openapi-original.json: declared missing tag: Refunds",
+    "overflow-openapi-original.json: declared missing tag: Status",
+    "overflow-openapi-original.json: declared missing tag: Subscriptions",
+    "overflow-openapi-original.json: declared missing tag: Tap",
+    "overflow-openapi-original.json: declared missing tag: Webhooks",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "overflow-campaigns-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "overflow-chargebacks-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "overflow-contributions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "overflow-deposits-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "overflow-donors-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "overflow-locations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "overflow-payment-methods-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "overflow-payments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "overflow-refunds-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "overflow-status-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "overflow-subscriptions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "overflow-tap-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "overflow-webhooks-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
