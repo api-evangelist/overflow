@@ -245,100 +245,6 @@ paths:
       - Deposits
 components:
   schemas:
-    GetDepositSummaryResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            contributions:
-              type: object
-              properties:
-                count:
-                  type: number
-                  description: Number of items in this bucket.
-                  example: 42
-                feesInCents:
-                  type: number
-                  description: Total fees for this bucket, in cents.
-                  example: 1450
-                grossInCents:
-                  type: number
-                  description: Total gross value for this bucket, in cents.
-                  example: 50000
-                totalInCents:
-                  type: number
-                  description: Total net value for this bucket (gross minus fees), in cents.
-                  example: 48550
-              description: Totals for contributions included in this deposit.
-            refunds:
-              type: object
-              properties:
-                count:
-                  type: number
-                  description: Number of items in this bucket.
-                  example: 42
-                feesInCents:
-                  type: number
-                  description: Total fees for this bucket, in cents.
-                  example: 1450
-                grossInCents:
-                  type: number
-                  description: Total gross value for this bucket, in cents.
-                  example: 50000
-                totalInCents:
-                  type: number
-                  description: Total net value for this bucket (gross minus fees), in cents.
-                  example: 48550
-              description: Totals for refunds included in this deposit.
-            chargebacks:
-              type: object
-              properties:
-                count:
-                  type: number
-                  description: Number of items in this bucket.
-                  example: 42
-                feesInCents:
-                  type: number
-                  description: Total fees for this bucket, in cents.
-                  example: 1450
-                grossInCents:
-                  type: number
-                  description: Total gross value for this bucket, in cents.
-                  example: 50000
-                totalInCents:
-                  type: number
-                  description: Total net value for this bucket (gross minus fees), in cents.
-                  example: 48550
-              description: Totals for chargebacks included in this deposit.
-            adjustments:
-              type: object
-              properties:
-                count:
-                  type: number
-                  description: Number of items in this bucket.
-                  example: 42
-                feesInCents:
-                  type: number
-                  description: Total fees for this bucket, in cents.
-                  example: 1450
-                grossInCents:
-                  type: number
-                  description: Total gross value for this bucket, in cents.
-                  example: 50000
-                totalInCents:
-                  type: number
-                  description: Total net value for this bucket (gross minus fees), in cents.
-                  example: 48550
-              description: Totals for adjustments included in this deposit.
-          required:
-          - contributions
-          - refunds
-          - chargebacks
-          - adjustments
-          description: Aggregated contribution, refund, chargeback, and adjustment totals for the deposit.
-      required:
-      - data
     GetDepositResponse:
       type: object
       properties:
@@ -650,6 +556,100 @@ components:
       required:
       - data
       - totalCount
+    GetDepositSummaryResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            contributions:
+              type: object
+              properties:
+                count:
+                  type: number
+                  description: Number of items in this bucket.
+                  example: 42
+                feesInCents:
+                  type: number
+                  description: Total fees for this bucket, in cents.
+                  example: 1450
+                grossInCents:
+                  type: number
+                  description: Total gross value for this bucket, in cents.
+                  example: 50000
+                totalInCents:
+                  type: number
+                  description: Total net value for this bucket (gross minus fees), in cents.
+                  example: 48550
+              description: Totals for contributions included in this deposit.
+            refunds:
+              type: object
+              properties:
+                count:
+                  type: number
+                  description: Number of items in this bucket.
+                  example: 42
+                feesInCents:
+                  type: number
+                  description: Total fees for this bucket, in cents.
+                  example: 1450
+                grossInCents:
+                  type: number
+                  description: Total gross value for this bucket, in cents.
+                  example: 50000
+                totalInCents:
+                  type: number
+                  description: Total net value for this bucket (gross minus fees), in cents.
+                  example: 48550
+              description: Totals for refunds included in this deposit.
+            chargebacks:
+              type: object
+              properties:
+                count:
+                  type: number
+                  description: Number of items in this bucket.
+                  example: 42
+                feesInCents:
+                  type: number
+                  description: Total fees for this bucket, in cents.
+                  example: 1450
+                grossInCents:
+                  type: number
+                  description: Total gross value for this bucket, in cents.
+                  example: 50000
+                totalInCents:
+                  type: number
+                  description: Total net value for this bucket (gross minus fees), in cents.
+                  example: 48550
+              description: Totals for chargebacks included in this deposit.
+            adjustments:
+              type: object
+              properties:
+                count:
+                  type: number
+                  description: Number of items in this bucket.
+                  example: 42
+                feesInCents:
+                  type: number
+                  description: Total fees for this bucket, in cents.
+                  example: 1450
+                grossInCents:
+                  type: number
+                  description: Total gross value for this bucket, in cents.
+                  example: 50000
+                totalInCents:
+                  type: number
+                  description: Total net value for this bucket (gross minus fees), in cents.
+                  example: 48550
+              description: Totals for adjustments included in this deposit.
+          required:
+          - contributions
+          - refunds
+          - chargebacks
+          - adjustments
+          description: Aggregated contribution, refund, chargeback, and adjustment totals for the deposit.
+      required:
+      - data
   securitySchemes:
     ApiKey:
       type: apiKey

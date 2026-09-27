@@ -382,69 +382,167 @@ paths:
       - Subscriptions
 components:
   schemas:
-    CreateSubscriptionRequest:
+    CreateSubscriptionResponse:
       type: object
       properties:
-        paymentMethodId:
-          type: string
-          description: Id of the payment method.
-          example: 6710f34fd5061afeec3eab57
-        amount:
-          type: number
-          description: Subscription amount in dollars.
-          example: 50
-          exclusiveMinimum: 0
-        frequency:
-          type: string
-          enum:
-          - two-weeks
-          - 1st-15th
-          - month
-          - one-time
-          - week
-          description: Recurring frequency for the subscription.
-          example: month
-        startDate:
-          type: string
-          format: date-time
-          description: ISO 8601 date string when the subscription should start.
-          example: '2025-01-15T05:00:00.000Z'
-        timezone:
-          type: string
-          description: Timezone for the subscription start date. Defaults to UTC if not provided.
-          example: America/Chicago
-        anonymous:
-          type: boolean
-          description: Whether the donor wants the contribution to be anonymous.
-          example: false
-        campaignId:
-          type: string
-          description: Id of the campaign to allocate funds to
-          example: 7710f34fd5061afeec3eab78
-        subcampaignId:
-          type: string
-          description: Id of the subcampaign for more specific allocation.
-          example: 7710f34fd5061afeec3eab79
-        donorNotes:
-          type: string
-          description: Notes from the donor.
-          example: Happy to support this cause!
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Subscription Id.
+              example: 6710f34fd5061afeec3eab57
+            donorId:
+              type: string
+              description: Id of the Donor Profile.
+              example: 6710f34fd5061afeec3eab57
+            createdAt:
+              type: string
+              format: date-time
+              description: Subscription created at.
+              example: '2025-01-01T00:00:00.000Z'
+            updatedAt:
+              type: string
+              format: date-time
+              description: Subscription updated at.
+              example: '2025-01-01T00:00:00.000Z'
+            startDate:
+              type: string
+              format: date-time
+              description: Subscription start date.
+              example: '2025-01-01T00:00:00.000Z'
+            status:
+              type: string
+              enum:
+              - active
+              - failed
+              - inactive
+              - paused
+              - pending
+              - recreated
+              description: Subscription status.
+              example: active
+            amount:
+              type: number
+              description: Subscription amount.
+              example: 50
+            donorCoveredFees:
+              default: false
+              type: boolean
+              description: Whether the donor is covering fees.
+              example: false
+            anonymous:
+              type: boolean
+              description: Whether the donor wants the subscription to be anonymous.
+              example: false
+            frequency:
+              type: string
+              enum:
+              - biweekly
+              - monthly
+              - weekly
+              description: Subscription frequency.
+              example: weekly
+            nextPaymentDate:
+              type:
+              - string
+              - 'null'
+              format: date-time
+              description: Subscription next payment date.
+              example: '2025-01-01T00:00:00.000Z'
+            paymentMethod:
+              type: object
+              properties:
+                id:
+                  type: string
+                holderName:
+                  type: string
+                type:
+                  type: string
+                  enum:
+                  - bank
+                  - card
+                  - wallet
+                last4:
+                  type: string
+                expiration:
+                  type: string
+              required:
+              - id
+              - type
+              - last4
+              - expiration
+              description: Subscription payment method.
+              example:
+                id: 6710f34fd5061afeec3eab57
+                holderName: John Doe
+                type: card
+                last4: '4242'
+                expiration: 12/2025
+            campaign:
+              type:
+              - object
+              - 'null'
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+              required:
+              - id
+              - name
+              description: Campaign details for the contribution
+              example:
+                id: 7710f34fd5061afeec3eab78
+                name: Mission 2025
+            subcampaign:
+              type:
+              - object
+              - 'null'
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+              required:
+              - id
+              - name
+              description: Subcampaign details for the contribution
+              example:
+                id: 7710f34fd5061afeec3eab79
+                name: Toy Drive
+            metadata:
+              type:
+              - object
+              - 'null'
+              additionalProperties:
+                type: string
+              description: Merchant-defined metadata.
+              example:
+                orderId: abc-123
+            locationId:
+              type:
+              - string
+              - 'null'
+              description: Id of the Location associated with the subscription.
+              example: 6710f34fd5061afeec3eab57
+          required:
+          - id
+          - donorId
+          - createdAt
+          - updatedAt
+          - startDate
+          - status
+          - amount
+          - anonymous
+          - frequency
+          - nextPaymentDate
+          - paymentMethod
+          - campaign
+          - subcampaign
+          description: The subscription that was created
       required:
-      - paymentMethodId
-      - amount
-      - frequency
-    DeleteSubscriptionRequest:
-      type: object
-      properties:
-        cancellationReason:
-          type: string
-          maxLength: 150
-          minLength: 1
-          description: The reason for cancelling the subscription.
-          example: I no longer attend this organization.
-    NonprofitDonorProfileEntity:
-      type: object
-      properties: {}
+      - data
     GetSubscriptionsResponse:
       type: object
       properties:
@@ -774,6 +872,69 @@ components:
           description: Subscription.
       required:
       - data
+    NonprofitDonorProfileEntity:
+      type: object
+      properties: {}
+    DeleteSubscriptionRequest:
+      type: object
+      properties:
+        cancellationReason:
+          type: string
+          maxLength: 150
+          minLength: 1
+          description: The reason for cancelling the subscription.
+          example: I no longer attend this organization.
+    CreateSubscriptionRequest:
+      type: object
+      properties:
+        paymentMethodId:
+          type: string
+          description: Id of the payment method.
+          example: 6710f34fd5061afeec3eab57
+        amount:
+          type: number
+          description: Subscription amount in dollars.
+          example: 50
+          exclusiveMinimum: 0
+        frequency:
+          type: string
+          enum:
+          - two-weeks
+          - 1st-15th
+          - month
+          - one-time
+          - week
+          description: Recurring frequency for the subscription.
+          example: month
+        startDate:
+          type: string
+          format: date-time
+          description: ISO 8601 date string when the subscription should start.
+          example: '2025-01-15T05:00:00.000Z'
+        timezone:
+          type: string
+          description: Timezone for the subscription start date. Defaults to UTC if not provided.
+          example: America/Chicago
+        anonymous:
+          type: boolean
+          description: Whether the donor wants the contribution to be anonymous.
+          example: false
+        campaignId:
+          type: string
+          description: Id of the campaign to allocate funds to
+          example: 7710f34fd5061afeec3eab78
+        subcampaignId:
+          type: string
+          description: Id of the subcampaign for more specific allocation.
+          example: 7710f34fd5061afeec3eab79
+        donorNotes:
+          type: string
+          description: Notes from the donor.
+          example: Happy to support this cause!
+      required:
+      - paymentMethodId
+      - amount
+      - frequency
     UpdateSubscriptionRequest:
       type: object
       properties:
@@ -817,167 +978,6 @@ components:
           - biweekly
           - monthly
           - weekly
-    CreateSubscriptionResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            id:
-              type: string
-              description: Subscription Id.
-              example: 6710f34fd5061afeec3eab57
-            donorId:
-              type: string
-              description: Id of the Donor Profile.
-              example: 6710f34fd5061afeec3eab57
-            createdAt:
-              type: string
-              format: date-time
-              description: Subscription created at.
-              example: '2025-01-01T00:00:00.000Z'
-            updatedAt:
-              type: string
-              format: date-time
-              description: Subscription updated at.
-              example: '2025-01-01T00:00:00.000Z'
-            startDate:
-              type: string
-              format: date-time
-              description: Subscription start date.
-              example: '2025-01-01T00:00:00.000Z'
-            status:
-              type: string
-              enum:
-              - active
-              - failed
-              - inactive
-              - paused
-              - pending
-              - recreated
-              description: Subscription status.
-              example: active
-            amount:
-              type: number
-              description: Subscription amount.
-              example: 50
-            donorCoveredFees:
-              default: false
-              type: boolean
-              description: Whether the donor is covering fees.
-              example: false
-            anonymous:
-              type: boolean
-              description: Whether the donor wants the subscription to be anonymous.
-              example: false
-            frequency:
-              type: string
-              enum:
-              - biweekly
-              - monthly
-              - weekly
-              description: Subscription frequency.
-              example: weekly
-            nextPaymentDate:
-              type:
-              - string
-              - 'null'
-              format: date-time
-              description: Subscription next payment date.
-              example: '2025-01-01T00:00:00.000Z'
-            paymentMethod:
-              type: object
-              properties:
-                id:
-                  type: string
-                holderName:
-                  type: string
-                type:
-                  type: string
-                  enum:
-                  - bank
-                  - card
-                  - wallet
-                last4:
-                  type: string
-                expiration:
-                  type: string
-              required:
-              - id
-              - type
-              - last4
-              - expiration
-              description: Subscription payment method.
-              example:
-                id: 6710f34fd5061afeec3eab57
-                holderName: John Doe
-                type: card
-                last4: '4242'
-                expiration: 12/2025
-            campaign:
-              type:
-              - object
-              - 'null'
-              properties:
-                id:
-                  type: string
-                name:
-                  type: string
-              required:
-              - id
-              - name
-              description: Campaign details for the contribution
-              example:
-                id: 7710f34fd5061afeec3eab78
-                name: Mission 2025
-            subcampaign:
-              type:
-              - object
-              - 'null'
-              properties:
-                id:
-                  type: string
-                name:
-                  type: string
-              required:
-              - id
-              - name
-              description: Subcampaign details for the contribution
-              example:
-                id: 7710f34fd5061afeec3eab79
-                name: Toy Drive
-            metadata:
-              type:
-              - object
-              - 'null'
-              additionalProperties:
-                type: string
-              description: Merchant-defined metadata.
-              example:
-                orderId: abc-123
-            locationId:
-              type:
-              - string
-              - 'null'
-              description: Id of the Location associated with the subscription.
-              example: 6710f34fd5061afeec3eab57
-          required:
-          - id
-          - donorId
-          - createdAt
-          - updatedAt
-          - startDate
-          - status
-          - amount
-          - anonymous
-          - frequency
-          - nextPaymentDate
-          - paymentMethod
-          - campaign
-          - subcampaign
-          description: The subscription that was created
-      required:
-      - data
   securitySchemes:
     ApiKey:
       type: apiKey

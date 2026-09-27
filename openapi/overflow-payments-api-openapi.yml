@@ -44,99 +44,19 @@ paths:
       - Payments
 components:
   schemas:
-    AuthorizePaymentResponse:
+    StoredPaymentMethod:
       type: object
       properties:
-        donorId:
+        paymentMethodType:
           type: string
-          description: Donor ID. Either the existing donor matched by email/phone, or a newly created one.
-          example: 6710f34fd5061afeec3eab57
-        contributionId:
-          type: string
-          description: Contribution ID. Present when a payment was charged (new-method charge or stored-method charge). Use this to correlate with webhook notifications and reference the payment in subsequent API calls.
-          example: 7710f34fd5061afeec3eab59
+          enum:
+          - StoredPaymentMethod
         paymentMethodId:
           type: string
-          description: Payment method ID. Present when a new payment method was tokenized (either as the main output of a $0 tokenize-only flow, or as a side-effect of an authorize-and-store flow). Use this ID for future charges against the stored payment method.
-          example: 5710f34fd5061afeec3eab58
-        paymentMethod:
-          type: object
-          properties:
-            brand:
-              type: string
-              description: Payment method brand (e.g. visa, mc, amex, ach).
-              example: visa
-            last4:
-              type: string
-              description: Last four digits of the card or bank account.
-              example: '1111'
-            expiration:
-              type: object
-              properties:
-                month:
-                  type: string
-                year:
-                  type: string
-              required:
-              - month
-              - year
-              description: Card / wallet expiration (omitted for ACH).
-            fundingSource:
-              type: string
-              enum:
-              - credit
-              - debit
-              - prepaid
-              description: Card funding source. Omitted when unknown or not applicable (e.g. ACH).
-          required:
-          - brand
-          - last4
-          description: Display details for the tokenized payment method. Present together with `paymentMethodId`.
-        subscriptionId:
-          type: string
-          description: Subscription ID. Present when a recurring schedule was created. Use this to manage the recurring donation in subsequent API calls.
-          example: 8810f34fd5061afeec3eab60
-      required:
-      - donorId
-    WalletPaymentMethod:
-      type: object
-      properties:
-        paymentMethodType:
-          type: string
-          enum:
-          - Wallet
-        walletAccountType:
-          type: string
-          enum:
-          - applepay
-          - googlepay
-          description: Wallet type for the payment. Only `applepay` and `googlepay` are accepted.
-        walletToken:
-          type: string
       required:
       - paymentMethodType
-      - walletAccountType
-      - walletToken
-      title: WalletPaymentMethod
-    PlaidBankPaymentMethod:
-      type: object
-      properties:
-        paymentMethodType:
-          type: string
-          enum:
-          - PlaidBank
-        publicToken:
-          type: string
-        accountId:
-          type: string
-        defaultForDonor:
-          type: boolean
-      required:
-      - paymentMethodType
-      - publicToken
-      - accountId
-      - defaultForDonor
-      title: PlaidBankPaymentMethod
+      - paymentMethodId
+      title: StoredPaymentMethod
     AuthorizePaymentRequest:
       type: object
       properties:
@@ -314,6 +234,49 @@ components:
       - email
       - paymentMethod
       - processingChannel
+    PlaidBankPaymentMethod:
+      type: object
+      properties:
+        paymentMethodType:
+          type: string
+          enum:
+          - PlaidBank
+        publicToken:
+          type: string
+        accountId:
+          type: string
+        defaultForDonor:
+          type: boolean
+      required:
+      - paymentMethodType
+      - publicToken
+      - accountId
+      - defaultForDonor
+      title: PlaidBankPaymentMethod
+    CardPaymentMethod:
+      type: object
+      properties:
+        paymentMethodType:
+          type: string
+          enum:
+          - Card
+        defaultForDonor:
+          type: boolean
+        encryptedCardNumber:
+          type: string
+        encryptedExpiryMonth:
+          type: string
+        encryptedExpiryYear:
+          type: string
+        encryptedSecurityCode:
+          type: string
+      required:
+      - paymentMethodType
+      - defaultForDonor
+      - encryptedCardNumber
+      - encryptedExpiryMonth
+      - encryptedExpiryYear
+      title: CardPaymentMethod
     BankPaymentMethod:
       type: object
       properties:
@@ -345,43 +308,80 @@ components:
       - encryptedBankAccountNumber
       - encryptedBankRoutingNumber
       title: BankPaymentMethod
-    CardPaymentMethod:
+    AuthorizePaymentResponse:
       type: object
       properties:
-        paymentMethodType:
+        donorId:
           type: string
-          enum:
-          - Card
-        defaultForDonor:
-          type: boolean
-        encryptedCardNumber:
+          description: Donor ID. Either the existing donor matched by email/phone, or a newly created one.
+          example: 6710f34fd5061afeec3eab57
+        contributionId:
           type: string
-        encryptedExpiryMonth:
-          type: string
-        encryptedExpiryYear:
-          type: string
-        encryptedSecurityCode:
-          type: string
-      required:
-      - paymentMethodType
-      - defaultForDonor
-      - encryptedCardNumber
-      - encryptedExpiryMonth
-      - encryptedExpiryYear
-      title: CardPaymentMethod
-    StoredPaymentMethod:
-      type: object
-      properties:
-        paymentMethodType:
-          type: string
-          enum:
-          - StoredPaymentMethod
+          description: Contribution ID. Present when a payment was charged (new-method charge or stored-method charge). Use this to correlate with webhook notifications and reference the payment in subsequent API calls.
+          example: 7710f34fd5061afeec3eab59
         paymentMethodId:
           type: string
+          description: Payment method ID. Present when a new payment method was tokenized (either as the main output of a $0 tokenize-only flow, or as a side-effect of an authorize-and-store flow). Use this ID for future charges against the stored payment method.
+          example: 5710f34fd5061afeec3eab58
+        paymentMethod:
+          type: object
+          properties:
+            brand:
+              type: string
+              description: Payment method brand (e.g. visa, mc, amex, ach).
+              example: visa
+            last4:
+              type: string
+              description: Last four digits of the card or bank account.
+              example: '1111'
+            expiration:
+              type: object
+              properties:
+                month:
+                  type: string
+                year:
+                  type: string
+              required:
+              - month
+              - year
+              description: Card / wallet expiration (omitted for ACH).
+            fundingSource:
+              type: string
+              enum:
+              - credit
+              - debit
+              - prepaid
+              description: Card funding source. Omitted when unknown or not applicable (e.g. ACH).
+          required:
+          - brand
+          - last4
+          description: Display details for the tokenized payment method. Present together with `paymentMethodId`.
+        subscriptionId:
+          type: string
+          description: Subscription ID. Present when a recurring schedule was created. Use this to manage the recurring donation in subsequent API calls.
+          example: 8810f34fd5061afeec3eab60
+      required:
+      - donorId
+    WalletPaymentMethod:
+      type: object
+      properties:
+        paymentMethodType:
+          type: string
+          enum:
+          - Wallet
+        walletAccountType:
+          type: string
+          enum:
+          - applepay
+          - googlepay
+          description: Wallet type for the payment. Only `applepay` and `googlepay` are accepted.
+        walletToken:
+          type: string
       required:
       - paymentMethodType
-      - paymentMethodId
-      title: StoredPaymentMethod
+      - walletAccountType
+      - walletToken
+      title: WalletPaymentMethod
   securitySchemes:
     ApiKey:
       type: apiKey

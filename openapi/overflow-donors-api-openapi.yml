@@ -251,14 +251,6 @@ components:
       required:
       - firstName
       - lastName
-    CreateDonorProfileResponse:
-      type: object
-      properties:
-        data:
-          type: string
-          description: The id of the new donor profile
-      required:
-      - data
     GetDonorsResponse:
       type: object
       properties:
@@ -492,6 +484,14 @@ components:
           - phone
           - address
           description: The donor for the given ID
+      required:
+      - data
+    CreateDonorProfileResponse:
+      type: object
+      properties:
+        data:
+          type: string
+          description: The id of the new donor profile
       required:
       - data
   securitySchemes:

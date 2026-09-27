@@ -194,94 +194,101 @@ paths:
       - Webhooks
 components:
   schemas:
-    GetWebhookResponse:
+    GetWebhooksResponse:
       type: object
       properties:
         data:
-          type: object
-          properties:
-            id:
-              type: string
-              description: Webhook subscription id.
-              example: 6817cec907243f2d3a1130df
-            name:
-              type: string
-              description: Webhook subscription name.
-              example: Main webhook endpoint
-            description:
-              type:
-              - string
-              - 'null'
-              description: Webhook subscription description.
-              example: Receives contribution events for reporting.
-            destinationUrl:
-              type: string
-              format: uri
-              description: Subscription destination URL.
-              example: https://example.org/webhooks/overflow
-            enabledEvents:
-              type: array
-              items:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Webhook subscription id.
+                example: 6817cec907243f2d3a1130df
+              name:
+                type: string
+                description: Webhook subscription name.
+                example: Main webhook endpoint
+              description:
+                type:
+                - string
+                - 'null'
+                description: Webhook subscription description.
+                example: Receives contribution events for reporting.
+              destinationUrl:
+                type: string
+                format: uri
+                description: Subscription destination URL.
+                example: https://example.org/webhooks/overflow
+              enabledEvents:
+                type: array
+                items:
+                  type: string
+                  enum:
+                  - '*'
+                  - contribution.approved
+                  - contribution.declined
+                  - contribution.paid_out
+                  - contribution.processing
+                  - contribution.chargeback_lost
+                  - contribution.chargeback_pending
+                  - contribution.chargeback_won
+                  - contribution.refund_approved
+                  - contribution.refund_canceled
+                  - contribution.refund_failed
+                  - contribution.refund_requested
+                  - contribution.refund_requires_action
+                  - contribution.refunded
+                  - contribution.voided
+                  - donor.archived
+                  - donor.created
+                  - donor.merged
+                  - donor.updated
+                  - deposit.paid_out
+                  - recurring_gift.active
+                  - recurring_gift.cycle_failed
+                  - recurring_gift.failed
+                  - recurring_gift.inactive
+                  - recurring_gift.paused
+                  - recurring_gift.updated
+                description: Event names that trigger this subscription.
+                example:
+                - contribution.approved
+              status:
                 type: string
                 enum:
-                - '*'
-                - contribution.approved
-                - contribution.declined
-                - contribution.paid_out
-                - contribution.processing
-                - contribution.chargeback_lost
-                - contribution.chargeback_pending
-                - contribution.chargeback_won
-                - contribution.refund_approved
-                - contribution.refund_canceled
-                - contribution.refund_failed
-                - contribution.refund_requested
-                - contribution.refund_requires_action
-                - contribution.refunded
-                - contribution.voided
-                - donor.archived
-                - donor.created
-                - donor.merged
-                - donor.updated
-                - deposit.paid_out
-                - recurring_gift.active
-                - recurring_gift.cycle_failed
-                - recurring_gift.failed
-                - recurring_gift.inactive
-                - recurring_gift.paused
-                - recurring_gift.updated
-              description: Event names that trigger this subscription.
-              example:
-              - contribution.approved
-            status:
-              type: string
-              enum:
-              - enabled
-              - disabled
-              description: Subscription status.
-              example: enabled
-            createdAt:
-              type: string
-              format: date-time
-              description: Date the subscription was created.
-              example: '2026-05-19T00:00:00.000Z'
-            updatedAt:
-              type: string
-              format: date-time
-              description: Date the subscription was last updated.
-              example: '2026-05-20T00:00:00.000Z'
-          required:
-          - id
-          - name
-          - description
-          - destinationUrl
-          - enabledEvents
-          - status
-          - createdAt
-          - updatedAt
-          description: Webhook subscription.
+                - enabled
+                - disabled
+                description: Subscription status.
+                example: enabled
+              createdAt:
+                type: string
+                format: date-time
+                description: Date the subscription was created.
+                example: '2026-05-19T00:00:00.000Z'
+              updatedAt:
+                type: string
+                format: date-time
+                description: Date the subscription was last updated.
+                example: '2026-05-20T00:00:00.000Z'
+            required:
+            - id
+            - name
+            - description
+            - destinationUrl
+            - enabledEvents
+            - status
+            - createdAt
+            - updatedAt
+          description: List of webhook subscriptions.
+        totalCount:
+          type: number
+          description: Total number of webhook subscriptions matching the provided filters.
+          example: 2
       required:
       - data
+      - totalCount
     GetWebhookEventLogsResponse:
       type: object
       properties:
@@ -433,101 +440,94 @@ components:
       required:
       - data
       - pageInfo
-    GetWebhooksResponse:
+    GetWebhookResponse:
       type: object
       properties:
         data:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                description: Webhook subscription id.
-                example: 6817cec907243f2d3a1130df
-              name:
-                type: string
-                description: Webhook subscription name.
-                example: Main webhook endpoint
-              description:
-                type:
-                - string
-                - 'null'
-                description: Webhook subscription description.
-                example: Receives contribution events for reporting.
-              destinationUrl:
-                type: string
-                format: uri
-                description: Subscription destination URL.
-                example: https://example.org/webhooks/overflow
-              enabledEvents:
-                type: array
-                items:
-                  type: string
-                  enum:
-                  - '*'
-                  - contribution.approved
-                  - contribution.declined
-                  - contribution.paid_out
-                  - contribution.processing
-                  - contribution.chargeback_lost
-                  - contribution.chargeback_pending
-                  - contribution.chargeback_won
-                  - contribution.refund_approved
-                  - contribution.refund_canceled
-                  - contribution.refund_failed
-                  - contribution.refund_requested
-                  - contribution.refund_requires_action
-                  - contribution.refunded
-                  - contribution.voided
-                  - donor.archived
-                  - donor.created
-                  - donor.merged
-                  - donor.updated
-                  - deposit.paid_out
-                  - recurring_gift.active
-                  - recurring_gift.cycle_failed
-                  - recurring_gift.failed
-                  - recurring_gift.inactive
-                  - recurring_gift.paused
-                  - recurring_gift.updated
-                description: Event names that trigger this subscription.
-                example:
-                - contribution.approved
-              status:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Webhook subscription id.
+              example: 6817cec907243f2d3a1130df
+            name:
+              type: string
+              description: Webhook subscription name.
+              example: Main webhook endpoint
+            description:
+              type:
+              - string
+              - 'null'
+              description: Webhook subscription description.
+              example: Receives contribution events for reporting.
+            destinationUrl:
+              type: string
+              format: uri
+              description: Subscription destination URL.
+              example: https://example.org/webhooks/overflow
+            enabledEvents:
+              type: array
+              items:
                 type: string
                 enum:
-                - enabled
-                - disabled
-                description: Subscription status.
-                example: enabled
-              createdAt:
-                type: string
-                format: date-time
-                description: Date the subscription was created.
-                example: '2026-05-19T00:00:00.000Z'
-              updatedAt:
-                type: string
-                format: date-time
-                description: Date the subscription was last updated.
-                example: '2026-05-20T00:00:00.000Z'
-            required:
-            - id
-            - name
-            - description
-            - destinationUrl
-            - enabledEvents
-            - status
-            - createdAt
-            - updatedAt
-          description: List of webhook subscriptions.
-        totalCount:
-          type: number
-          description: Total number of webhook subscriptions matching the provided filters.
-          example: 2
+                - '*'
+                - contribution.approved
+                - contribution.declined
+                - contribution.paid_out
+                - contribution.processing
+                - contribution.chargeback_lost
+                - contribution.chargeback_pending
+                - contribution.chargeback_won
+                - contribution.refund_approved
+                - contribution.refund_canceled
+                - contribution.refund_failed
+                - contribution.refund_requested
+                - contribution.refund_requires_action
+                - contribution.refunded
+                - contribution.voided
+                - donor.archived
+                - donor.created
+                - donor.merged
+                - donor.updated
+                - deposit.paid_out
+                - recurring_gift.active
+                - recurring_gift.cycle_failed
+                - recurring_gift.failed
+                - recurring_gift.inactive
+                - recurring_gift.paused
+                - recurring_gift.updated
+              description: Event names that trigger this subscription.
+              example:
+              - contribution.approved
+            status:
+              type: string
+              enum:
+              - enabled
+              - disabled
+              description: Subscription status.
+              example: enabled
+            createdAt:
+              type: string
+              format: date-time
+              description: Date the subscription was created.
+              example: '2026-05-19T00:00:00.000Z'
+            updatedAt:
+              type: string
+              format: date-time
+              description: Date the subscription was last updated.
+              example: '2026-05-20T00:00:00.000Z'
+          required:
+          - id
+          - name
+          - description
+          - destinationUrl
+          - enabledEvents
+          - status
+          - createdAt
+          - updatedAt
+          description: Webhook subscription.
       required:
       - data
-      - totalCount
   securitySchemes:
     ApiKey:
       type: apiKey

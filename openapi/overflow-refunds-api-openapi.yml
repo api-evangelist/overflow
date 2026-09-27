@@ -162,6 +162,90 @@ paths:
       - Refunds
 components:
   schemas:
+    GetRefundResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Refund id.
+              example: 8810f34fd5061afeec3eab67
+            contributionId:
+              type: string
+              description: Contribution id associated with the refund.
+              example: 8810f34fd5061afeec3eab68
+            status:
+              type: string
+              enum:
+              - CANCELED
+              - FAILED
+              - PENDING
+              - REQUIRES_ACTION
+              - SUCCEEDED
+              description: Refund status.
+              example: SUCCEEDED
+            reason:
+              type:
+              - string
+              - 'null'
+              enum:
+              - DUPLICATE
+              - EXPIRED_OR_UNCAPTURED_CHARGE
+              - FRAUDULENT
+              - REQUESTED_BY_CUSTOMER
+              description: Refund reason when provided by the processor.
+              example: REQUESTED_BY_CUSTOMER
+            amountInCents:
+              type: number
+              description: Gross refund amount in cents.
+              example: 12500
+            netValueInCents:
+              type: number
+              description: Net refund amount in cents.
+              example: 12100
+            feeValueInCents:
+              type:
+              - number
+              - 'null'
+              description: Total refund fees in cents.
+              example: 400
+            processorRefundId:
+              type: string
+              description: Processor refund identifier.
+              example: re_123456789
+            depositId:
+              type:
+              - string
+              - 'null'
+              description: Deposit id associated with the refund, when available.
+              example: 8810f34fd5061afeec3eab69
+            createdAt:
+              type: string
+              format: date-time
+              description: Date the refund was created.
+              example: '2026-05-19T00:00:00.000Z'
+            updatedAt:
+              type: string
+              format: date-time
+              description: Date the refund was last updated.
+              example: '2026-05-20T00:00:00.000Z'
+          required:
+          - id
+          - contributionId
+          - status
+          - reason
+          - amountInCents
+          - netValueInCents
+          - feeValueInCents
+          - processorRefundId
+          - depositId
+          - createdAt
+          - updatedAt
+          description: Refund.
+      required:
+      - data
     GetRefundsResponse:
       type: object
       properties:
@@ -253,90 +337,6 @@ components:
       required:
       - data
       - totalCount
-    GetRefundResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            id:
-              type: string
-              description: Refund id.
-              example: 8810f34fd5061afeec3eab67
-            contributionId:
-              type: string
-              description: Contribution id associated with the refund.
-              example: 8810f34fd5061afeec3eab68
-            status:
-              type: string
-              enum:
-              - CANCELED
-              - FAILED
-              - PENDING
-              - REQUIRES_ACTION
-              - SUCCEEDED
-              description: Refund status.
-              example: SUCCEEDED
-            reason:
-              type:
-              - string
-              - 'null'
-              enum:
-              - DUPLICATE
-              - EXPIRED_OR_UNCAPTURED_CHARGE
-              - FRAUDULENT
-              - REQUESTED_BY_CUSTOMER
-              description: Refund reason when provided by the processor.
-              example: REQUESTED_BY_CUSTOMER
-            amountInCents:
-              type: number
-              description: Gross refund amount in cents.
-              example: 12500
-            netValueInCents:
-              type: number
-              description: Net refund amount in cents.
-              example: 12100
-            feeValueInCents:
-              type:
-              - number
-              - 'null'
-              description: Total refund fees in cents.
-              example: 400
-            processorRefundId:
-              type: string
-              description: Processor refund identifier.
-              example: re_123456789
-            depositId:
-              type:
-              - string
-              - 'null'
-              description: Deposit id associated with the refund, when available.
-              example: 8810f34fd5061afeec3eab69
-            createdAt:
-              type: string
-              format: date-time
-              description: Date the refund was created.
-              example: '2026-05-19T00:00:00.000Z'
-            updatedAt:
-              type: string
-              format: date-time
-              description: Date the refund was last updated.
-              example: '2026-05-20T00:00:00.000Z'
-          required:
-          - id
-          - contributionId
-          - status
-          - reason
-          - amountInCents
-          - netValueInCents
-          - feeValueInCents
-          - processorRefundId
-          - depositId
-          - createdAt
-          - updatedAt
-          description: Refund.
-      required:
-      - data
   securitySchemes:
     ApiKey:
       type: apiKey
