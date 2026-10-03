@@ -111,6 +111,54 @@ paths:
       - Locations
 components:
   schemas:
+    GetLocationByIdResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Location Id
+              example: 7710f34fd5061afeec3eab59
+            createdAt:
+              type: string
+              format: date-time
+              description: Location created at
+              example: '2025-01-01T00:00:00.000Z'
+            updatedAt:
+              type: string
+              format: date-time
+              description: Location updated at
+              example: '2025-01-01T00:00:00.000Z'
+            archivedAt:
+              type:
+              - string
+              - 'null'
+              format: date-time
+              description: Location archived at
+              example: null
+            name:
+              type: string
+              description: Location name
+              example: Main Campus
+            hideFromDonors:
+              default: false
+              type: boolean
+              description: Whether this location is hidden from donors
+            isDefaultLocation:
+              default: false
+              type: boolean
+              description: Whether this location is the default or fallback location.
+          required:
+          - id
+          - createdAt
+          - updatedAt
+          - archivedAt
+          - name
+          description: Location for the given id.
+      required:
+      - data
     GetLocationsResponse:
       type: object
       properties:
@@ -166,54 +214,6 @@ components:
       required:
       - data
       - totalCount
-    GetLocationByIdResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            id:
-              type: string
-              description: Location Id
-              example: 7710f34fd5061afeec3eab59
-            createdAt:
-              type: string
-              format: date-time
-              description: Location created at
-              example: '2025-01-01T00:00:00.000Z'
-            updatedAt:
-              type: string
-              format: date-time
-              description: Location updated at
-              example: '2025-01-01T00:00:00.000Z'
-            archivedAt:
-              type:
-              - string
-              - 'null'
-              format: date-time
-              description: Location archived at
-              example: null
-            name:
-              type: string
-              description: Location name
-              example: Main Campus
-            hideFromDonors:
-              default: false
-              type: boolean
-              description: Whether this location is hidden from donors
-            isDefaultLocation:
-              default: false
-              type: boolean
-              description: Whether this location is the default or fallback location.
-          required:
-          - id
-          - createdAt
-          - updatedAt
-          - archivedAt
-          - name
-          description: Location for the given id.
-      required:
-      - data
   securitySchemes:
     ApiKey:
       type: apiKey

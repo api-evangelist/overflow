@@ -382,7 +382,70 @@ paths:
       - Subscriptions
 components:
   schemas:
-    CreateSubscriptionResponse:
+    CreateSubscriptionRequest:
+      type: object
+      properties:
+        paymentMethodId:
+          type: string
+          description: Id of the payment method.
+          example: 6710f34fd5061afeec3eab57
+        amount:
+          type: number
+          description: Subscription amount in dollars.
+          example: 50
+          exclusiveMinimum: 0
+        frequency:
+          type: string
+          enum:
+          - two-weeks
+          - 1st-15th
+          - month
+          - one-time
+          - week
+          description: Recurring frequency for the subscription.
+          example: month
+        startDate:
+          type: string
+          format: date-time
+          description: ISO 8601 date string when the subscription should start.
+          example: '2025-01-15T05:00:00.000Z'
+        timezone:
+          type: string
+          description: Timezone for the subscription start date. Defaults to UTC if not provided.
+          example: America/Chicago
+        anonymous:
+          type: boolean
+          description: Whether the donor wants the contribution to be anonymous.
+          example: false
+        campaignId:
+          type: string
+          description: Id of the campaign to allocate funds to
+          example: 7710f34fd5061afeec3eab78
+        subcampaignId:
+          type: string
+          description: Id of the subcampaign for more specific allocation.
+          example: 7710f34fd5061afeec3eab79
+        donorNotes:
+          type: string
+          description: Notes from the donor.
+          example: Happy to support this cause!
+      required:
+      - paymentMethodId
+      - amount
+      - frequency
+    DeleteSubscriptionRequest:
+      type: object
+      properties:
+        cancellationReason:
+          type: string
+          maxLength: 150
+          minLength: 1
+          description: The reason for cancelling the subscription.
+          example: I no longer attend this organization.
+    NonprofitDonorProfileEntity:
+      type: object
+      properties: {}
+    GetSubscriptionResponse:
       type: object
       properties:
         data:
@@ -540,9 +603,52 @@ components:
           - paymentMethod
           - campaign
           - subcampaign
-          description: The subscription that was created
+          description: Subscription.
       required:
       - data
+    UpdateSubscriptionRequest:
+      type: object
+      properties:
+        paymentMethodId:
+          type: string
+          description: Id of the payment method.
+          example: 6710f34fd5061afeec3eab57
+        amount:
+          type: number
+          description: Subscription amount in dollars.
+          example: 50
+          exclusiveMinimum: 0
+        startDate:
+          type: string
+          format: date-time
+          description: ISO 8601 date string when the subscription should start.
+          example: '2025-01-15T05:00:00.000Z'
+        timezone:
+          type: string
+          description: Timezone for the subscription start date. Defaults to UTC if not provided.
+          example: America/Chicago
+        anonymous:
+          type: boolean
+          description: Whether the donor wants the contribution to be anonymous.
+          example: false
+        campaignId:
+          type: string
+          description: Id of the campaign to allocate funds to
+          example: 7710f34fd5061afeec3eab78
+        subcampaignId:
+          type: string
+          description: Id of the subcampaign for more specific allocation.
+          example: 7710f34fd5061afeec3eab79
+        donorNotes:
+          type: string
+          description: Notes from the donor.
+          example: Happy to support this cause!
+        frequency:
+          type: string
+          enum:
+          - biweekly
+          - monthly
+          - weekly
     GetSubscriptionsResponse:
       type: object
       properties:
@@ -711,7 +817,7 @@ components:
       required:
       - data
       - totalCount
-    GetSubscriptionResponse:
+    CreateSubscriptionResponse:
       type: object
       properties:
         data:
@@ -869,115 +975,9 @@ components:
           - paymentMethod
           - campaign
           - subcampaign
-          description: Subscription.
+          description: The subscription that was created
       required:
       - data
-    NonprofitDonorProfileEntity:
-      type: object
-      properties: {}
-    DeleteSubscriptionRequest:
-      type: object
-      properties:
-        cancellationReason:
-          type: string
-          maxLength: 150
-          minLength: 1
-          description: The reason for cancelling the subscription.
-          example: I no longer attend this organization.
-    CreateSubscriptionRequest:
-      type: object
-      properties:
-        paymentMethodId:
-          type: string
-          description: Id of the payment method.
-          example: 6710f34fd5061afeec3eab57
-        amount:
-          type: number
-          description: Subscription amount in dollars.
-          example: 50
-          exclusiveMinimum: 0
-        frequency:
-          type: string
-          enum:
-          - two-weeks
-          - 1st-15th
-          - month
-          - one-time
-          - week
-          description: Recurring frequency for the subscription.
-          example: month
-        startDate:
-          type: string
-          format: date-time
-          description: ISO 8601 date string when the subscription should start.
-          example: '2025-01-15T05:00:00.000Z'
-        timezone:
-          type: string
-          description: Timezone for the subscription start date. Defaults to UTC if not provided.
-          example: America/Chicago
-        anonymous:
-          type: boolean
-          description: Whether the donor wants the contribution to be anonymous.
-          example: false
-        campaignId:
-          type: string
-          description: Id of the campaign to allocate funds to
-          example: 7710f34fd5061afeec3eab78
-        subcampaignId:
-          type: string
-          description: Id of the subcampaign for more specific allocation.
-          example: 7710f34fd5061afeec3eab79
-        donorNotes:
-          type: string
-          description: Notes from the donor.
-          example: Happy to support this cause!
-      required:
-      - paymentMethodId
-      - amount
-      - frequency
-    UpdateSubscriptionRequest:
-      type: object
-      properties:
-        paymentMethodId:
-          type: string
-          description: Id of the payment method.
-          example: 6710f34fd5061afeec3eab57
-        amount:
-          type: number
-          description: Subscription amount in dollars.
-          example: 50
-          exclusiveMinimum: 0
-        startDate:
-          type: string
-          format: date-time
-          description: ISO 8601 date string when the subscription should start.
-          example: '2025-01-15T05:00:00.000Z'
-        timezone:
-          type: string
-          description: Timezone for the subscription start date. Defaults to UTC if not provided.
-          example: America/Chicago
-        anonymous:
-          type: boolean
-          description: Whether the donor wants the contribution to be anonymous.
-          example: false
-        campaignId:
-          type: string
-          description: Id of the campaign to allocate funds to
-          example: 7710f34fd5061afeec3eab78
-        subcampaignId:
-          type: string
-          description: Id of the subcampaign for more specific allocation.
-          example: 7710f34fd5061afeec3eab79
-        donorNotes:
-          type: string
-          description: Notes from the donor.
-          example: Happy to support this cause!
-        frequency:
-          type: string
-          enum:
-          - biweekly
-          - monthly
-          - weekly
   securitySchemes:
     ApiKey:
       type: apiKey

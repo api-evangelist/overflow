@@ -44,19 +44,25 @@ paths:
       - Payments
 components:
   schemas:
-    StoredPaymentMethod:
+    PlaidBankPaymentMethod:
       type: object
       properties:
         paymentMethodType:
           type: string
           enum:
-          - StoredPaymentMethod
-        paymentMethodId:
+          - PlaidBank
+        publicToken:
           type: string
+        accountId:
+          type: string
+        defaultForDonor:
+          type: boolean
       required:
       - paymentMethodType
-      - paymentMethodId
-      title: StoredPaymentMethod
+      - publicToken
+      - accountId
+      - defaultForDonor
+      title: PlaidBankPaymentMethod
     AuthorizePaymentRequest:
       type: object
       properties:
@@ -234,49 +240,39 @@ components:
       - email
       - paymentMethod
       - processingChannel
-    PlaidBankPaymentMethod:
+    StoredPaymentMethod:
       type: object
       properties:
         paymentMethodType:
           type: string
           enum:
-          - PlaidBank
-        publicToken:
+          - StoredPaymentMethod
+        paymentMethodId:
           type: string
-        accountId:
-          type: string
-        defaultForDonor:
-          type: boolean
       required:
       - paymentMethodType
-      - publicToken
-      - accountId
-      - defaultForDonor
-      title: PlaidBankPaymentMethod
-    CardPaymentMethod:
+      - paymentMethodId
+      title: StoredPaymentMethod
+    WalletPaymentMethod:
       type: object
       properties:
         paymentMethodType:
           type: string
           enum:
-          - Card
-        defaultForDonor:
-          type: boolean
-        encryptedCardNumber:
+          - Wallet
+        walletAccountType:
           type: string
-        encryptedExpiryMonth:
-          type: string
-        encryptedExpiryYear:
-          type: string
-        encryptedSecurityCode:
+          enum:
+          - applepay
+          - googlepay
+          description: Wallet type for the payment. Only `applepay` and `googlepay` are accepted.
+        walletToken:
           type: string
       required:
       - paymentMethodType
-      - defaultForDonor
-      - encryptedCardNumber
-      - encryptedExpiryMonth
-      - encryptedExpiryYear
-      title: CardPaymentMethod
+      - walletAccountType
+      - walletToken
+      title: WalletPaymentMethod
     BankPaymentMethod:
       type: object
       properties:
@@ -308,6 +304,30 @@ components:
       - encryptedBankAccountNumber
       - encryptedBankRoutingNumber
       title: BankPaymentMethod
+    CardPaymentMethod:
+      type: object
+      properties:
+        paymentMethodType:
+          type: string
+          enum:
+          - Card
+        defaultForDonor:
+          type: boolean
+        encryptedCardNumber:
+          type: string
+        encryptedExpiryMonth:
+          type: string
+        encryptedExpiryYear:
+          type: string
+        encryptedSecurityCode:
+          type: string
+      required:
+      - paymentMethodType
+      - defaultForDonor
+      - encryptedCardNumber
+      - encryptedExpiryMonth
+      - encryptedExpiryYear
+      title: CardPaymentMethod
     AuthorizePaymentResponse:
       type: object
       properties:
@@ -362,26 +382,6 @@ components:
           example: 8810f34fd5061afeec3eab60
       required:
       - donorId
-    WalletPaymentMethod:
-      type: object
-      properties:
-        paymentMethodType:
-          type: string
-          enum:
-          - Wallet
-        walletAccountType:
-          type: string
-          enum:
-          - applepay
-          - googlepay
-          description: Wallet type for the payment. Only `applepay` and `googlepay` are accepted.
-        walletToken:
-          type: string
-      required:
-      - paymentMethodType
-      - walletAccountType
-      - walletToken
-      title: WalletPaymentMethod
   securitySchemes:
     ApiKey:
       type: apiKey
