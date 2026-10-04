@@ -195,108 +195,12 @@ paths:
       - Donors
 components:
   schemas:
-    GetDonorResponse:
+    CreateDonorProfileResponse:
       type: object
       properties:
         data:
-          type: object
-          properties:
-            id:
-              type: string
-              description: Donor Id
-              example: 6710f34fd5061afeec3eab57
-            createdAt:
-              type: string
-              format: date-time
-              description: Donor created at
-              example: '2025-01-01T00:00:00.000Z'
-            updatedAt:
-              type: string
-              format: date-time
-              description: Donor updated at
-              example: '2025-01-01T00:00:00.000Z'
-            firstName:
-              type: string
-              description: Donor first name
-              example: John
-            lastName:
-              type: string
-              description: Donor last name
-              example: Doe
-            email:
-              type: string
-              format: email
-              description: Donor email
-              example: john.doe@example.com
-            phone:
-              type: string
-              description: Donor phone number in E.164 format
-              example: '+1234567890'
-            address:
-              type:
-              - object
-              - 'null'
-              properties:
-                city:
-                  type: string
-                  minLength: 1
-                country:
-                  type: string
-                line1:
-                  type: string
-                  minLength: 1
-                line2:
-                  type: string
-                state:
-                  type: string
-                  minLength: 1
-                timezone:
-                  type: string
-                zip:
-                  type: string
-                  pattern: ^\d{5}(-\d{4})?$
-              required:
-              - city
-              - line1
-              - state
-              - zip
-              description: Donor address
-              example:
-                line1: 123 Main St
-                line2: Apt 1
-                city: Anytown
-                state: CA
-                zip: '12345'
-            activeRecurringCount:
-              type: number
-              description: The number of active recurring donations
-              example: 1
-            latestContributionDate:
-              type: string
-              format: date-time
-              description: The date of the latest contribution
-              example: '2025-01-01T00:00:00.000'
-            locationIds:
-              type: array
-              items:
-                type: string
-              description: The location IDs associated with the donor
-              example:
-              - 6710f34fd5061afeec3eab57
-            totalContributionsCount:
-              type: number
-              description: Total number of contributions made by the donor
-              example: 10
-          required:
-          - id
-          - createdAt
-          - updatedAt
-          - firstName
-          - lastName
-          - email
-          - phone
-          - address
-          description: The donor for the given ID
+          type: string
+          description: The id of the new donor profile
       required:
       - data
     UpdateDonorProfileParams:
@@ -319,14 +223,62 @@ components:
           type: string
           description: The phone number of the donor
           example: '+1234567890'
-    CreateDonorProfileResponse:
+    CreateDonorProfileParams:
       type: object
       properties:
-        data:
+        email:
           type: string
-          description: The id of the new donor profile
+          format: email
+          description: The email address of the donor
+          example: john.doe@example.com
+        firstName:
+          type: string
+          description: The first name of the donor
+          example: John
+        lastName:
+          type: string
+          description: The last name of the donor
+          example: Doe
+        mailingAddress:
+          type: object
+          properties:
+            city:
+              type: string
+              minLength: 1
+            country:
+              type: string
+            line1:
+              type: string
+              minLength: 1
+            line2:
+              type: string
+            state:
+              type: string
+              minLength: 1
+            timezone:
+              type: string
+            zip:
+              type: string
+              pattern: ^\d{5}(-\d{4})?$
+          required:
+          - city
+          - line1
+          - state
+          - zip
+          description: The mailing address of the donor
+          example:
+            city: Anytown
+            line1: 123 Main St
+            line2: Apt 1
+            state: CA
+            zip: '12345'
+        phone:
+          type: string
+          description: The phone number of the donor
+          example: '+1234567890'
       required:
-      - data
+      - firstName
+      - lastName
     GetDonorsResponse:
       type: object
       properties:
@@ -438,62 +390,110 @@ components:
       required:
       - data
       - totalCount
-    CreateDonorProfileParams:
+    GetDonorResponse:
       type: object
       properties:
-        email:
-          type: string
-          format: email
-          description: The email address of the donor
-          example: john.doe@example.com
-        firstName:
-          type: string
-          description: The first name of the donor
-          example: John
-        lastName:
-          type: string
-          description: The last name of the donor
-          example: Doe
-        mailingAddress:
+        data:
           type: object
           properties:
-            city:
+            id:
               type: string
-              minLength: 1
-            country:
+              description: Donor Id
+              example: 6710f34fd5061afeec3eab57
+            createdAt:
               type: string
-            line1:
+              format: date-time
+              description: Donor created at
+              example: '2025-01-01T00:00:00.000Z'
+            updatedAt:
               type: string
-              minLength: 1
-            line2:
+              format: date-time
+              description: Donor updated at
+              example: '2025-01-01T00:00:00.000Z'
+            firstName:
               type: string
-            state:
+              description: Donor first name
+              example: John
+            lastName:
               type: string
-              minLength: 1
-            timezone:
+              description: Donor last name
+              example: Doe
+            email:
               type: string
-            zip:
+              format: email
+              description: Donor email
+              example: john.doe@example.com
+            phone:
               type: string
-              pattern: ^\d{5}(-\d{4})?$
+              description: Donor phone number in E.164 format
+              example: '+1234567890'
+            address:
+              type:
+              - object
+              - 'null'
+              properties:
+                city:
+                  type: string
+                  minLength: 1
+                country:
+                  type: string
+                line1:
+                  type: string
+                  minLength: 1
+                line2:
+                  type: string
+                state:
+                  type: string
+                  minLength: 1
+                timezone:
+                  type: string
+                zip:
+                  type: string
+                  pattern: ^\d{5}(-\d{4})?$
+              required:
+              - city
+              - line1
+              - state
+              - zip
+              description: Donor address
+              example:
+                line1: 123 Main St
+                line2: Apt 1
+                city: Anytown
+                state: CA
+                zip: '12345'
+            activeRecurringCount:
+              type: number
+              description: The number of active recurring donations
+              example: 1
+            latestContributionDate:
+              type: string
+              format: date-time
+              description: The date of the latest contribution
+              example: '2025-01-01T00:00:00.000'
+            locationIds:
+              type: array
+              items:
+                type: string
+              description: The location IDs associated with the donor
+              example:
+              - 6710f34fd5061afeec3eab57
+            totalContributionsCount:
+              type: number
+              description: Total number of contributions made by the donor
+              example: 10
           required:
-          - city
-          - line1
-          - state
-          - zip
-          description: The mailing address of the donor
-          example:
-            city: Anytown
-            line1: 123 Main St
-            line2: Apt 1
-            state: CA
-            zip: '12345'
-        phone:
-          type: string
-          description: The phone number of the donor
-          example: '+1234567890'
+          - id
+          - createdAt
+          - updatedAt
+          - firstName
+          - lastName
+          - email
+          - phone
+          - address
+          description: The donor for the given ID
       required:
-      - firstName
-      - lastName
+      - data
   securitySchemes:
     ApiKey:
       type: apiKey

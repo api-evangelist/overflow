@@ -44,25 +44,57 @@ paths:
       - Payments
 components:
   schemas:
-    PlaidBankPaymentMethod:
+    WalletPaymentMethod:
       type: object
       properties:
         paymentMethodType:
           type: string
           enum:
-          - PlaidBank
-        publicToken:
+          - Wallet
+        walletAccountType:
           type: string
-        accountId:
+          enum:
+          - applepay
+          - googlepay
+          description: Wallet type for the payment. Only `applepay` and `googlepay` are accepted.
+        walletToken:
+          type: string
+      required:
+      - paymentMethodType
+      - walletAccountType
+      - walletToken
+      title: WalletPaymentMethod
+    BankPaymentMethod:
+      type: object
+      properties:
+        paymentMethodType:
+          type: string
+          enum:
+          - Bank
+        bankAccountType:
+          type: string
+          enum:
+          - checking
+          - savings
+        bankName:
           type: string
         defaultForDonor:
           type: boolean
+        encryptedBankAccountNumber:
+          type: string
+          minLength: 1
+          pattern: ^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$
+        encryptedBankRoutingNumber:
+          type: string
+          minLength: 1
+          pattern: ^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$
       required:
       - paymentMethodType
-      - publicToken
-      - accountId
+      - bankAccountType
       - defaultForDonor
-      title: PlaidBankPaymentMethod
+      - encryptedBankAccountNumber
+      - encryptedBankRoutingNumber
+      title: BankPaymentMethod
     AuthorizePaymentRequest:
       type: object
       properties:
@@ -253,57 +285,6 @@ components:
       - paymentMethodType
       - paymentMethodId
       title: StoredPaymentMethod
-    WalletPaymentMethod:
-      type: object
-      properties:
-        paymentMethodType:
-          type: string
-          enum:
-          - Wallet
-        walletAccountType:
-          type: string
-          enum:
-          - applepay
-          - googlepay
-          description: Wallet type for the payment. Only `applepay` and `googlepay` are accepted.
-        walletToken:
-          type: string
-      required:
-      - paymentMethodType
-      - walletAccountType
-      - walletToken
-      title: WalletPaymentMethod
-    BankPaymentMethod:
-      type: object
-      properties:
-        paymentMethodType:
-          type: string
-          enum:
-          - Bank
-        bankAccountType:
-          type: string
-          enum:
-          - checking
-          - savings
-        bankName:
-          type: string
-        defaultForDonor:
-          type: boolean
-        encryptedBankAccountNumber:
-          type: string
-          minLength: 1
-          pattern: ^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$
-        encryptedBankRoutingNumber:
-          type: string
-          minLength: 1
-          pattern: ^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$
-      required:
-      - paymentMethodType
-      - bankAccountType
-      - defaultForDonor
-      - encryptedBankAccountNumber
-      - encryptedBankRoutingNumber
-      title: BankPaymentMethod
     CardPaymentMethod:
       type: object
       properties:
@@ -382,6 +363,25 @@ components:
           example: 8810f34fd5061afeec3eab60
       required:
       - donorId
+    PlaidBankPaymentMethod:
+      type: object
+      properties:
+        paymentMethodType:
+          type: string
+          enum:
+          - PlaidBank
+        publicToken:
+          type: string
+        accountId:
+          type: string
+        defaultForDonor:
+          type: boolean
+      required:
+      - paymentMethodType
+      - publicToken
+      - accountId
+      - defaultForDonor
+      title: PlaidBankPaymentMethod
   securitySchemes:
     ApiKey:
       type: apiKey

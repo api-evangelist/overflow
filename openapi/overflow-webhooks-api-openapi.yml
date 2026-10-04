@@ -194,6 +194,157 @@ paths:
       - Webhooks
 components:
   schemas:
+    GetWebhookEventLogsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Webhook attempt id.
+                example: 018f7349-6db2-7d07-9c15-cd7b9f671111
+              eventId:
+                type: string
+                description: Originating domain event id.
+                example: 018f7349-6db2-7d07-9c15-cd7b9f670000
+              webhookEventName:
+                type: string
+                enum:
+                - '*'
+                - contribution.approved
+                - contribution.declined
+                - contribution.paid_out
+                - contribution.processing
+                - contribution.chargeback_lost
+                - contribution.chargeback_pending
+                - contribution.chargeback_won
+                - contribution.refund_approved
+                - contribution.refund_canceled
+                - contribution.refund_failed
+                - contribution.refund_requested
+                - contribution.refund_requires_action
+                - contribution.refunded
+                - contribution.voided
+                - donor.archived
+                - donor.created
+                - donor.merged
+                - donor.updated
+                - deposit.paid_out
+                - recurring_gift.active
+                - recurring_gift.cycle_failed
+                - recurring_gift.failed
+                - recurring_gift.inactive
+                - recurring_gift.paused
+                - recurring_gift.updated
+                description: Webhook event type.
+                example: contribution.approved
+              subscriptionId:
+                type: string
+                description: Webhook subscription id.
+                example: 6817cec907243f2d3a1130df
+              status:
+                type: string
+                enum:
+                - delivered
+                - failed
+                - pending
+                description: Delivery status.
+                example: delivered
+              attemptNumber:
+                type: number
+                description: Attempt number for this delivery job.
+                example: 1
+              deliverySource:
+                type: string
+                enum:
+                - automated
+                - manual
+                description: Whether the delivery was triggered automatically or via a manual dashboard resend.
+                example: automated
+              originatedAt:
+                type: string
+                format: date-time
+                description: Date the originating event occurred.
+                example: '2026-05-19T00:00:00.000Z'
+              attemptedAt:
+                type: string
+                format: date-time
+                description: Date this webhook delivery attempt was made.
+                example: '2026-05-19T00:00:01.000Z'
+              request:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    format: uri
+                    description: Request URL.
+                    example: https://example.org/webhooks/overflow
+                  body:
+                    type: string
+                    description: Request body payload.
+                    example: '{"id":"evt_1","type":"contribution.approved"}'
+                required:
+                - url
+                - body
+                description: Webhook request details.
+              response:
+                type:
+                - object
+                - 'null'
+                properties:
+                  code:
+                    type: number
+                    description: HTTP status code returned by the destination.
+                    example: 200
+                  body:
+                    type: string
+                    description: Response body returned by the destination.
+                    example: ok
+                  durationMs:
+                    type: number
+                    description: Delivery duration in milliseconds.
+                    example: 50
+                  errorMessage:
+                    type: string
+                    description: Transport or HTTP error message when delivery failed.
+                    example: connection timeout
+                description: Webhook response details.
+            required:
+            - id
+            - eventId
+            - webhookEventName
+            - subscriptionId
+            - status
+            - attemptNumber
+            - deliverySource
+            - originatedAt
+            - attemptedAt
+            - request
+            - response
+          description: List of webhook event logs.
+        pageInfo:
+          type: object
+          properties:
+            hasNextPage:
+              type: boolean
+              description: Whether more rows are available after this page.
+              example: true
+            nextCursor:
+              type:
+              - string
+              - 'null'
+              description: Cursor token for the next page, or null when exhausted.
+              example: eyJwayI6Ik5PTlBST0ZJVCM2ODE3Y2VjOTA3MjQzZjJkM2ExMTMwZGYifQ==
+          required:
+          - hasNextPage
+          - nextCursor
+          description: Cursor pagination details.
+      required:
+      - data
+      - pageInfo
     GetWebhookResponse:
       type: object
       properties:
@@ -377,157 +528,6 @@ components:
       required:
       - data
       - totalCount
-    GetWebhookEventLogsResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                description: Webhook attempt id.
-                example: 018f7349-6db2-7d07-9c15-cd7b9f671111
-              eventId:
-                type: string
-                description: Originating domain event id.
-                example: 018f7349-6db2-7d07-9c15-cd7b9f670000
-              webhookEventName:
-                type: string
-                enum:
-                - '*'
-                - contribution.approved
-                - contribution.declined
-                - contribution.paid_out
-                - contribution.processing
-                - contribution.chargeback_lost
-                - contribution.chargeback_pending
-                - contribution.chargeback_won
-                - contribution.refund_approved
-                - contribution.refund_canceled
-                - contribution.refund_failed
-                - contribution.refund_requested
-                - contribution.refund_requires_action
-                - contribution.refunded
-                - contribution.voided
-                - donor.archived
-                - donor.created
-                - donor.merged
-                - donor.updated
-                - deposit.paid_out
-                - recurring_gift.active
-                - recurring_gift.cycle_failed
-                - recurring_gift.failed
-                - recurring_gift.inactive
-                - recurring_gift.paused
-                - recurring_gift.updated
-                description: Webhook event type.
-                example: contribution.approved
-              subscriptionId:
-                type: string
-                description: Webhook subscription id.
-                example: 6817cec907243f2d3a1130df
-              status:
-                type: string
-                enum:
-                - delivered
-                - failed
-                - pending
-                description: Delivery status.
-                example: delivered
-              attemptNumber:
-                type: number
-                description: Attempt number for this delivery job.
-                example: 1
-              deliverySource:
-                type: string
-                enum:
-                - automated
-                - manual
-                description: Whether the delivery was triggered automatically or via a manual dashboard resend.
-                example: automated
-              originatedAt:
-                type: string
-                format: date-time
-                description: Date the originating event occurred.
-                example: '2026-05-19T00:00:00.000Z'
-              attemptedAt:
-                type: string
-                format: date-time
-                description: Date this webhook delivery attempt was made.
-                example: '2026-05-19T00:00:01.000Z'
-              request:
-                type: object
-                properties:
-                  url:
-                    type: string
-                    format: uri
-                    description: Request URL.
-                    example: https://example.org/webhooks/overflow
-                  body:
-                    type: string
-                    description: Request body payload.
-                    example: '{"id":"evt_1","type":"contribution.approved"}'
-                required:
-                - url
-                - body
-                description: Webhook request details.
-              response:
-                type:
-                - object
-                - 'null'
-                properties:
-                  code:
-                    type: number
-                    description: HTTP status code returned by the destination.
-                    example: 200
-                  body:
-                    type: string
-                    description: Response body returned by the destination.
-                    example: ok
-                  durationMs:
-                    type: number
-                    description: Delivery duration in milliseconds.
-                    example: 50
-                  errorMessage:
-                    type: string
-                    description: Transport or HTTP error message when delivery failed.
-                    example: connection timeout
-                description: Webhook response details.
-            required:
-            - id
-            - eventId
-            - webhookEventName
-            - subscriptionId
-            - status
-            - attemptNumber
-            - deliverySource
-            - originatedAt
-            - attemptedAt
-            - request
-            - response
-          description: List of webhook event logs.
-        pageInfo:
-          type: object
-          properties:
-            hasNextPage:
-              type: boolean
-              description: Whether more rows are available after this page.
-              example: true
-            nextCursor:
-              type:
-              - string
-              - 'null'
-              description: Cursor token for the next page, or null when exhausted.
-              example: eyJwayI6Ik5PTlBST0ZJVCM2ODE3Y2VjOTA3MjQzZjJkM2ExMTMwZGYifQ==
-          required:
-          - hasNextPage
-          - nextCursor
-          description: Cursor pagination details.
-      required:
-      - data
-      - pageInfo
   securitySchemes:
     ApiKey:
       type: apiKey

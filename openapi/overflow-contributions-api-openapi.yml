@@ -711,7 +711,7 @@ paths:
       - Contributions
 components:
   schemas:
-    GetContributionResponse:
+    ChargeCashPaymentMethodResponse:
       type: object
       properties:
         data:
@@ -1097,7 +1097,7 @@ components:
           - donor
           - givingLinkId
           - pledgeId
-          description: Contribution.
+          description: The contribution for the charge
       required:
       - data
     GetContributionsResponse:
@@ -1534,7 +1534,7 @@ components:
       - donorId
       - paymentMethodId
       - amount
-    ChargeCashPaymentMethodResponse:
+    GetContributionResponse:
       type: object
       properties:
         data:
@@ -1920,7 +1920,7 @@ components:
           - donor
           - givingLinkId
           - pledgeId
-          description: The contribution for the charge
+          description: Contribution.
       required:
       - data
   securitySchemes:

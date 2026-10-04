@@ -449,7 +449,75 @@ paths:
       - Tap
 components:
   schemas:
-    GetTapEventsResponse:
+    GetTapDestinationByIdResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Destination ID
+              example: 6816f7ce7d2a1b4c12ab3499
+            name:
+              type: string
+              description: Destination name
+              example: Spring Campaign
+            type:
+              type:
+              - string
+              - 'null'
+              enum:
+              - web
+              - sms
+              description: Destination type
+              example: web
+            url:
+              type:
+              - string
+              - 'null'
+              description: Redirect URL for web destinations
+              example: https://give.example.org/spring
+            textNumber:
+              type:
+              - string
+              - 'null'
+              description: Phone number for SMS destinations
+            textContent:
+              type:
+              - string
+              - 'null'
+              description: SMS message body
+            createdAt:
+              type: string
+              format: date-time
+              description: Record creation timestamp
+              example: '2026-05-01T17:22:11.421Z'
+            updatedAt:
+              type: string
+              format: date-time
+              description: Record last updated timestamp
+              example: '2026-05-04T14:09:32.145Z'
+            archivedAt:
+              type:
+              - string
+              - 'null'
+              format: date-time
+              description: Archive timestamp, null if active
+          required:
+          - id
+          - name
+          - type
+          - url
+          - textNumber
+          - textContent
+          - createdAt
+          - updatedAt
+          - archivedAt
+          description: Tap destination for the given id.
+      required:
+      - data
+    GetTapGroupsResponse:
       type: object
       properties:
         data:
@@ -459,52 +527,16 @@ components:
             properties:
               id:
                 type: string
-                description: Event ID
-                example: 6816f8dc7d2a1b4c12ab3522
-              createdAt:
+                description: Group ID
+                example: 6710f34fd5061afeec3eab58
+              name:
                 type: string
-                format: date-time
-                description: When the tap event was created
-                example: '2026-05-04T14:12:44.002Z'
-              deviceId:
-                type: string
-                description: Device that was tapped
-              groupId:
-                type: string
-                description: Group the device belonged to at time of tap
+                description: Group name
+                example: Sunday Service Group
               destinationId:
                 type: string
-                description: Destination the tap resolved to
-              device:
-                type:
-                - object
-                - 'null'
-                properties:
-                  id:
-                    type: string
-                    description: Device ID
-                  serialNumber:
-                    type: number
-                    description: Device serial number
-                required:
-                - id
-                - serialNumber
-                description: Embedded device summary
-              group:
-                type:
-                - object
-                - 'null'
-                properties:
-                  id:
-                    type: string
-                    description: Group ID
-                  name:
-                    type: string
-                    description: Group name
-                required:
-                - id
-                - name
-                description: Embedded group summary
+                description: ID of the assigned destination
+                example: 6710f34fd5061afeec3eab57
               destination:
                 type:
                 - object
@@ -513,9 +545,11 @@ components:
                   id:
                     type: string
                     description: Destination ID
+                    example: 6710f34fd5061afeec3eab57
                   name:
                     type: string
                     description: Destination name
+                    example: Main Giving Page
                   type:
                     type:
                     - string
@@ -524,24 +558,71 @@ components:
                     - web
                     - sms
                     description: Destination type
+                    example: web
+                  url:
+                    type:
+                    - string
+                    - 'null'
+                    description: Redirect URL for web destinations
+                    example: https://example.com/give
+                  textNumber:
+                    type:
+                    - string
+                    - 'null'
+                    description: Phone number for SMS destinations
+                    example: null
+                  textContent:
+                    type:
+                    - string
+                    - 'null'
+                    description: SMS message body
+                    example: null
                 required:
                 - id
                 - name
                 - type
-                description: Embedded destination summary
+                - url
+                - textNumber
+                - textContent
+                description: Embedded destination info
+              deviceIds:
+                type:
+                - array
+                - 'null'
+                items:
+                  type: string
+                description: IDs of devices assigned to this group
+                example:
+                - 6710f34fd5061afeec3eab59
+              createdAt:
+                type: string
+                format: date-time
+                description: Record creation timestamp
+                example: '2026-05-01T17:22:11.421Z'
+              updatedAt:
+                type: string
+                format: date-time
+                description: Record last updated timestamp
+                example: '2026-05-04T14:09:32.145Z'
+              archivedAt:
+                type:
+                - string
+                - 'null'
+                format: date-time
+                description: Archive timestamp, null if active
             required:
             - id
-            - createdAt
-            - deviceId
-            - groupId
+            - name
             - destinationId
-            - device
-            - group
             - destination
-          description: List of tap events.
+            - deviceIds
+            - createdAt
+            - updatedAt
+            - archivedAt
+          description: List of tap groups.
         totalCount:
           type: number
-          description: Total number of tap events matching the filters.
+          description: Total number of tap groups matching the filters.
           example: 100
       required:
       - data
@@ -650,7 +731,7 @@ components:
           description: Tap device for the given id.
       required:
       - data
-    GetTapDestinationByIdResponse:
+    GetTapGroupByIdResponse:
       type: object
       properties:
         data:
@@ -658,37 +739,73 @@ components:
           properties:
             id:
               type: string
-              description: Destination ID
-              example: 6816f7ce7d2a1b4c12ab3499
+              description: Group ID
+              example: 6710f34fd5061afeec3eab58
             name:
               type: string
-              description: Destination name
-              example: Spring Campaign
-            type:
+              description: Group name
+              example: Sunday Service Group
+            destinationId:
+              type: string
+              description: ID of the assigned destination
+              example: 6710f34fd5061afeec3eab57
+            destination:
               type:
-              - string
+              - object
               - 'null'
-              enum:
-              - web
-              - sms
-              description: Destination type
-              example: web
-            url:
+              properties:
+                id:
+                  type: string
+                  description: Destination ID
+                  example: 6710f34fd5061afeec3eab57
+                name:
+                  type: string
+                  description: Destination name
+                  example: Main Giving Page
+                type:
+                  type:
+                  - string
+                  - 'null'
+                  enum:
+                  - web
+                  - sms
+                  description: Destination type
+                  example: web
+                url:
+                  type:
+                  - string
+                  - 'null'
+                  description: Redirect URL for web destinations
+                  example: https://example.com/give
+                textNumber:
+                  type:
+                  - string
+                  - 'null'
+                  description: Phone number for SMS destinations
+                  example: null
+                textContent:
+                  type:
+                  - string
+                  - 'null'
+                  description: SMS message body
+                  example: null
+              required:
+              - id
+              - name
+              - type
+              - url
+              - textNumber
+              - textContent
+              description: Embedded destination info
+            deviceIds:
               type:
-              - string
+              - array
               - 'null'
-              description: Redirect URL for web destinations
-              example: https://give.example.org/spring
-            textNumber:
-              type:
-              - string
-              - 'null'
-              description: Phone number for SMS destinations
-            textContent:
-              type:
-              - string
-              - 'null'
-              description: SMS message body
+              items:
+                type: string
+              description: IDs of devices assigned to this group
+              example:
+              - 6710f34fd5061afeec3eab59
             createdAt:
               type: string
               format: date-time
@@ -708,14 +825,13 @@ components:
           required:
           - id
           - name
-          - type
-          - url
-          - textNumber
-          - textContent
+          - destinationId
+          - destination
+          - deviceIds
           - createdAt
           - updatedAt
           - archivedAt
-          description: Tap destination for the given id.
+          description: Tap group for the given id.
       required:
       - data
     GetTapDestinationsResponse:
@@ -904,110 +1020,7 @@ components:
       required:
       - data
       - totalCount
-    GetTapGroupByIdResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            id:
-              type: string
-              description: Group ID
-              example: 6710f34fd5061afeec3eab58
-            name:
-              type: string
-              description: Group name
-              example: Sunday Service Group
-            destinationId:
-              type: string
-              description: ID of the assigned destination
-              example: 6710f34fd5061afeec3eab57
-            destination:
-              type:
-              - object
-              - 'null'
-              properties:
-                id:
-                  type: string
-                  description: Destination ID
-                  example: 6710f34fd5061afeec3eab57
-                name:
-                  type: string
-                  description: Destination name
-                  example: Main Giving Page
-                type:
-                  type:
-                  - string
-                  - 'null'
-                  enum:
-                  - web
-                  - sms
-                  description: Destination type
-                  example: web
-                url:
-                  type:
-                  - string
-                  - 'null'
-                  description: Redirect URL for web destinations
-                  example: https://example.com/give
-                textNumber:
-                  type:
-                  - string
-                  - 'null'
-                  description: Phone number for SMS destinations
-                  example: null
-                textContent:
-                  type:
-                  - string
-                  - 'null'
-                  description: SMS message body
-                  example: null
-              required:
-              - id
-              - name
-              - type
-              - url
-              - textNumber
-              - textContent
-              description: Embedded destination info
-            deviceIds:
-              type:
-              - array
-              - 'null'
-              items:
-                type: string
-              description: IDs of devices assigned to this group
-              example:
-              - 6710f34fd5061afeec3eab59
-            createdAt:
-              type: string
-              format: date-time
-              description: Record creation timestamp
-              example: '2026-05-01T17:22:11.421Z'
-            updatedAt:
-              type: string
-              format: date-time
-              description: Record last updated timestamp
-              example: '2026-05-04T14:09:32.145Z'
-            archivedAt:
-              type:
-              - string
-              - 'null'
-              format: date-time
-              description: Archive timestamp, null if active
-          required:
-          - id
-          - name
-          - destinationId
-          - destination
-          - deviceIds
-          - createdAt
-          - updatedAt
-          - archivedAt
-          description: Tap group for the given id.
-      required:
-      - data
-    GetTapGroupsResponse:
+    GetTapEventsResponse:
       type: object
       properties:
         data:
@@ -1017,16 +1030,52 @@ components:
             properties:
               id:
                 type: string
-                description: Group ID
-                example: 6710f34fd5061afeec3eab58
-              name:
+                description: Event ID
+                example: 6816f8dc7d2a1b4c12ab3522
+              createdAt:
                 type: string
-                description: Group name
-                example: Sunday Service Group
+                format: date-time
+                description: When the tap event was created
+                example: '2026-05-04T14:12:44.002Z'
+              deviceId:
+                type: string
+                description: Device that was tapped
+              groupId:
+                type: string
+                description: Group the device belonged to at time of tap
               destinationId:
                 type: string
-                description: ID of the assigned destination
-                example: 6710f34fd5061afeec3eab57
+                description: Destination the tap resolved to
+              device:
+                type:
+                - object
+                - 'null'
+                properties:
+                  id:
+                    type: string
+                    description: Device ID
+                  serialNumber:
+                    type: number
+                    description: Device serial number
+                required:
+                - id
+                - serialNumber
+                description: Embedded device summary
+              group:
+                type:
+                - object
+                - 'null'
+                properties:
+                  id:
+                    type: string
+                    description: Group ID
+                  name:
+                    type: string
+                    description: Group name
+                required:
+                - id
+                - name
+                description: Embedded group summary
               destination:
                 type:
                 - object
@@ -1035,11 +1084,9 @@ components:
                   id:
                     type: string
                     description: Destination ID
-                    example: 6710f34fd5061afeec3eab57
                   name:
                     type: string
                     description: Destination name
-                    example: Main Giving Page
                   type:
                     type:
                     - string
@@ -1048,71 +1095,24 @@ components:
                     - web
                     - sms
                     description: Destination type
-                    example: web
-                  url:
-                    type:
-                    - string
-                    - 'null'
-                    description: Redirect URL for web destinations
-                    example: https://example.com/give
-                  textNumber:
-                    type:
-                    - string
-                    - 'null'
-                    description: Phone number for SMS destinations
-                    example: null
-                  textContent:
-                    type:
-                    - string
-                    - 'null'
-                    description: SMS message body
-                    example: null
                 required:
                 - id
                 - name
                 - type
-                - url
-                - textNumber
-                - textContent
-                description: Embedded destination info
-              deviceIds:
-                type:
-                - array
-                - 'null'
-                items:
-                  type: string
-                description: IDs of devices assigned to this group
-                example:
-                - 6710f34fd5061afeec3eab59
-              createdAt:
-                type: string
-                format: date-time
-                description: Record creation timestamp
-                example: '2026-05-01T17:22:11.421Z'
-              updatedAt:
-                type: string
-                format: date-time
-                description: Record last updated timestamp
-                example: '2026-05-04T14:09:32.145Z'
-              archivedAt:
-                type:
-                - string
-                - 'null'
-                format: date-time
-                description: Archive timestamp, null if active
+                description: Embedded destination summary
             required:
             - id
-            - name
-            - destinationId
-            - destination
-            - deviceIds
             - createdAt
-            - updatedAt
-            - archivedAt
-          description: List of tap groups.
+            - deviceId
+            - groupId
+            - destinationId
+            - device
+            - group
+            - destination
+          description: List of tap events.
         totalCount:
           type: number
-          description: Total number of tap groups matching the filters.
+          description: Total number of tap events matching the filters.
           example: 100
       required:
       - data
